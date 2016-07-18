@@ -1,6 +1,6 @@
 # 10 things to do with R first
 
-R is a programming language widely used in data journalism, typically for data analysis and sometimes for visualisation. It isn't the only programming language used in this way: Python or JavaScript can both perform similar tasks, and then there's SQL, Ruby, PHP and plain old Excel. But no one expects you to know them all.
+R is a programming language used by *some* practitioners of data journalism, typically for data analysis and sometimes for visualisation. It isn't the only programming language used in this way: Python or JavaScript can both perform similar tasks, and then there's SQL, Ruby, PHP and plain old Excel. But no one expects you to know them all.
 
 Python, JavaScript and R all have their strengths and weaknesses. And if you already know one or both of those you should be able to understand R relatively quickly (although there's [a useful explanation of R's quirks for programmers here](http://www.johndcook.com/blog/r_language_for_programmers/)).
 
