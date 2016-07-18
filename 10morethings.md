@@ -43,3 +43,9 @@ If you haven't activated the `dplyr` package you will get the following error:
 `Error: could not find function "bind_rows"`
 
 In that case, make sure you go to your Packages list and tick the box next to dplyr, or type this command into R: `library("dplyr")`
+
+## Import data from a URL
+
+Importing data from a URL is the same as importing data locally, but you just need to put the URL in parentheses after the function `url` like so:
+
+`mynewdata <- read.csv(url('http://thewebsite.com/thefolder/thefile.csv'))`
