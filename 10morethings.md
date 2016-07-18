@@ -49,3 +49,11 @@ In that case, make sure you go to your Packages list and tick the box next to dp
 Importing data from a URL is the same as importing data locally, but you just need to put the URL in parentheses after the function `url` like so:
 
 `mynewdata <- read.csv(url('http://thewebsite.com/thefolder/thefile.csv'))`
+
+## Import XML data from a URL
+
+Once the XML package has been installed, the `readHTMLTable` function will import an XML file into a dataset. However, it does need some attention to the parameters, specifically  `elFun = ...` which needs to specify the part of the XML you want.
+
+The [documentation for the XML package](https://cran.r-project.org/web/packages/XML/XML.pdf)
+
+XML files can be found on the [Food Standards Agency inspections API](http://ratings.food.gov.uk/open-data/en-GB).
