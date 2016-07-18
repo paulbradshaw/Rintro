@@ -1,4 +1,4 @@
-# 12 things to do with R
+# 10 things to do with R first
 
 R is a programming language widely used in data journalism, typically for data analysis and sometimes for visualisation. It isn't the only programming language: Python or JavaScript can both perform similar tasks, but each has their strengths and weaknesses. And if you already know one or both of those you should be able to understand R relatively quickly.
 
