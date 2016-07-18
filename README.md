@@ -6,7 +6,7 @@ This post explains some key processes to get started with R.
 
 ## Install R Console or R Studio
 
-Most people use R within software like R Studio or R Console. Go and install that first.
+Most people use R within software like [RStudio](https://www.rstudio.com/). Go and install that first. (The R console, which [can be downloaded from CRAN](https://www.stats.bris.ac.uk/R/), can be used instead, but I'm going to assume you're using RStudio)
 
 ## Create a new project
 
@@ -21,6 +21,8 @@ Once you've created a new project R will create a new file in that folder ending
 ## Import and store data
 
 Like most programming languages, R allows you to import and store data in 'objects' called **variables**. 
+
+*Note: you cannot use an underscore in R, which instead tends to use a dot to separate words in variables. You should also avoid using one-letter functions as these already have special meanings in R: c, q, s, t, C, D, F, I, and T.*
 
 The easiest way to import data is to put it in the same folder as your project. This way you don't have to describe a path to data somewhere else.
 
