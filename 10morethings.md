@@ -57,3 +57,21 @@ Once the XML package has been installed, the `readHTMLTable` function will impor
 The [documentation for the XML package](https://cran.r-project.org/web/packages/XML/XML.pdf)
 
 XML files can be found on the [Food Standards Agency inspections API](http://ratings.food.gov.uk/open-data/en-GB).
+
+## Add comments
+
+It's always a good idea to add comments to your code: partly so you can understand it later, but largely so that others can understand it if they need to. One of the main selling points of R is that it allows you to show your workings, so having comments that explain that is going to be just as important as the code itself.
+
+You can add a comment by just using the hash key like so:
+
+`#This next line imports the data`
+
+`newvar <- read.csv('myfile.csv')`
+
+Anything after a hash is ignored when the code runs. 
+
+You can also add a comment on the same line as the code like so:
+
+`newvar <- read.csv('myfile.csv') #This imports the data`
+
+Python comments are written exactly the same, by the way.
