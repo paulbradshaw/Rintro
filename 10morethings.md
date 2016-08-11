@@ -93,3 +93,5 @@ Note that `sheet=3` does indeed mean the 3rd sheet (normally in programming 3 me
 You can also specify the name of a sheet by putting it as a string like so:
 
 `mynewdata <- read_excel('myspreadsheet.xlsx', sheet='crimes')`
+
+You actually don't need to specify `sheet=`. Instead you can just write: `mynewdata <- read_excel('myspreadsheet.xlsx', 'crimes')` or `mynewdata <- read_excel('myspreadsheet.xlsx', 3)`
