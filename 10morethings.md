@@ -128,10 +128,23 @@ Now you can just import it as you do any local file like so:
 
 `mynewdata <- read_excel("newfile.xlsx", sheet=3, skip=4)`
 
-## 8. Get rid of unwanted columns from your data
+## 8. Get rid of an unwanted column from your data
 
 If you are dealing with a large dataset and don't need certain columns, you can drop them like so:
 
 `mydata$thecolumnname <- NULL`
 
 Obviously the name before the dollar sign (your table name) will be different, and likewise the name after (the name of the field in your table that you want to get rid of). 
+
+## 9. Grab specified columns from your data
+
+You can also drop columns based on their position: for example, the 1st, 2nd, and so on. Here's an example:
+
+`mydata <- mydata[ c(1) ]`
+
+What's happening here is that it is taking the first column from `mydata` and putting that in a variable. Because the variable has the same name, this has the effect of overwriting the old one, which means all the other columns now don't exist.
+
+You could of course also store it instead in a new variable like so:
+
+`firstcolumn <- mydata[ c(1) ]`
+
