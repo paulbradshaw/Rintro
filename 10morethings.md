@@ -4,7 +4,9 @@ Once you've done [the first 10 things in R detailed here](https://github.com/pau
 
 ## 1. Install a package and use it
 
-As well as the built in functions in R there are dozens of extra ones you can access by installing **packages**. For example, there are packages to help create particular types of visualisation, packages to deal with particular types of data (including text), packages to do particular forms of statistical analysis, and so on.
+As well as the built in functions in R there are dozens of extra ones you can access by installing **packages** (there are also *methods*, which work in much the same way - don't worry about whether it's a function or a method). 
+
+For example, there are packages to help create particular types of visualisation, packages to deal with particular types of data (including text), packages to do particular forms of statistical analysis, and so on.
 
 If you've used other languages like JavaScript and Python, packages are the same as *libraries* in those languages.
 
@@ -103,3 +105,25 @@ The [documentation](https://cran.r-project.org/web/packages/readxl/readxl.pdf) o
 `mynewdata <- read_excel('myspreadsheet.xlsx', sheet=3, skip=4)`
 
 This will skip the first 4 rows, then assume the 5th row contains your headings. If there is no heading row you can also add `col_names=FALSE`
+
+## 7. Import an Excel file from a URL
+
+Grabbing an Excel workbook from a URL is similar to importing it from your own computer. The difference is you need to store the workbook somehow. We do this using [the **httr** package](https://cran.r-project.org/web/packages/httr/httr.pdf) for handling URLs and HTTP. Make sure it's installed and added to your library:
+
+`library(httr)`
+
+Now store the URL in a variable: it doesn't matter what it's called but in the example below I've simply called it 'url':
+
+`url <- 'https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/541057/SFR27_2016_Main_Tables.xlsx'`
+
+Next, use `GET`, which is a method from the httr package
+
+`GET(url, write_disk("newfile.xlsx", overwrite=TRUE))`
+
+This actually grabs the file at that location and saves it (`write_disk`) to your project's working directory with the name specified (here it's `"newfile.xlsx"` but can be anything). The `overwrite` bit just allows it to save over anything that has that name.
+
+If you go to your project folder now you should see it there. By the way, you don't really need to store the URL in its own variable: you could write it directly into the `GET` command like so: `GET('https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/541057/SFR27_2016_Main_Tables.xlsx', write_disk("newfile.xlsx", overwrite=TRUE))`
+
+Now you can just import it as you do any local file like so:
+
+`mynewdata <- read_excel("newfile.xlsx", sheet=3, skip=4)`
