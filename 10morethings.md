@@ -95,3 +95,9 @@ You can also specify the name of a sheet by putting it as a string like so:
 `mynewdata <- read_excel('myspreadsheet.xlsx', sheet='crimes')`
 
 You actually don't need to specify `sheet=`. Instead you can just write: `mynewdata <- read_excel('myspreadsheet.xlsx', 'crimes')` or `mynewdata <- read_excel('myspreadsheet.xlsx', 3)`
+
+The [documentation](https://cran.r-project.org/web/packages/readxl/readxl.pdf) outlines other parameters you can use. For example, government Excel files often contain many lines of description before the data itself. You can omit these by using the `skip=` parameter like so:
+
+`mynewdata <- read_excel('myspreadsheet.xlsx', sheet=3, skip=4)`
+
+This will skip the first 4 rows, then assume the 5th row contains your headings. If there is no heading row you can also add `col_names=FALSE`
