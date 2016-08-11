@@ -127,3 +127,11 @@ If you go to your project folder now you should see it there. By the way, you do
 Now you can just import it as you do any local file like so:
 
 `mynewdata <- read_excel("newfile.xlsx", sheet=3, skip=4)`
+
+## 8. Get rid of unwanted columns from your data
+
+If you are dealing with a large dataset and don't need certain columns, you can drop them like so:
+
+`mydata$thecolumnname <- NULL`
+
+Obviously the name before the dollar sign (your table name) will be different, and likewise the name after (the name of the field in your table that you want to get rid of). 
