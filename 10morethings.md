@@ -2,7 +2,7 @@
 
 Once you've done [the first 10 things in R detailed here](https://github.com/paulbradshaw/Rintro), it's time to start playing with packages...
 
-## Install a package and use it
+## 1. Install a package and use it
 
 As well as the built in functions in R there are dozens of extra ones you can access by installing **packages**. For example, there are packages to help create particular types of visualisation, packages to deal with particular types of data (including text), packages to do particular forms of statistical analysis, and so on.
 
@@ -24,7 +24,7 @@ However, you can also just tick the box next to the particular package in the pa
 
 The `dplyr` package is particularly useful for arranging, formatting, and combining data. For example...
 
-## Join two datasets from different periods or areas
+## 2. Join two datasets from different periods or areas
 
 If you have two different datasets with the same columns, but for different years or time periods, you might want to join those. Or perhaps you have data with the same columns and time period for a number of regions.
 
@@ -44,13 +44,13 @@ If you haven't activated the `dplyr` package you will get the following error:
 
 In that case, make sure you go to your Packages list and tick the box next to dplyr, or type this command into R: `library("dplyr")`
 
-## Import data from a URL
+## 3. Import data from a URL
 
 Importing data from a URL is the same as importing data locally, but you just need to put the URL in parentheses after the function `url` like so:
 
 `mynewdata <- read.csv(url('http://thewebsite.com/thefolder/thefile.csv'))`
 
-## Import XML data from a URL
+## 4. Import XML data from a URL
 
 Once the XML package has been installed, the `readHTMLTable` function will import an XML file into a dataset. However, it does need some attention to the parameters, specifically  `elFun = ...` which needs to specify the part of the XML you want.
 
@@ -58,7 +58,7 @@ The [documentation for the XML package](https://cran.r-project.org/web/packages/
 
 XML files can be found on the [Food Standards Agency inspections API](http://ratings.food.gov.uk/open-data/en-GB).
 
-## Add comments
+## 5. Add comments
 
 It's always a good idea to add comments to your code: partly so you can understand it later, but largely so that others can understand it if they need to. One of the main selling points of R is that it allows you to show your workings, so having comments that explain that is going to be just as important as the code itself.
 
@@ -75,3 +75,21 @@ You can also add a comment on the same line as the code like so:
 `newvar <- read.csv('myfile.csv') #This imports the data`
 
 Python comments are written exactly the same, by the way.
+
+## 6. Import one sheet in an Excel workbook
+
+The [**readxl** package](https://cran.r-project.org/web/packages/readxl/readxl.pdf) is designed to help import Excel files. One of its advantages is the ability to specify which sheet in a workbook you want. First, install it and add it to your library:
+
+`install.packages("readxl")`
+
+`library(readxl)`
+
+To import data you can use the `read_excel` function. This needs two ingredients: the name of the file you want to import (this needs to be in the same working directory as your R project, or you can specify a path), and then the sheet number or name. Here's an example:
+
+`mynewdata <- read_excel('myspreadsheet.xlsx', sheet=3)`
+
+Note that `sheet=3` does indeed mean the 3rd sheet (normally in programming 3 means the 4th item).
+
+You can also specify the name of a sheet by putting it as a string like so:
+
+`mynewdata <- read_excel('myspreadsheet.xlsx', sheet='crimes')`
