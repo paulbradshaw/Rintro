@@ -136,15 +136,50 @@ If you are dealing with a large dataset and don't need certain columns, you can 
 
 Obviously the name before the dollar sign (your table name) will be different, and likewise the name after (the name of the field in your table that you want to get rid of). 
 
-## 9. Grab specified columns from your data
+## 9. Grab or drop more than one column from your data
 
-You can also drop columns based on their position: for example, the 1st, 2nd, and so on. Here's an example:
+You can also select columns based on their position: for example, the 1st, 2nd, and so on. This, for example, will get rid of all columns apart from the first one:
 
-`mydata <- mydata[ c(1) ]`
+`mydata <- mydata[ 1 ]`
 
-What's happening here is that it is taking the first column from `mydata` and putting that in a variable. Because the variable has the same name, this has the effect of overwriting the old one, which means all the other columns now don't exist.
+The code here is taking the first column from `mydata` and putting that in a variable. But because the variable has the same name, this has the effect of overwriting the old one, which means all the other columns now don't exist.
+
+This number in square brackets is called an **index**: it means a position. Often indexes begin counting from 0 in programming (what's called a *zero-based index*) but here it starts from 1 (a *1-based index*), so `[1]` means the first column in this example.
 
 You could of course also store it instead in a new variable like so:
 
-`firstcolumn <- mydata[ c(1) ]`
+`firstcolumn <- mydata[ 1 ]`
 
+If you're worried about losing data this might be a better option, so you can check the results before deleting the old one.
+
+A negative number allows you to select everything *apart from* the column specified. For example this code will select all columns *except for* the first one, and place it in the new variable: 
+
+`mostofmydata <- mydata[ -1 ]`
+
+Or indeed to change your data variable to remove column 1:
+
+`mydata <- mydata[ -1 ]`
+
+You can specify *multiple* columns by using a **vector** like so:
+
+`somecolumns <- mydata[ c(1, 5, 10) ]`
+
+The vector is created with `c( )` and is essentially a list of numbers. So the example above will grab columns 1, 5 and 10 and place them in the variable on the left.
+
+A negative list can be created by placing the minus sign before the `c` like so:
+
+`somecolumns <- mydata[ -c(1, 5, 10) ]`
+
+In that example all columns *apart from* 1, 5 and 10 are put in the variable on the left.
+
+Obviously it would be a bit laborious to type out sequences of numbers like 1, 2, 3 - instead you can just use a colon to indicate a range like so, either within square brackets if it's just one range:
+
+`mydata <- mydata[ 1:4 ]`
+
+Or within a vector if you want to combine a range with other indexes or ranges:
+
+`mydata <- mydata[ c(1:4, 6, 12) ]`
+
+And again you can use a minus to exclude columns. This, for example, will create a new variable containing all columns *apart from* the first four, the 6th and 12th:
+
+`mydata <- mydata[ -c(1:4, 6, 10:12) ]`
