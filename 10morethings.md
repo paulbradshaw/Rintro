@@ -183,3 +183,13 @@ Or within a vector if you want to combine a range with other indexes or ranges:
 And again you can use a minus to exclude columns. This, for example, will create a new variable containing all columns *apart from* the first four, the 6th and 12th:
 
 `mydata <- mydata[ -c(1:4, 6, 10:12) ]`
+
+Now of course if you're going to be using the same vector (the list of columns to include or exclude) more than once (for example because you have data from different years) you can also store that in a variable like so:
+
+`colstokeep <- c(1:4, 6, 12) `
+
+And then use that much more efficiently:
+
+`mydata <- mydata[ colstokeep ]`
+
+Of course you'll need to be sure that the columns are always in the same position, but if they are this can be very useful.
