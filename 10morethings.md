@@ -52,7 +52,7 @@ Importing data from a URL is the same as importing data locally, but you just ne
 
 ## 4. Import XML data from a URL
 
-Once the XML package has been installed, the `readHTMLTable` function will import an XML file into a dataset. However, it does need some attention to the parameters, specifically  `elFun = ...` which needs to specify the part of the XML you want.
+Once the XML package has been installed (`install.packages('XML')` and then `library(XML)`), the `readHTMLTable` function will import an XML file into a dataset. However, it does need some attention to the parameters, specifically  `elFun = ...` which needs to specify the part of the XML you want.
 
 The [documentation for the XML package](https://cran.r-project.org/web/packages/XML/XML.pdf)
 
