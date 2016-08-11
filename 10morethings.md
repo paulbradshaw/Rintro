@@ -1,4 +1,4 @@
-# 10 things to do next in R
+# 9 things to do next in R
 
 Once you've done [the first 10 things in R detailed here](https://github.com/paulbradshaw/Rintro), it's time to start playing with packages...
 
@@ -106,7 +106,7 @@ The [documentation](https://cran.r-project.org/web/packages/readxl/readxl.pdf) o
 
 This will skip the first 4 rows, then assume the 5th row contains your headings. If there is no heading row you can also add `col_names=FALSE`
 
-## 7. Import an Excel file from a URL
+## 7. Import an Excel (or any other) file from a URL
 
 Grabbing an Excel workbook from a URL is similar to importing it from your own computer. The difference is you need to store the workbook somehow. We do this using [the **httr** package](https://cran.r-project.org/web/packages/httr/httr.pdf) for handling URLs and HTTP. Make sure it's installed and added to your library:
 
