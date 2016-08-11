@@ -76,7 +76,7 @@ You can also add a comment on the same line as the code like so:
 
 Python comments are written exactly the same, by the way.
 
-## 6. Import one sheet in an Excel workbook
+## 6. Import just one sheet from a multi-sheet Excel workbook
 
 The [**readxl** package](https://cran.r-project.org/web/packages/readxl/readxl.pdf) is designed to help import Excel files. One of its advantages is the ability to specify which sheet in a workbook you want. First, install it and add it to your library:
 
