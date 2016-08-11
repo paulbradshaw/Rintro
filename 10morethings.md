@@ -58,6 +58,8 @@ The [documentation for the XML package](https://cran.r-project.org/web/packages/
 
 XML files can be found on the [Food Standards Agency inspections API](http://ratings.food.gov.uk/open-data/en-GB).
 
+A tutorial on using the package to grab an XML file [can be found on R-Bloggers here](https://www.r-bloggers.com/r-and-the-web-for-beginners-part-ii-xml-in-r/)
+
 ## 5. Add comments
 
 It's always a good idea to add comments to your code: partly so you can understand it later, but largely so that others can understand it if they need to. One of the main selling points of R is that it allows you to show your workings, so having comments that explain that is going to be just as important as the code itself.
