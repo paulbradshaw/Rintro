@@ -52,14 +52,21 @@ Importing data from a URL is the same as importing data locally, but you just ne
 
 `mynewdata <- read.csv(url('http://thewebsite.com/thefolder/thefile.csv'))`
 
-## 4. Import XML data from a URL
+## 4. Import JSON data from a URL
 
-Once the XML package has been installed (`install.packages('XML')` and then `library(XML)`), you can import XML files ([documentation for the XML package here](https://cran.r-project.org/web/packages/XML/XML.pdf)). 
+If the data you want is published by an API, chances are that it's in [JSON format](http://www.w3schools.com/json/). This uses curly brackets, colons and commas to structure the data. (if it's in XML [see this](https://github.com/paulbradshaw/Rintro/blob/master/XMLinR.md)).
 
-A tutorial on using the package to grab an XML file [can be found on R-Bloggers here](https://www.r-bloggers.com/r-and-the-web-for-beginners-part-ii-xml-in-r/)
+To convert JSON data into a data variable that R can work with, use the `jsonlite` library ([documentation here](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf)). This should already be installed in RStudio (if not, type `install.packages('jsonlite')`), so you just need to type `library('jsonlite')` to activate it.
 
-XML files can be found on the [Food Standards Agency inspections API](http://ratings.food.gov.uk/open-data/en-GB).
+Once added to your library, you can use the `fromJSON` function to import JSON data from a URL into a new variable like so:
 
+mynewjsondata=fromJSON("https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2015-07")
+
+All you need to do is replace the URL with the one you've found. (In the example above I'm using data from the UK's police API, which is a good resource to try this out with ([documentation](https://data.police.uk/docs/)).)
+
+You can also use this library to [export data in JSON format too](https://cran.r-project.org/web/packages/jsonlite/vignettes/json-aaquickstart.html): useful if you want to use the data in a JavaScript-based interactive.
+
+If the process above doesn't work it may be that the data is actually in the ['JSON Lines' format](http://jsonlines.org/). [Try the solutions outlined here](https://stackoverflow.com/questions/24514284/how-do-i-import-data-from-json-format-into-r-using-jsonlite-package).
 
 ## 5. Add comments
 
