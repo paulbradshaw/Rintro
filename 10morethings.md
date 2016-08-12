@@ -128,7 +128,7 @@ Now you can just import it as you do any local file like so:
 
 `mynewdata <- read_excel("newfile.xlsx", sheet=3, skip=4)`
 
-## 8. Get rid of an unwanted column from your data
+## 8. Get rid of one or more unwanted columns from your data
 
 If you are dealing with a large dataset and don't need certain columns, you can drop them like so:
 
@@ -136,7 +136,7 @@ If you are dealing with a large dataset and don't need certain columns, you can 
 
 Obviously the name before the dollar sign (your table name) will be different, and likewise the name after (the name of the field in your table that you want to get rid of). 
 
-## 9. Grab or drop more than one column from your data
+### Selecting columns based on position
 
 You can also select columns based on their position: for example, the 1st, 2nd, and so on. This, for example, will get rid of all columns apart from the first one:
 
@@ -159,6 +159,8 @@ A negative number allows you to select everything *apart from* the column specif
 Or indeed to change your data variable to remove column 1:
 
 `mydata <- mydata[ -1 ]`
+
+### Selecting multiple columns
 
 You can specify *multiple* columns by using a **vector** like so:
 
@@ -193,3 +195,50 @@ And then use that much more efficiently:
 `mydata <- mydata[ colstokeep ]`
 
 Of course you'll need to be sure that the columns are always in the same position, but if they are this can be very useful.
+
+## 10. Finding the column(s) you need to keep/remove
+
+If you have a spreadsheet with dozens of columns, you don't want to have to count across them in order to work out which ones you need. 
+You can use `grep` or `which` to find out the index position of columns that match a particular search criteria. If you are looking for an exact match (you know the exact text in the column heading), `which` is probably best; but if you don't know the exact text, `grep` is going to be better. Here is how they work: first, finding an exact match:
+
+`which(colnames(mydata)=="Expenditure")`
+
+The `which` function tells you *which* items in an object match a particular criteria ([documentation here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/which.html)). In this case the object is the column names in your data variable (called 'mydata' above, but yours will have a different name): `colnames(mydata)`.
+
+To grab the column names you need to use the `colnames` function, [documented here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/colnames.html), followed by your data variable in parentheses.
+
+The criteria is `=="Expenditure"`. The double-equals sign means 'equals to'. This is called an **operator**, and you'll probably be more familiar with other operators like `>` (greater than) and `<` (less than). 
+
+The result of `colnames(mydata)=="Expenditure"` then, is going to be TRUE (yes, the column name is "Expenditure") or FALSE (no, it isn't), for each column. 
+
+What `which` asks, then, is "For which of those items does that test come back TRUE?"
+
+If one of those column headings matches the test, you will get the index position of that column, like so: `[1] 3`. Ignore the `[1]`: that's just a line number. The actual result is after that (`3` in this example).
+
+If none of those column headings matches the test, you will get `integer(0)` - this basically means 'no results'.
+
+If more than one heading matches the test, you'll get more than one number like so: `[1] 2 3` (column 2 and 3 match).
+
+The big weakness of `which` and the `==` operator, however, is that your match must be *exact* - right down to capitalisation and spaces. So for the line `which(colnames(mydata)=="Expenditure")` to work, your column heading cannot be 'expenditure' (small 'e') or 'Expenditure £' or even 'Expenditure ' or ' Expenditure' (note the space at the start or end).
+
+In those cases you need something like `grep`:
+
+`grep("Expenditure", colnames(mydata))`
+
+The `grep` function looks for patterns. You can find more information on [the documentation for `grep` and related functions](https://stat.ethz.ch/R-manual/R-devel/library/base/html/grep.html).
+
+In this case we need to give it 2 ingredients: the text pattern that we're looking for, and the data we're looking for it *in*.
+
+The text pattern is `"Expenditure"` and the data is again `colnames(mydata))`. The two ingredients are separated by a comma.
+
+`grep` will then look through those column names, and if that text pattern appears *anywhere* in that column name, it will return its position.
+
+You can of course store the results of either line of code in a variable to then use to drop or keep columns, like so: 
+
+`colstokeep <- grep("Expenditure", colnames(mydata)) `
+
+`colstokeep <- which(colnames(mydata)=="Expenditure")`
+
+And then change your data so it only has those columns:
+
+`mydata <- mydata[ colstokeep ]`
