@@ -68,6 +68,8 @@ You can also use this library to [export data in JSON format too](https://cran.r
 
 If the process above doesn't work it may be that the data is actually in the ['JSON Lines' format](http://jsonlines.org/). [Try the solutions outlined here](https://stackoverflow.com/questions/24514284/how-do-i-import-data-from-json-format-into-r-using-jsonlite-package).
 
+There are also other libraries for handling JSON such as rjson and RJSONIO, [compared with jsonlite here](https://rstudio-pubs-static.s3.amazonaws.com/31702_9c22e3d1a0c44968a4a1f9656f1800ab.html)
+
 ## 5. Add comments
 
 It's always a good idea to add comments to your code: partly so you can understand it later, but largely so that others can understand it if they need to. One of the main selling points of R is that it allows you to show your workings, so having comments that explain that is going to be just as important as the code itself.
