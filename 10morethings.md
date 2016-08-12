@@ -54,13 +54,12 @@ Importing data from a URL is the same as importing data locally, but you just ne
 
 ## 4. Import XML data from a URL
 
-Once the XML package has been installed (`install.packages('XML')` and then `library(XML)`), the `readHTMLTable` function will import an XML file into a dataset. However, it does need some attention to the parameters, specifically  `elFun = ...` which needs to specify the part of the XML you want.
+Once the XML package has been installed (`install.packages('XML')` and then `library(XML)`), you can import XML files ([documentation for the XML package here](https://cran.r-project.org/web/packages/XML/XML.pdf)). 
 
-The [documentation for the XML package](https://cran.r-project.org/web/packages/XML/XML.pdf)
+A tutorial on using the package to grab an XML file [can be found on R-Bloggers here](https://www.r-bloggers.com/r-and-the-web-for-beginners-part-ii-xml-in-r/)
 
 XML files can be found on the [Food Standards Agency inspections API](http://ratings.food.gov.uk/open-data/en-GB).
 
-A tutorial on using the package to grab an XML file [can be found on R-Bloggers here](https://www.r-bloggers.com/r-and-the-web-for-beginners-part-ii-xml-in-r/)
 
 ## 5. Add comments
 
