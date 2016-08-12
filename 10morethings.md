@@ -136,7 +136,7 @@ Now you can just import it as you do any local file like so:
 
 `mynewdata <- read_excel("newfile.xlsx", sheet=3, skip=4)`
 
-## 8. Get rid of one or more unwanted columns from your data
+## 8. Get rid of unwanted columns from your data
 
 If you are dealing with a large dataset and don't need certain columns, you can drop them like so:
 
@@ -144,7 +144,7 @@ If you are dealing with a large dataset and don't need certain columns, you can 
 
 Obviously the name before the dollar sign (your table name) will be different, and likewise the name after (the name of the field in your table that you want to get rid of). 
 
-### Selecting columns based on position
+## 9. Getting rid of more than one column based on position
 
 You can also select columns based on their position: for example, the 1st, 2nd, and so on. This, for example, will get rid of all columns apart from the first one:
 
