@@ -6,9 +6,11 @@ Python, JavaScript and R all have their strengths and weaknesses. And if you alr
 
 This post explains some key processes to get started with R.
 
-## Install R Console or R Studio
+## Install R and RStudio
 
-Most people use R within software like [RStudio](https://www.rstudio.com/). Go and install that first. (The R console, which [can be downloaded from CRAN](https://www.stats.bris.ac.uk/R/), can be used instead, but I'm going to assume you're using RStudio)
+Most people use R within software like [RStudio](https://www.rstudio.com/). Install R [on your PC](https://cran.r-project.org/bin/windows/base/) [or Mac](https://cran.r-project.org/bin/macosx/). This will also install the **R Console**, which can be used to work with R - but I'm going to assume you're using RStudio, which is more user-friendly piece of software.
+
+So: [download RStudio from here](https://www.rstudio.com/products/rstudio/download2/).
 
 ## Create a new project
 
