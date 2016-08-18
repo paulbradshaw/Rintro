@@ -1,4 +1,4 @@
-# 9 things to do next in R
+# 10 things to do next in R
 
 Once you've done [the first 10 things in R detailed here](https://github.com/paulbradshaw/Rintro), it's time to start playing with packages...
 
@@ -60,7 +60,7 @@ To convert JSON data into a data variable that R can work with, use the `jsonlit
 
 Once added to your library, you can use the `fromJSON` function to import JSON data from a URL into a new variable like so:
 
-mynewjsondata=fromJSON("https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2015-07")
+`mynewjsondata <- fromJSON("https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2015-07")`
 
 All you need to do is replace the URL with the one you've found. (In the example above I'm using data from the UK's police API, which is a good resource to try this out with ([documentation](https://data.police.uk/docs/)).)
 
