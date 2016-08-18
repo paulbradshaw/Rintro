@@ -70,9 +70,11 @@ Or combine lists like so:
 
 Note that items will be added *in that order*, they will not be reordered in numeric or alphabetical order.
 
-If the two vectors contain different types of data (for example one vector contains numbers and the other contains strings) then the resulting vector items will be changed to strings. 
+If the two vectors contain different types of data (for example one vector contains numbers and the other contains strings) then the resulting vector items will be changed to strings. You can find out what type of data is stored in the vector by using `class` like so:
 
-You can remove items by index like so:
+`class(myvector)`.
+
+You can **remove items** from a vector by index like so:
 
 `myvector <- c(myvector[1:3])`
 
@@ -82,7 +84,9 @@ Or you can use a negative index to indicate you want to keep everything *but* th
 
 ## Data frames
 
-Datasets in R are normally stored in a **data frame**. You can access data in that data frame like you do in Excel, using row and column references. For example: 
+Datasets in R are created using the `data.frame()` function as detailed above, but are also created by other functions like `read.csv()` and `read.table()`.
+
+You can access data in a data frame like you do in Excel, using row and column references. For example: 
 
 First row, first cell:
 
@@ -95,3 +99,10 @@ First row:
 First column:
 
 `mydata[1,]`
+
+You can access individual columns by column name by using the $ sign between the variable name and the column name like so:
+
+`mydata$mycolumn`
+
+## Other data types: strings, integers, numeric and boolean
+
