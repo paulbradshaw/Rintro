@@ -1,4 +1,4 @@
-# Going back to R basics
+# R basics: objects for storing data
 
 Once you've done a few things in R to see how it works, to go further you'll probably need to understand some aspects of R in more depth. Let's start with data types.
 
