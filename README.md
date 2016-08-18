@@ -95,7 +95,7 @@ If you need to deal with data in formats other than CSV, R should be able to imp
 
 Data from the statistical software SPSS, for example, can be imported using `read.SPSS` like so:
 
-mylovelydata <- read.SPSS('somefile.spss')
+`mylovelydata <- read.SPSS('somefile.spss')`
 
 The `read.table` function can also deal with a wide range of formats. This function, however, needs more information: specifically whether your data file has a header row, and what 'delimiter' is used.
 
