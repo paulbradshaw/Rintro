@@ -104,5 +104,23 @@ You can access individual columns by column name by using the $ sign between the
 
 `mydata$mycolumn`
 
-## Other data types: strings, integers, numeric and boolean
+## Other data types: strings, integers, numeric and boolean (logical)
+
+As well as the data types outlined above, you can also store more basic types of data in R. For example you might want to store a URL, or a single number, or a TRUE/FALSE value.
+
+You do that in the same way, using `<-`, like so:
+
+`urltograb <- 'http://bbc.co.uk/story.html'`
+
+`myage <- 23`
+
+`temp <- 12.5`
+
+`yesorno <- TRUE`
+
+If you need to use a number, string or logical value (TRUE/FALSE) more than once, it may be worth storing it in a variable. The main advantage is that you can just change the variable once to affect all instances where that value is used.
+
+Bear in mind that you can only do certain things with certain variables: for example you cannot perform calculations on strings of characters, and you cannot combine numbers in the same way that you combine strings of text.
+
+You can find out what type a variable is by using class. For example `class(urltograb)` would return `"character"`, meaning **character**. Type `class(yesorno)` and you will get `"logical"`. `class(myage)` and `class(temp)` would both return `"numeric"`. Note that there is no distinction between whole numbers and floating decimals as there is in other languages. The [difference between numeric and integer classes is quite complicated and dull](https://stackoverflow.com/questions/23660094/whats-the-difference-between-integer-class-and-numeric-class-in-r) and not that important.
 
