@@ -181,4 +181,6 @@ If you want to export the results of your work as a new CSV file, you can do so 
 
 This function has 2 ingredients: the name of the variable containing the data you want to export, and the name you want to give to the file you're exporting it as. That name comes in inverted commas after `file=`, and it needs to include the file extension. So you could say `file='newtextfile.txt'` if you wanted to save it as a text file, and so on.
 
+The resulting file should be saved in the same place that you set as your working directory for the project.
+
 * Next: [10 *more* things you can do in R next](https://github.com/paulbradshaw/Rintro/blob/master/10morethings.md)
