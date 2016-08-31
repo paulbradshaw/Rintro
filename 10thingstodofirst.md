@@ -2,7 +2,7 @@
 
 ## 1. Install R and RStudio
 
-Most people use R within software like [RStudio](https://www.rstudio.com/). Install R [on your PC](https://cran.r-project.org/bin/windows/base/) [or Mac](https://cran.r-project.org/bin/macosx/). This will also install the **R Console**, which can be used to work with R - but I'm going to assume you're using RStudio, which is more user-friendly piece of software.
+Most people use R within software like [RStudio](https://www.rstudio.com/). But you also need to install R [on your PC](https://cran.r-project.org/bin/windows/base/) [or Mac](https://cran.r-project.org/bin/macosx/) first. This will install the **R Console**, which can be used to work with R - but I'm going to assume you're using RStudio, which is more user-friendly piece of software.
 
 So: [download RStudio from here](https://www.rstudio.com/products/rstudio/download2/).
 
@@ -97,7 +97,7 @@ A 'delimiter' is what is used to separate each column of data. In a CSV file, fo
 
 A `read.table` function then might look like this:
 
-`newdata <- ("mylovelydata.csv", "TRUE", ",")`
+`newdata <- read.table("mylovelydata.csv", "TRUE", ",")`
 
 In those brackets are 3 ingredients: the name of the file, then after a comma, either `"TRUE"` (if it has headers) or `"FALSE"` (if it does not), then after another comma the delimiter in quotation marks: `","` means that the delimited is a comma. 
 
