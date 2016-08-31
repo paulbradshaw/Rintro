@@ -124,3 +124,26 @@ Bear in mind that you can only do certain things with certain variables: for exa
 
 You can find out what type a variable is by using class. For example `class(urltograb)` would return `"character"`, meaning **character**. Type `class(yesorno)` and you will get `"logical"`. `class(myage)` and `class(temp)` would both return `"numeric"`. Note that there is no distinction between whole numbers and floating decimals as there is in other languages. The [difference between numeric and integer classes is quite complicated and dull](https://stackoverflow.com/questions/23660094/whats-the-difference-between-integer-class-and-numeric-class-in-r) and not that important.
 
+## Finding out data types with `str` and `class`
+
+Now you know about different data types, you might want to check what type RStudio *thinks* a dataset or object is. Often what *looks* like a number, for example, is being treated like text, and this misunderstanding of data type can be the cause of many problems.
+
+You can get an overview of different types of data in a data frame by using the `str` command like so:
+
+`str(mydata)`
+
+This will generate a number of lines describing the dataset overall (as `'data.frame'` with a certain number of variables (columns) and observations (cells)), before outlining the name of each field and whether it is `num` (numeric), `Factor` (categories), `logi` (logical operators), `char` (character strings) etc. Note that within a data frame strings of characters are normally seen as factors (categorical data) for the simple reason that that's normally what you do with text (use them to categorise data).
+
+More specifically if you want to know the type of a single object use `class` like so:
+
+`class(mydata)`
+
+This will return `"data.frame"` if that's what it is, for example. But you can also drill down to a particular field like so:
+
+`class(mydata$name)`
+
+This will return `"factor"` if it's a series of text entries, or `"numeric"`, and so on. You can use `class` for other objects too:
+
+`class(myvector)` (assuming you have created a vector with this name)
+
+`class(mystring)` (assuming you have created a string object with this name)
