@@ -124,6 +124,10 @@ Bear in mind that you can only do certain things with certain variables: for exa
 
 You can find out what type a variable is by using class. For example `class(urltograb)` would return `"character"`, meaning **character**. Type `class(yesorno)` and you will get `"logical"`. `class(myage)` and `class(temp)` would both return `"numeric"`. Note that there is no distinction between whole numbers and floating decimals as there is in other languages. The [difference between numeric and integer classes is quite complicated and dull](https://stackoverflow.com/questions/23660094/whats-the-difference-between-integer-class-and-numeric-class-in-r) and not that important.
 
+## What about matrices?
+
+A **matrix** can still be useful if you are dealing with only one type of data. For example, text analysis (where all the data is text) might use a matrix, and likewise if you are only dealing with numbers a matrix can work too. 
+
 ## Finding out data types with `str` and `class`
 
 Now you know about different data types, you might want to check what type RStudio *thinks* a dataset or object is. Often what *looks* like a number, for example, is being treated like text, and this misunderstanding of data type can be the cause of many problems.
