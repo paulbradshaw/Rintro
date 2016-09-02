@@ -58,7 +58,17 @@ Reaching out from the box are two lines called 'whiskers'. These show you the **
 
 ![](http://www.statmethods.net/graphs/images/boxplot1.jpg)
 
-You create these with the `boxplot` function.
+You create these with the `boxplot` function, like so:
+
+`boxplot(mydata)`
+
+This will create a box and whiskers chart for each column in the dataset. But you can also generate for one column like so:
+
+`boxplot(Movies$budget)`
+
+Or for specified columns like so:
+
+`boxplot(Movies$budget, Movies$gross)`
 
 ## 6. Create a polar histogram
 
