@@ -48,9 +48,7 @@ This works best when a) you don't have too many columns and b) most columns are 
 
 You can [read more about scatterplots and scatterplot matrices on this Quick-R post](http://www.statmethods.net/graphs/scatterplot.html), which also details some other functions.
 
-## 4. Create a bar chart
-
-## 5. Create a box and whiskers chart (boxplots)
+## 4. Create a box and whiskers chart (boxplots)
 
 A box and whiskers chart - or **boxplot** - is another way of showing distribution. The 'box' shows the range within which the middle half of numbers fall: in other words, the lower and upper quartiles. The line through the middle of the box shows the **median**: in other words, the point at which half of your numbers are higher, and half are lower. 
 
@@ -69,6 +67,22 @@ This will create a box and whiskers chart for each column in the dataset. But yo
 Or for specified columns like so:
 
 `boxplot(Movies$budget, Movies$gross)`
+
+## 5. Create a bar chart
+
+You'll notice that all the examples above relate to distribution. To show a comparison you need a bar chart, and this involves a little extra work. 
+
+The function to create a bar chart is `barplot`, but to use *that* we first need to create a vector which has a **count** of the number of items in each category we want to compare (even if the category is a number).
+
+That function is `table`. Use it like so:
+
+`years <- table(Movies$year)`
+
+And then use that variable with `barplot` like so:
+
+`barplot(years)`
+
+You can find [a more in-depth tutorial that adds other features here](http://www.theanalysisfactor.com/r-11-bar-charts/). You should also, strictly speaking, order bars from largest to smallest in a bar chart. So here's a challenge: find out how to do that (tip: you might need a different function from a package like ggplot).
 
 ## 6. Create a polar histogram
 
