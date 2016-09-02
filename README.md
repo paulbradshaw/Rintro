@@ -18,3 +18,9 @@ In addition there are lots and lots of resources to help you get to grips with R
 * I maintain [bookmarks of MOOCs (online courses) about R here](https://pinboard.in/u:paulbradshaw/t:r+mooc). It's worth searching for others on sites like Coursera.
 
 Once you understand the basics, however, remember that the best way to learn R is to pick a project, work out what you'll need to do to complete it - and then search online for those techniques in R. Sites like [R-Bloggers](https://www.r-bloggers.com/) have lots of posts explaining different techniques to solve different problems.
+
+In a [presentation](https://andypryke.github.io/DataJournalismShortTalk/#1) at [Hacks/Hackers Birmingham](https://www.meetup.com/Hacks-Hackers-Birmingham/events/233683857/), **Andy Pryke** also gave these tips:
+
+![](https://pbs.twimg.com/media/CrNGEKzWIAEU2SD.jpg)
+
+![](https://pbs.twimg.com/media/CrNAaN9WgAEbVV5.jpg)
