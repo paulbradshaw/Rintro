@@ -28,7 +28,23 @@ There are easy ways of copying code that you've already written into an R script
 
 ## Rmd files
 
-R markdown allows you to combine code and output with an accompanying narrative. I've [written more about this here]().
+R markdown allows you to combine code and output with an accompanying narrative. 
+
+You can use R markdown to [create notebooks within RStudio](http://rmarkdown.rstudio.com/r_notebooks.html). Notebooks can then be exported as PDF documents, HTML files or Word documents.
+
+R notebooks use a particular form of markdown called R Markdown - the files created use the extension `.Rmd`.
+
+To create a notebook in RStudio, select **File > New file > R Markdown...**. The first time you do this, RStudio will install a bunch of packages (specifically `knittr` and `rmarkdown`) to allow you to create notebooks.
+
+When you create a notebook it will be generated with some template code that explains how they work. This includes **chunks** of working code. Each chunk of code starts and ends with ```. The language of the code is also specified, like so: 
+
+````{r}`
+
+Each chunk of code is then coloured grey. In the upper right corner of that grey chunk you should see a settings button, a downward arrow and a 'play' button. The settings button allows you to specify whether each piece of code runs or not, is visible or not, and whether the output is shown or not. The other two buttons allow you to run just that piece of code or all previous chunks.
+
+Notably, you can also run other languages within an R notebook, as long as they are installed on your computer. For example to run Python just use ````{python}` at the start of the chunk of code.
+
+A [cheatsheet for R markdown is available here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
 
 Again, there are easy ways of copying code you've already written, covered below.
 
