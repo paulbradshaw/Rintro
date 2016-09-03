@@ -72,6 +72,8 @@ Or for specified columns like so:
 
 ## 5. Create a bar chart
 
+![](http://www.theanalysisfactor.com/wp-content/uploads/2014/01/image0011.jpg)
+
 You'll notice that all the examples above relate to distribution. To show a comparison you need a bar chart, and this involves a little extra work. 
 
 The function to create a bar chart is `barplot`, but to use *that* we first need to create a vector which has a **count** of the number of items in each category we want to compare (even if the category is a number).
