@@ -36,6 +36,8 @@ You can generate a scatterplot using `plot` in R like so:
 
 Here we have specified two *numeric* columns in our data frame (in this case, budget spent vs domestic gross). 
 
+The [Nathan Yau tutorial on getting started with charts in R](http://flowingdata.com/2012/12/17/getting-started-with-charts-in-r/) goes into more detail and covers some of the charts mentioned below too.
+
 ## 3. Create multiple scatterplots (scatterplot matrices)
 
 ![](http://www.statmethods.net/graphs/images/spmatrix1.jpg)
@@ -86,22 +88,64 @@ You can find [a more in-depth tutorial that adds other features here](http://www
 
 ## 6. Create a pie chart
 
+![](http://www.statmethods.net/graphs/images/pie2.jpg)
+
 I can't ignore the most obvious chart any longer. Yes, you can create pie charts in R, with the function `pie`. 
 
 Pie charts should always be considered carefully: firstly, they are harder to interpret than rectangular chart types like treemaps and bar charts. Secondly, they should always be used to show **composition**: in other words, parts of a whole. And all parts should add up to 100%. 
 
-Again, you can use the `table` function to create counts of categories from a particular column. 
+You *can* create a pie chart from one numerical vector, like so:
+
+`parts <- c(50, 25, 10)`
+
+`pie(parts)`
+
+...but it's not must use: the pie chart will assume the 'pie' is the total of all numbers in the vector, and slice it up accordingly, but it will not have any labels.
+
+To add labels you can create another vector containing those, and add that as the `labels=` parameter in your command like so:
+
+`parts <- c(50, 25, 10)`
+
+`partlabels <- c('defence', 'health', 'welfare')`
+
+`pie(parts, labels=partlabels)`
+
+A quicker approach is to use the `table` function again: this not only creates the numbers (counts of categories from a particular column) but also the labels (the categories themselves). 
 
 `years <- table(Movies$year)`
 
-And then use this as the basis of the pie chart:
-
 `pie(years)`
 
-You can [read more on how to create a pie chart and change settings and labels, etc. in this post on Quick-R](http://www.statmethods.net/graphs/pie.html)
+You can [read more on how to create a pie chart and change settings and labels, etc. in this post on Quick-R](http://www.statmethods.net/graphs/pie.html) but please, please **never create a 3D pie chart**: these actively distort the sizes of slices and make it even harder to understand still.
 
-## 7. Create a polar histogram
+## 7. Create a treemap
+
+![](https://i2.wp.com/flowingdata.com/wp-content/uploads/2012/02/Treemap1.png?w=425)
+
+If you need to use a pie chart to show composition, consider using a treemap instead. These are easier to interpret visually and also allow users to see a greater level of detail in terms of categories and sub-categories.
+
+[This tutorial from Flowing Data explains how to create a treemap using the package `Portfolio`](https://flowingdata.com/2010/02/11/an-easy-way-to-make-a-treemap/)
+
+Alternatively, you can use the `Treemap` package, [outlined on RPubs here](https://rpubs.com/brandonkopp/creating-a-treemap-in-r)
+
+## 8. Create a line chart
+
+![](http://www.harding.edu/fmccown/r/line_script2.png)
+
+Line charts are essentially very similar to scatterplots: you use the `plot` function to plot each data point as a dot, with the difference that each dot needs to be connected with a line. 
+
+To do that, you need to add an extra `type=` parameter that specifies `"l"` (l for line):
+
+`plot(parts, type="l")`
+
+However, if you want more than one line, it starts to get complex. 
+
+The Frank McCown tutorial [Producing Simple Graphs with R](http://www.harding.edu/fmccown/r/) breaks it down particularly well, and moves on to other types of charts too. Tutorials Point also has a [tutorial on line charts in R](http://www.tutorialspoint.com/r/r_line_graphs.htm). 
+
+## 9. Create a polar histogram
 
 ![](http://chrisladroue.com/wp-content/uploads/2012/02/polarHistogramFudged.png)
 
 Christophe Ladroue has a [post on creating a polar histogram in R using the ggplot package](http://chrisladroue.com/2012/02/polar-histogram-pretty-and-useful/). This is very pretty, but remember that circular charts like this and pie charts tend to be much harder for people to interpret than standard histograms and bar charts.
+
+
