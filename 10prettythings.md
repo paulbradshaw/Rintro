@@ -84,7 +84,23 @@ And then use that variable with `barplot` like so:
 
 You can find [a more in-depth tutorial that adds other features here](http://www.theanalysisfactor.com/r-11-bar-charts/). You should also, strictly speaking, order bars from largest to smallest in a bar chart. So here's a challenge: find out how to do that (tip: you might need a different function from a package like ggplot).
 
-## 6. Create a polar histogram
+## 6. Create a pie chart
+
+I can't ignore the most obvious chart any longer. Yes, you can create pie charts in R, with the function `pie`. 
+
+Pie charts should always be considered carefully: firstly, they are harder to interpret than rectangular chart types like treemaps and bar charts. Secondly, they should always be used to show **composition**: in other words, parts of a whole. And all parts should add up to 100%. 
+
+Again, you can use the `table` function to create counts of categories from a particular column. 
+
+`years <- table(Movies$year)`
+
+And then use this as the basis of the pie chart:
+
+`pie(years)`
+
+You can [read more on how to create a pie chart and change settings and labels, etc. in this post on Quick-R](http://www.statmethods.net/graphs/pie.html)
+
+## 7. Create a polar histogram
 
 ![](http://chrisladroue.com/wp-content/uploads/2012/02/polarHistogramFudged.png)
 
