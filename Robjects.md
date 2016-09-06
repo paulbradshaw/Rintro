@@ -106,7 +106,7 @@ You can access individual columns by column name by using the $ sign between the
 
 ## Other data types: strings, integers, numeric and boolean (logical)
 
-As well as the data types outlined above, you can also store more basic types of data in R. For example you might want to store a URL, or a single number, or a TRUE/FALSE value.
+As well as the data types outlined above, you can also store more basic types of data in R. For example you might want to store a URL, or a single number, or a TRUE/FALSE (Boolean, or logical) value.
 
 You do that in the same way, using `<-`, like so:
 
@@ -117,6 +117,14 @@ You do that in the same way, using `<-`, like so:
 `temp <- 12.5`
 
 `yesorno <- TRUE`
+
+Boolean values can be added like numbers, with TRUE equalling 1 and FALSE equalling 0. For example:
+
+`thatlist <- c(TRUE, FALSE, TRUE)`
+
+`sum(thatlist)`
+
+Equals `2` (two TRUE values that vector).
 
 If you need to use a number, string or logical value (TRUE/FALSE) more than once, it may be worth storing it in a variable. The main advantage is that you can just change the variable once to affect all instances where that value is used.
 
