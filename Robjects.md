@@ -126,6 +126,14 @@ Boolean values can be added like numbers, with TRUE equalling 1 and FALSE equall
 
 Equals `2` (two TRUE values that vector).
 
+Likewise you can use operators to generate TRUE/FALSE values in the same way:
+
+`thatlist <- c(3, 6, 10)`
+
+`sum(thatlist>9)`
+
+The result here is `1` because only one number in that vector evaluates to TRUE when tested as being 'greater than 9'.
+
 If you need to use a number, string or logical value (TRUE/FALSE) more than once, it may be worth storing it in a variable. The main advantage is that you can just change the variable once to affect all instances where that value is used.
 
 Bear in mind that you can only do certain things with certain variables: for example you cannot perform calculations on strings of characters, and you cannot combine numbers in the same way that you combine strings of text.
