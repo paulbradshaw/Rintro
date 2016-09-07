@@ -1,4 +1,4 @@
-# Functions and loops in R [INCOMPLETE]
+# Functions, if-else statements and loops in R [INCOMPLETE]
 
 ## Functions
 
@@ -12,7 +12,7 @@ If you've created functions in JavaScript you'll notice that it's a very similar
 
 `total <- num1 + num2 `
 
-`return total`
+`return (total)`
 
 `} `
 
@@ -28,4 +28,29 @@ else { DO THIS IF RESULT IS FALSE}
 
 Here's an example that works:
 
-`if (mynumber > 50) { print("smart class") } else { print("rather average")}`
+`if (mynumber > 50) { print("good") } else { print("not so good")}`
+
+If the expression is all on one line you can also omit the curly brackets and write it more simply like so:
+
+`if (mynumber > 50) print("good") else print("not so good")`
+
+If you don't want to squeeze it onto one line, it can be easier to read if you split it across multiple lines like so:
+
+`if (mynumber > 50) { `
+
+  `print("good") `
+
+`}` 
+
+`else { `
+
+`print("not so good")`
+
+`}`
+
+### If-else-if statements
+
+You don't have to use just one 'if' in an if-else statement: you can have multiple tests using `else if` like so:
+
+`if (mynumber > 50) { print("good") } else if (mynumber < 25)  { print("poor")} else {print ("average")}`
+
