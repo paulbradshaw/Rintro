@@ -20,6 +20,7 @@ In addition there are lots and lots of resources to help you get to grips with R
 * **.Rddj** is a list of [resources specifically for data journalism with R](http://rddj.info/)
 * This [video outlines how data journalism outfit FiveThirtyEight use R](http://blog.revolutionanalytics.com/2016/07/data-journalism-with-r-at-538.html)
 * The New York Times' [**Amanda Cox** talks about how they use R in this excellent Data Stories podcast](http://datastori.es/ds-56-amanda-cox-nyt/)
+* Rob Grant from Trinity Mirror's data unit has created [R for Journalists](http://rforjournalists.com/)
 
 Once you understand the basics, however, remember that the best way to learn R is to pick a project, work out what you'll need to do to complete it - and then search online for those techniques in R. Sites like [R-Bloggers](https://www.r-bloggers.com/) have lots of posts explaining different techniques to solve different problems.
 
