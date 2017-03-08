@@ -82,6 +82,10 @@ But this will only *display* what you get when you merge those two datasets. So 
 
 *Note: the matches must be exact, so if an area is named slightly different in one dataset (for example it uses 'and' where the other data uses '&') then those rows won't merge properly*.
 
+You can add extra parameters to the `merge` function: `by=` will specify the field used to merge *on*. And `suffixes=` can add a two-character suffix to each field from one of the datasets, so you can distinguish them (for example, adding the year of the data).
+
+`newcombineddata <- merge(crimes, populations, by="city", suffixes="17")`
+
 In addition to `merge` you can also combine rows or columns by using the `rbind` (rows) and `cbind` (columns) functions:
 
 * `rbind` will bind extra *rows*, so the data frames (or matrices or vectors) need to have the same *names of columns* (although they don't need to be in the same order). 
