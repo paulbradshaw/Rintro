@@ -1,0 +1,13 @@
+---
+title: "book notes"
+author: "Paul Bradshaw"
+date: "5 March 2017"
+output: html_document
+---
+
+These are notes from the book [R for Data Science](http://r4ds.had.co.nz/).
+
+```{r}
+install.packages("tidyverse")
+```
+
