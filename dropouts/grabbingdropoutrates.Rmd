@@ -1,0 +1,113 @@
+---
+title: "dropout rates"
+author: "Paul Bradshaw"
+date: "8 March 2017"
+output: html_document
+---
+
+## How to do it
+
+First grab the Excel file and create a subset of the columns we want.
+
+```{r}
+install.packages('readxl')
+library(readxl)
+#Grab the file locally
+mynewdata <- read_excel('UKPIs_2014-15_Non-continuation.xlsx', sheet=1, skip=3)
+#The data is in columns 40 and 41, but we also want the name and codes in the first 3 cols, and the number of students
+colswewant <- c(1,2,3,4,40,41,42,43)
+#Use that to create a subset of just those columns
+subset <- mynewdata[colswewant]
+# Grab the notes too, which are in rows 178 onwards in the new dataset (remember we chopped out the first few rows)
+notes <- c(178:188)
+subset[notes,1]
+```
+
+We can grab it from a URL:
+
+```{r}
+#we need the httr library to do this
+library("httr", lib.loc="/Library/Frameworks/R.framework/Versions/3.1/Resources/library")
+url <- 'https://www.hesa.ac.uk/files/UKPIs_2014-15_Non-continuation.xlsx'
+GET(url, write_disk("nonconts.xlsx", overwrite=TRUE))
+mynewdata <- read_excel('nonconts.xlsx', sheet=1, skip=3)
+#The data is in columns 40 and 41, but we also want the name and codes in the first 3 cols, and the number of students
+colswewant <- c(1,2,3,4,40,41,42,43)
+#Use that to create a subset of just those columns
+subset <- mynewdata[colswewant]
+# Grab the notes too, which are in rows 178 onwards in the new dataset (remember we chopped out the first few rows)
+notes <- c(178:188)
+subset[notes,1]
+```
+
+Let's give the last 2 columns easier names to use:
+
+```{r}
+colnames(subset)[5] <- "percnolongerinHE"
+colnames(subset)[6] <- "benchmark"
+```
+
+Create a new column to calculate difference from benchmark:
+
+```{r}
+subset$difference <- as.numeric(subset$benchmark) - as.numeric(subset$percnolongerinHE)
+#And then sort by that new column
+sorted <- subset[order(subset$difference),]
+```
+
+Now to create a file with the results
+
+```{r}
+write.csv(sorted,"dropouts1415.csv")
+```
+
+# Grabbing the new year of data
+
+```{r}
+url <- '[PASTE THE XLSX URL HERE]'
+GET(url, write_disk("16data.xlsx", overwrite=TRUE))
+mynewdata <- read_excel('16data.xlsx', sheet=1, skip=3)
+subset16 <- mynewdata[colswewant]
+# Grab the notes too, which are in rows 178 onwards in the new dataset (remember we chopped out the first few rows)
+notes16 <- c(178:188)
+subset16[notes,1]
+```
+
+# Merging datasets
+
+Once we've created a new dataset called `subset16` we can merge them like so:
+
+```{r}
+twosets <- merge(subset,subset16, by="UKPRN", suffixes="15")
+#Add a new column showing the difference between each year's data (the difference between the differences!)
+twosets$change <- twosets$difference15 - twosets$difference
+twosetssorted <- twosets[order(subset$change),]
+write.csv(twosetssorted,'15v16results.csv')
+```
+
+Grab the full data 
+
+```{r}
+url <- 'https://github.com/paulbradshaw/Rintro/blob/master/calculations/dropouts.xlsx?raw=true'
+GET(url, write_disk("allyears.xlsx", overwrite=TRUE))
+allyears <- read_excel('allyears.xlsx', sheet=1)
+```
+
+Grab the new data and add it to that, add calculations for biggest rises and falls, sort, then export
+
+```{r}
+# Fetch the data from the new URL
+url <- '[PASTE THE XLSX URL HERE]'
+#Create a new file in the same folder
+GET(url, write_disk("16data.xlsx", overwrite=TRUE))
+#Read from that new file into R
+mynewdata <- read_excel('16data.xlsx', sheet=1, skip=3)
+#Create a subset just containing the key columns
+subset16 <- mynewdata[colswewant]
+# Grab the notes too, which are in rows 178 onwards in the new dataset (remember we chopped out the first few rows)
+notes16 <- c(178:188)
+subset16[notes,1]
+#put the perc no longer in HE into our all years dataset
+
+```
+
