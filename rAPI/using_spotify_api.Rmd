@@ -203,10 +203,35 @@ grabtoptrackpopularity <- function (ids) {
 }
 ```
 
+To save the results of both functions alongside the IDs:
+
 ```{r}
 toptracksbyartist <- data.frame(idlist,grabtoptracks(idlist),grabtoptrackpopularity(idlist))
 ```
 
+To grab the album name we have to dig deeper:
+
+```{r}
+grabtoptrackalbum <- function (ids) {
+  toptrackalbums = c()
+  for (id in ids) {
+    #change print later
+    idurl <- paste("https://api.spotify.com/v1/artists/",id,"/top-tracks?country=GB", sep="")
+    idjson <- fromJSON(idurl)
+    toptrackalbum <- idjson[['tracks']][['album']][['name']][1]
+    print(toptrackalbum)
+    toptrackalbums = c(toptrackalbums, toptrackalbum)
+  }
+  print(toptrackalbums)
+  return(toptrackalbums)
+}
+```
+
+And add that to the table
+
+```{r}
+toptracksbyartist <- data.frame(idlist,grabtoptracks(idlist),grabtoptrackpopularity(idlist),grabtoptrackalbum(idlist))
+```
 
 ## Problems?
 
