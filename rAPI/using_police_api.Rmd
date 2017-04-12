@@ -1,0 +1,203 @@
+---
+title: "using_police_api"
+author: "Paul Bradshaw"
+date: "4/12/2017"
+output: html_document
+---
+
+# Using the Data.police.uk API in R
+
+The [data.police.uk API](https://data.police.uk/docs/) provide a range of data related to police forces, crimes and stop and search in the UK. Data begins in 2010 and the most recent data tends to be about 3 months old.
+
+## Grabbing data on crimes at a location
+
+[The documentation for the 'method' to grab data on crimes at a particular location is here](https://data.police.uk/docs/method/crime-street/).
+
+Data is fetched by forming a URL that contains your question. For example, the example given of an API call is [https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2013-01](https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2013-01)
+
+This includes:
+
+* A type of crime: `all-crime?`
+* A latitude: `lat=`
+* A longitude: `lng=`
+* And a month: `date=`
+
+Note that you cannot ask for a year: the date has to be a year *and* month. If you don't specify a date, then it appears to provide the most recent month for which it holds data.
+
+### Crimes within an area
+
+You can also look for crimes within a polygon area. The example give is: 
+
+`https://data.police.uk/api/crimes-street/all-crime?poly=52.268,0.543:52.794,0.238:52.130,0.478&date=2013-01`
+
+In this case there are three lat-long pairs that come after `poly=`, with each separated by a colon:
+
+* `52.268,0.543`
+* `:`
+* `52.794,0.238`
+* `:`
+* `52.130,0.478`
+
+So this draws a polygon between 3 points (a triangle) and provides data for crimes within that triangle.
+
+## Finding the lat-longs for a neighbourhood
+
+You can get the lat-longs for a neighbourhood boundary by [using the method outlined here](https://data.police.uk/docs/method/neighbourhood-boundary/). An example response would be: `https://data.police.uk/api/leicestershire/NC04/boundary`
+
+To get a list of neighbourhoods use a URL like: `https://data.police.uk/api/leicestershire/neighbourhoods`
+
+And a list of forces at: `https://data.police.uk/api/forces`
+
+## Working with the JSON
+
+Now we need to do something with those URLs to extract the JSON. Some context first...
+
+To convert JSON data into a data variable that R can work with, we use the `jsonlite` library ([documentation here](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf)). This should already be installed in RStudio (if not, type `install.packages('jsonlite')`), so you just need to activate it.
+
+```{r}
+library('jsonlite')
+```
+
+Once added to your library, we use the `fromJSON` function to import JSON data from a URL into a new variable like so:
+
+```{r}
+policeforces <-fromJSON("https://data.police.uk/api/forces")
+```
+
+It's a good idea to have the URL open in a browser at the same time so you can see the structure and work out how to access the bit you're after. You should use Chrome or Firefox with the extension [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) installed, as this makes it a lot easier to understand.
+
+Because the JSON is a list of pairs, the result is created as a table (other APIs may generate different types of results)
+
+The same approach can be used to grab all the neighbourhoods within a particular force:
+
+```{r}
+gmneighbourhoods <- fromJSON("https://data.police.uk/api/greater-manchester/neighbourhoods")
+```
+
+To get all neighbourhoods for all forces, we'd need to:
+
+1. Create a `for` loop which went through each force
+2. Form a neighbourhoods URL with the force id in the right place
+3. Store the results in a table (appending it to the results so far each time)
+
+We would also need to grab all the lat-long pairs to describe each neighbourhood like so:
+
+```{r}
+latlongsac29 <- fromJSON("https://data.police.uk/api/greater-manchester/AC29/boundary")
+```
+
+Now to generate a URL containing all the lat-longs. Here's the example again:
+
+* `https://data.police.uk/api/crimes-street/all-crime?poly=`
+* `52.268,0.543:52.794,0.238:52.130,0.478`
+* `&date=2013-01`
+
+To generate the URL for one area we need to extract all the lat-long pairs and put them into one string, with colons between each one. The code below tests this process on one neighbourhood - later we'll need to store this as a function so it can be run multiple times on different areas.
+
+* the `seq` function generates a range between two numbers - in this case `1` and the number of entries in the 'latitude' field in `latlongsac29`
+* the `paste` function is used in two different ways: the first time it is used to combine 3 items to make one string (using `sep=""` to specify no space between each item)
+* the second time it is used to combine all items in a vector to make one string, using `collapse=":"` to insert a colon between each item. We could have added a colon in the earlier `paste` command, as a string, but that would have left us with one at the end.
+
+```{r}
+#create an empty vector to hold the lat/longs
+polygonlatlongs <- c()
+#loop through our imported JSON - as many times as there are entries
+for (i in seq(1,length(latlongsac29$latitude))) {
+  #print(i)
+  #put the lat-long pair together, with a comma between
+  pair <- paste(latlongsac29$latitude[i],",",latlongsac29$longitude[i], sep="")
+  #print(pair)
+  #add the pair to the list
+  polygonlatlongs <- c(polygonlatlongs,pair)
+  #print(polygonlatlongs)
+}
+#Now the loop has finished, take all the pairs from the list and convert into a single string with a colon between each item
+polygonforurl <- paste(polygonlatlongs,collapse=":")
+#insert that string into the URL
+polygoninurl <- paste("https://data.police.uk/api/crimes-street/all-crime?poly=",polygonforurl,"&date=2016-01",sep="")
+print(polygoninurl)
+```
+
+That URL works, so we'll store this as a function, changing two elements to variables (`latlongs` and `date` need to be passed at the start) so they can be changed:
+
+```{r}
+returnpolygonurl <- function(latlongs,crimetype,date){
+  #latlongs should be table containing latitude and longitude, grabbed from JSON
+  #crimetype should be from list at https://data.police.uk/api/crime-categories
+  #date must be in following format: "2016-01", or you can use "" to get latest month
+  #create an empty vector to hold the lat/longs
+  polygonlatlongs <- c()
+  #loop through our imported JSON - as many times as there are entries
+  for (i in seq(1,length(latlongs$latitude))) {
+    #put the lat-long pair together, with a comma between
+    pair <- paste(latlongs$latitude[i],",",latlongs$longitude[i], sep="")
+    #add the pair to the list
+    polygonlatlongs <- c(polygonlatlongs,pair)
+  }
+  #Now the loop has finished, take all the pairs from the list and convert into a single string with a colon between each item
+  polygonforurl <- paste(polygonlatlongs,collapse=":")
+  #insert that string into the URL
+  polygoninurl <- paste("https://data.police.uk/api/crimes-street/",crimetype,"?poly=",polygonforurl,"&date=",date,sep="")
+  print(polygoninurl)
+  return(polygoninurl)
+}
+```
+
+Now test it:
+
+```{r}
+#store the resulting URL in a new variable
+testingurlfunction <- returnpolygonurl(latlongsac29,"drugs","2016-01")
+#read the URL into a new table
+crimeshere <- fromJSON(testingurlfunction)
+```
+
+## Gathering data on multiple neighbourhoods
+
+Now that we've got it to work on one neighbourhood, we can expand to repeat this for *all* neighbourhoods in a particular force. Note that the `assign` function is used to create a new variable for each id code.
+
+```{r}
+boundaryurls <- c()
+#trying to generate a URL like https://data.police.uk/api/greater-manchester/AC04/boundary
+for (id in gmneighbourhoods$id){
+  print(id)
+  idurl <- paste("https://data.police.uk/api/greater-manchester/",id,"/boundary", sep="")
+  print(idurl)
+  #assign is another way of creating a variable, but you can use a variable *as* the name of the new variable
+  #assign(paste(id,sep=""), fromJSON(idurl))
+  #But rather than create a table variable to contain each neighbourhood, we can instead generate the URL we need directly, using the function we defined earlier
+  holdthelatlongs <- fromJSON(idurl)
+  holdtheurl <- returnpolygonurl(holdthelatlongs,"drugs","")
+  boundaryurls <- c(boundaryurls,holdtheurl)
+}
+```
+
+Again, this can be stored in a function so we can run it on another force. 
+
+```{r}
+#You need to first create an object containing all the neighbourhood ids, grabbed from the JSON
+fetchboundaries <- function(force, crimetype){
+  #trying to generate a URL like https://data.police.uk/api/greater-manchester/AC04/boundary
+  for (id in force$id[1]){
+    print(id)
+    idurl <- paste("https://data.police.uk/api/",force,"/",id,"/boundary", sep="")
+    print(idurl)
+    #assign is another way of creating a variable, but you can use a variable *as* the name of the new variable
+    holdtheurl <- returnpolygonurl(holdthelatlongs,"crimetype","")
+    #assign is another way of creating a variable, but you can use a variable *as* the name of the new variable
+    #assign(paste(id,sep=""), fromJSON(idurl))
+    #But rather than create a table variable to contain each neighbourhood, we can instead generate the URL we need directly, using the function we defined earlier
+    holdthelatlongs <- fromJSON(idurl)
+    holdtheurl <- returnpolygonurl(holdthelatlongs,"drugs","")
+    boundaryurls <- c(boundaryurls,holdtheurl)
+    return(boundaryurls)
+  }
+}
+```
+
+Unfortunately, when we test this on a few areas, we find that most generate an error because some - in fact, the majority - have far too many lat/long pairs which results in a URL that the API cannot handle. Anything below 150 pairs seems OK, but over 170 is not.
+
+
+## More
+
+[More on getting polygons for neighbourhoods in this tutorial](http://jgardiner.co.uk/blog/police_data_api_in_leaflet_part2 )
