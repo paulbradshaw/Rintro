@@ -1,0 +1,32 @@
+---
+title: "from zip files to datasets"
+author: "Paul Bradshaw"
+date: "4/19/2017"
+output: html_document
+---
+
+# Unzipping files in R and converting to a single dataset
+
+Data.police.uk [publishes an archive of crime data](https://data.police.uk/data/archive/). The data goes back to 2010, and contains data on all crimes up to the point identified. So, for example, under 'Data from 2013' the file 'May 2013' actually contains all crimes from 2010 to May 2013. As a result, each month the size of the file gets bigger, so that by January 2017 it was 2.3GB.
+
+Instead of having to know which is the latest month's update, you can get the latest archive from [data.police.uk/data/archive/latest.zip](data.police.uk/data/archive/latest.zip)
+
+Note that the page also advises:
+
+> "With the exception of the latest month’s archive, the data on this page is out of date and should not be used. These snapshots are provided for archival purposes."
+
+Unfortunately the file sizes of the most recent file are prohibitively large. For that reason, I'll demonstrate using the smallest file first.
+
+## Unzipping files in R
+
+```{r}
+#create an empty temporary file
+temp <- tempfile()
+#store the URL
+smallzip <- 'https://data.police.uk/data/archive/2013-05.zip'
+#download from that URL to the temp file
+download.file(smallzip, temp)
+#delete/unlink the temporary file
+unlink(temp)
+```
+
