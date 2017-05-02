@@ -38,11 +38,11 @@ The bit that says `read.csv` is a **function**. Functions are basically recipes:
 
 The `<-` bit is taking the result of reading that CSV and putting it into your variable. You can actually just use `=` if you're used to that from other languages, but `<-` has a certain appeal.
 
-If you prefer to have a window pop up and then to navigate to the file that you need, you can use:
+If you don't know where the file is you can use:
 
 `file.choose()`
 
-However, note that this will create a path to a file which may stop working later on - it's always best to keep your data files in the same directory as your R project.
+This will make a window pop up which you can then use to navigate to the file that you need. The result will be a path to that file that you can copy and paste into a command like the `read.csv()` command shown above. However, note that this path may stop working later on if you move or change the file or any of the folders involved - it's always best to keep your data files in the same directory as your R project.
 
 Once you've got it into a variable you can do all sorts of other things with it, as we'll see...
 
