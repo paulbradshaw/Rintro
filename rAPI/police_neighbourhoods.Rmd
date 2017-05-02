@@ -1,0 +1,30 @@
+---
+title: "police_neighbourhoods"
+author: "Paul Bradshaw"
+date: "4/24/2017"
+output: html_document
+---
+
+# Extracting neighbourhood priorities
+
+```{r}
+policeforces <-fromJSON("https://data.police.uk/api/forces")
+gmneighbourhoods <- fromJSON("https://data.police.uk/api/greater-manchester/neighbourhoods")
+oneneighbourhood <- fromJSON("https://data.police.uk/api/greater-manchester/AC04/priorities")
+```
+
+
+```{r}
+allpriorities <- c()
+#trying to generate a URL like https://data.police.uk/api/leicestershire/NC04/priorities
+for (id in gmneighbourhoods$id){
+  print(id)
+  idurl <- paste("https://data.police.uk/api/greater-manchester/",id,"/priorities", sep="")
+  print(idurl)
+  #assign is another way of creating a variable, but you can use a variable *as* the name of the new variable
+  #assign(paste(id,sep=""), fromJSON(idurl))
+  #But rather than create a table variable to contain each neighbourhood, we can instead generate the URL we need directly, using the function we defined earlier
+  priorities <- fromJSON(idurl)
+  allpriorities <- c(allpriorities,priorities)
+}
+```

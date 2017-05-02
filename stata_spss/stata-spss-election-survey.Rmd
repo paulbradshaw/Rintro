@@ -1,0 +1,74 @@
+---
+title: "stata election survey"
+author: "Paul Bradshaw"
+date: "5/2/2017"
+output: html_document
+---
+
+# Reading election survey data in Stata or SPSS format
+
+The [British Election Study publishes its data in Stata and SPSS formats](http://www.britishelectionstudy.com/data-object/post-election-wave-6-of-the-2014-2017-british-election-study-internet-panel/). 
+
+[This overview](http://www.statmethods.net/input/importingdata.html) provides guidance on importing a number of types of data file. We'll start with Stata
+
+```{r}
+#Install the foreign library, which allows us to use the read.dta function
+library(foreign)
+#We can try to read it directly from the URL
+mydata <- read.dta('http://www.britishelectionstudy.com/custom/uploads/2015/07/BES2015_W6_v1.2.dta')
+```
+
+Unfortunately this generates an error: `not a Stata version 5-12 .dta file`. A bit of googling around suggests this might be because the `foreign` package was [frozen at Stata 12](https://stackoverflow.com/questions/23899009/read-stata-13-file-in-r)
+
+Instead, then, we try a different package, `readstata13`, designed to address this problem:
+
+```{r}
+install.packages("readstata13")
+library(readstata13)
+electionsurvey15 <- read.dta13('BES2015_W6_v1.2.dta')
+```
+
+Now to write that as a new CSV file:
+
+```{r}
+write.csv(electionsurvey15, 'BES2015_W6_v1.2.csv')
+```
+
+## Doing the same with the SPSS file
+
+For the SPSS challenge I'm using the steps [outlined in this guide](http://www.milanor.net/blog/how-to-open-an-spss-file-into-r/). I've downloaded the file first, and placed it in the same directory as this R project:
+
+```{r}
+spssdataset = read.spss("BES2015_W6_v1.2.sav", to.data.frame=TRUE)
+```
+
+Once again you can then write that object as a CSV like so:
+
+```{r}
+write.csv(spssdataset, 'BES2015_W6_v1.2.csv')
+```
+
+
+## Using Haven to do both
+
+[The Stack Overflow thread on this problem](https://stackoverflow.com/questions/23899009/read-stata-13-file-in-r/23899204) notes that "there's a new package called Haven, by Hadley Wickham, which can load Stata 13 dta files (as well as SAS and SPSS files)". However, the code outlined returns an error `"there is no package called 'haven'"`
+
+Instead, searching for the haven package takes you to [this GitHub](https://github.com/tidyverse/haven) where you'll find new instructions for installing and using Haven, which I've adapted below:
+
+```{r}
+# The easiest way to get haven is to install the whole tidyverse:
+install.packages("tidyverse")
+# Alternatively, install just haven:
+install.packages("haven")
+library(haven)
+
+# SPSS
+bes2015spss <- read_sav("BES2015_W6_v1.2.sav")
+#You can also read from a URL
+bes2015spss <- read_sav("http://www.britishelectionstudy.com/custom/uploads/2015/07/BES2015_W6_v1.2.sav")
+# Stata
+bes2015stata <- read_dta("BES2015_W6_v1.2.dta")
+```
+
+
+
