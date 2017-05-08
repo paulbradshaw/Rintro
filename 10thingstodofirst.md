@@ -44,6 +44,8 @@ If you don't know where the file is you can use:
 
 This will make a window pop up which you can then use to navigate to the file that you need. The result will be a path to that file that you can copy and paste into a command like the `read.csv()` command shown above. However, note that this path may stop working later on if you move or change the file or any of the folders involved - it's always best to keep your data files in the same directory as your R project.
 
+For importing other files see Sharon Machlis's article [Great R packages for data import, wrangling and visualization](http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html).
+
 Once you've got it into a variable you can do all sorts of other things with it, as we'll see...
 
 ## 4. Generate summary statistics
