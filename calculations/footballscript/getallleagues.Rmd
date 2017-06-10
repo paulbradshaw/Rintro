@@ -1,0 +1,34 @@
+---
+title: "grab all league CSVs"
+author: "Paul Bradshaw"
+date: "28 September 2016"
+output: html_document
+---
+
+This script outlines how to grab CSV files for all leagues in England and combine them to get a master list
+
+This data was [spotted at Football-Data.co.uk](http://www.football-data.co.uk/englandm.php). The first thing to point out was that:
+
+* The data is in CSV files
+* The CSV files are regularly updated. By that I mean, the site doesn't add *more* files (which is common), but instead updates *one* file. That means the URL of the file will always be the same.
+
+
+## Importing the data
+
+```{r}
+#Store each URL
+url_prem <- 'http://www.football-data.co.uk/mmz4281/1617/E0.csv'
+url_cham <- 'http://www.football-data.co.uk/mmz4281/1617/E1.csv'
+url_lg1 <- 'http://www.football-data.co.uk/mmz4281/1617/E2.csv'
+url_lg2 <- 'http://www.football-data.co.uk/mmz4281/1617/E3.csv'
+#By now we notice that the URL pattern is consistent and we could have generated them, but for 4 URLs it's probably quicker to type
+
+#Import CSVs from the web into variables
+lg1 <- read.csv(url_lg1)
+lg2 <- read.csv(url_lg2)
+cham <- read.csv(url_cham)
+prem <- read.csv(url_prem)
+
+#Show the first few rows
+head(lg1)
+```

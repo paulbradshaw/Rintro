@@ -1,0 +1,139 @@
+---
+title: "footballscript"
+author: "Paul Bradshaw"
+date: "26 September 2016"
+output: html_document
+---
+
+This script is a demonstration of how writing a script in R once can save you having to repeat actions later - and get you to stories quicker.
+
+This data was [spotted at Football-Data.co.uk](http://www.football-data.co.uk/englandm.php). The first thing to point out was that:
+
+* The data is in CSV files
+* The CSV files are regularly updated. By that I mean, the site doesn't add *more* files (which is common), but instead updates *one* file. That means the URL of the file will always be the same.
+
+This is a perfect situation for a script: the URL is predictable, and the data contained is consistent. All we have to decide is what analysis we want to regularly perform on this data. The [key to the column names is here](http://www.football-data.co.uk/notes.txt). Here are some ideas:
+
+* Identify the 'best value' team in terms of goals you see at each match
+* Identify the team that is worst at holding a lead, or never comes from behind, or best at both of those
+* Identify referees who give the most yellow or red cards
+* Which team has the most shots, or on target, or is most profligate in missing those, or most off target
+* Which team commits the most fouls, or is most fouled against
+* Which team beats the odds and is the best bet
+
+Before we decide, the first step in all these processes is going to be importing the data, so let's do that first, using the `read.csv()` function. And then show a few rows from the result.
+
+## Importing the data
+
+```{r}
+#Import a CSV file from the web into the variable 'league1'
+league1 <- read.csv('http://www.football-data.co.uk/mmz4281/1617/E2.csv')
+
+#Show the first few rows
+head(league1)
+```
+
+
+## Calculating the team that commits the most fouls
+
+To begin with it's a good idea to pick a simple option, so let's go with the team that commits the most fouls. That should be a simple addition by team (a pivot table in Excel).
+
+It's also good to break down the steps we need to write code for. A short version is:
+
+1. Create a pivot table using R
+
+A quick Google search throws up a few helpful tutorials. [This one](https://www.rforexcelusers.com/make-pivottable-in-r/) has a better breakdown:
+
+1. Basic by-group summaries with filters (sum, count, calculated fields, etc)
+2. Transpose columns and rows
+3. Advanced by-group summaries and manipulation
+
+It also mentions the R package `dplyr`, as does [this one](http://marcoghislanzoni.com/blog/2014/09/01/pivot-tables-r-dplyr/). [This tutorial](https://www.r-bloggers.com/pivot-tables-in-r/) doesn't - but check the date: it's from 2010, way before `dplyr` was created. 
+
+So let's import `dplyr`
+
+```{r}
+#Install and load the dplyr package
+install.packages('dplyr', repos = "http://cran.us.r-project.org")
+library(dplyr)
+```
+The two tutorials describe different approaches to reach similar ends. This is not uncommon, as there often many different ways of getting to the same destination. The Marco Ghislanzoni version talks about converting into a different object - but then doesn't use that object anyway. So we'll just work with the data frame object:
+
+It helps to have the **documentation** for the `dplyr` package, or the **vignette**. [The vignette for dplyr is here](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)
+
+```{r}
+#Use the summarise function, and within that use the group_by function. group_by takes 2 arguments: the data frame and the column (in this case: group by 'HomeTeam' column in league1). summarise takes 2 arguments: what you're summarising by, and what calculation to perform for each. In this case: summarise by grouped hometeam, calculate a sum of HF (home fouls)
+HomeTeamFouls <- summarise(group_by(league1, HomeTeam), Order.Amount=sum(HF))
+HomeTeamFouls
+```
+
+This is great. We can check this against a pivot table in Excel. Why not do it in Excel to begin with? Because we want to run this each week! And code allows us to do that. Now let's grab the away fouls:
+
+```{r}
+#Use the summarise function, and within that use the group_by function. 
+#group_by takes 2 arguments: the data frame and the column (in this case: group by 'HomeTeam' column in league1)
+#summarise takes 2 arguments: what you're summarising by, and what calculation to perform for each. In this case: summarise by grouped hometeam, calculate a sum of HF (home fouls)
+AwayTeamFouls <- summarise(group_by(league1, AwayTeam), Order.Amount=sum(AF))
+AwayTeamFouls
+```
+We now need to somehow add the two together. The simplest way is to tack one dataset on the end of the other, and then 'group_by' again.
+
+```{r, eval=FALSE, include=TRUE}
+
+allfouls <- rbind(AwayTeamFouls,HomeTeamFouls)
+allfouls
+```
+
+This generates an error: `names do not match previous names`. This is because the column names do not match. 
+
+To solve this, we need to rename the columns of each dataset:
+
+```{r}
+colnames(AwayTeamFouls)[1] <- "Team"
+colnames(HomeTeamFouls)[1] <- "Team"
+allfouls <- rbind(AwayTeamFouls,HomeTeamFouls)
+allfouls
+```
+
+Now to adapt our previous code to summarise by team from this new table. To do that we need to replace 'league1' with 'allfouls', and 'HomeTeam' with 'Team'. We also need to sum the column 'Order.Amount' now, not 'AF' or 'HF' as before.
+
+```{r}
+all_fouls_pivot <- summarise(group_by(allfouls, Team), Order.Amount=sum(Order.Amount))
+```
+There's actually an easier way, and one which gives us more detail too. Here it is:
+
+1. Calculate group_by team sums for home, and then away teams
+2. Merge those two on team name, so that we have a column for home fouls and away fouls
+3. Create a totals column by adding those two columns up
+4. Append that totals column on the end of the merged data, resulting in four columns (team, away fouls, home fouls, total)
+
+Here's the code:
+
+```{r}
+#For some reason this doesn't work:
+colnames(AwayTeamFouls[2]) <- "AF"
+#So we'll go the long way around by taking that data into a new object, renaming it, re-adding it, then deleting the original
+#Put the foul totals in a new vector object
+AF<-AwayTeamFouls[2]
+#Rename the column
+colnames(AF)[1] <- 'AF'
+#Add the vector to our data frame
+AwayTeamFouls <- data.frame(AwayTeamFouls,AF)
+#Delete the column we don't want, by changing the variable to it only includes the two we do want
+AwayTeamFouls <- subset(AwayTeamFouls, select = c(Team,AF))
+#This just repeats the above process for the home team data
+HF<-HomeTeamFouls[2]
+colnames(HF) <- 'HF'
+HomeTeamFouls <- data.frame(HomeTeamFouls,HF)
+HomeTeamFouls <- subset(HomeTeamFouls, select = c(Team,HF))
+#Merge the two data frames
+home_and_away_fouls <- merge(AwayTeamFouls,HomeTeamFouls)
+#Add the figures in the two columns to create a new totals vector
+fouls_totals <- home_and_away_fouls[2]+home_and_away_fouls[3]
+#Change the data object to a data frame containing the old data frame, plus the new vector
+home_and_away_fouls <- data.frame(home_and_away_fouls,fouls_totals)
+#Change the 4th column name
+colnames(home_and_away_fouls)[4] <- 'total_fouls'
+home_and_away_fouls
+```
+
