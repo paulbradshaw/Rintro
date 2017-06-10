@@ -68,6 +68,11 @@ bes2015spss <- read_sav("BES2015_W6_v1.2.sav")
 bes2015spss <- read_sav("http://www.britishelectionstudy.com/custom/uploads/2015/07/BES2015_W6_v1.2.sav")
 # Stata
 bes2015stata <- read_dta("BES2015_W6_v1.2.dta")
+
+#Just grabbing some cols
+votes15 <- bes2015spss[c(5,8,13,15,25)]
+#Find which columns refer to non registration
+colstokeep <- grep("NotRegistered",colnames(bes2015spss))
 ```
 
 

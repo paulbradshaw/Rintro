@@ -1,0 +1,93 @@
+---
+title: "School accounts"
+output: html_document
+---
+
+# Analysing school accounts data
+
+The UK government publishes data every year on the accounts of thousands of schools. Academy school accounts are published separately to local authority maintained schools. We want to analyse that data to look for particular stories. To make sure we do it efficiently and effectively, we need to make a list of the steps to take:
+
+1. Grab the Excel files from their URL
+2. Clean up any empty rows
+3. Clean up multi-row headings
+4. Reduce to just the columns that we want: start with expenditure and income
+5. Create a new column for income minus expenditure
+6. Repeat steps 1-5 for another year's data
+7. Merge the two datasets so we have two year's data
+8. Create a column that calculates one year's surplus/deficit minus the previous year's: a deficit of -100 against a previous deficit of -200 (-100 - -200) should result in +100, which is right (they are £100 better off, even though still in deficit). 
+9. Repeat steps 1-8 for local authority controlled schools
+10. Calculate what the overall change is for academies vs local authority schools; broken down by type (Only 8% of local authority schools are secondary schools; around 46% of academies are secondaries)
+
+## Grabbing the files from URLs
+
+First we need to import the data into R. We could download the files and do it that way, but we can also read the Excel files directly from the web by firstly reading the URL into an object using the `url` function like so:
+
+```{r}
+storeurlfile <- url('https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/541057/SFR27_2016_Main_Tables.xlsx')
+```
+
+To read Excel files we need a package called `readxl`, so let's install it and then add it to the library:
+
+```{r}
+install.packages("readxl")
+library("readxl")
+```
+
+That package has a function called `xlimport` which will import Excel files. We use it to grab our URL object like so:
+
+```{r}
+xlimport <- read_excel(storeurlfile, sheet=3, skip=4, col_names=FALSE)
+```
+
+We could do it all in one line like this...
+
+```{r, eval=FALSE, include=FALSE}
+xlimport <- read_excel(url('https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/541057/SFR27_2016_Main_Tables.xlsx'), sheet=3, skip=4, col_names=FALSE)
+```
+
+...but given that we're going to need to access other sheets in this data, it's better to store the URL in a variable.
+
+Note that `read_excel` allows us to specify which sheet in the Excel workbook we want, whether to skip any rows (we skip 4 because they don't contain headers or data), and whether to treat the first row after that as column headings.
+
+## Drilling down to one aspect (income)
+
+The data has almost 2400 rows and 74 columns. We can find out which columns mention income by using `grep`:
+
+```{r}
+grep('income',colnames(mydata), ignore.case = TRUE)
+```
+
+Note that this might still miss columns, as our headings are not perfect.
+
+To see one column we can use an index with `colnames` like so:
+
+```{r}
+colnames(mydata)[1]
+```
+
+But we can also use the results of that line of code within square brackets:
+
+```{r}
+colnames(mydata)[grep('income',colnames(mydata), ignore.case = TRUE)]
+```
+
+And we can store the indexes of the matching columns in a vector, if we want to grab them later:
+
+```{r}
+incomecols <- grep('income',colnames(mydata), ignore.case = TRUE)
+```
+
+Of course, we also want to keep the columns which name the school and include basic details like its URN (Unique Reference Number), type, number of pupils, and so on. Those are the first 13 columns, so we can create a new list of indexes by combining that range of `1:13` (from 1 to 13) with the indexes in `incomecols` like so:
+
+```{r}
+colstokeep <- c(1:13,incomecols)
+```
+
+Now we can create a new dataset by specifying we only want those columns with the indexes we've just stored:
+
+```{r}
+incomedata <- mydata[colstokeep]
+```
+
+
+
