@@ -1,0 +1,172 @@
+---
+title: "splittingtext"
+author: "Paul Bradshaw"
+date: "24 November 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this scenario we've found some data in the raw HTML for this page: [https://www.brewersassociation.org/statistics/by-state/](https://www.brewersassociation.org/statistics/by-state/).
+
+We have copied the source code into a text file called 'breweries_to_split.txt'. 
+
+## First, import the `tm` library
+
+```{r}
+install.packages("tm")
+library("tm")
+```
+Now you can import your text using the `readLines` function:
+
+```{r}
+text <- readLines('breweries_to_split.txt')
+```
+
+Here we've placed it in a variable called 'text', but it could be called anything.
+
+This is a single line text file saved from the original HTML file (with the top and bottom chopped off)
+
+Each state's data begins with code like this: `var chart = AmCharts.makeChart("chartdiv_AL"` (the code of the state changes each time)
+
+We can split the big text file on that, or part of it. I've chosen here to avoid parts with brackets or quotation marks because they will cause problems (they need to be 'escaped'). The result of the function is put in a variable called 'split_text'
+
+```{r}
+split_text <- strsplit(text, 'var chart = AmCharts.makeChart')
+```
+OK, if you really know how to do this with awkward text characters like full stops, quotation marks and brackets, you can 'escape' each one by putting it in square brackets like so:
+
+```{r}
+splittext <- strsplit(text, 'AmCharts.makeChart[(]["]chartdiv_')
+```
+
+Or if they are together, like so:
+
+```{r}
+splittext <- strsplit(text, 'AmCharts.makeChart[("]chartdiv_')
+```
+
+## Convert into a data frame
+
+We can convert this item into a data frame by using the `data.frame` function and putting the results in a new variable, which I've called 'asdf'
+
+```{r}
+asdf <- data.frame(split_text)
+```
+
+Once this has been created, look in the 'Environment' area in the upper right corner of R Studio: you will see this new variable is '*52 obs. of 1 variable*'. That means there are 52 items in that data frame. 
+
+You can double-click on that data object to see it previewed in the upper left corner. This takes a moment because it's so big (it may look like the data's disappeared: but it just takes a while to load).
+
+And when it finally does load you see the problem: the header for this one column dataset is enormous. So let's start cleaning it up.
+
+## Clean the dataset column name
+
+We can rename the columns using `colnames` like so:
+
+```{r}
+colnames(asdf) <- 'state'
+```
+
+Normally if there's more than one column, you need to use a vector object, but in this case we only need one ingredient: the string of characters 'state'.
+
+When you look at your data again it may look like the data's disappeared: but again it just takes a while to load.
+
+## Export that column as a vector
+
+We can create a vector object (a variable) of that column like so:
+
+```{r}
+thisisavector <- asdf$state
+```
+
+Now we can create new vectors based on grabbing information from this one. To do that we need to install the `stringr` package for handling strings:
+
+```{r}
+library("stringr")
+```
+
+And within that package we can use the `str_locate_all` function to get an idea what *position* in each vector item we find a match for the string 'chartdiv_' followed by two upper case letters:
+
+```{r}
+str_locate_all(thisisavector, 'chartdiv_[A-Z][A-Z]')
+```
+
+That bit `[A-Z]` is *regex* for 'any upper case letter'. (Regex is short for **regular expression** and is a way of describing patterns in strings of characters and numbers. If you've never heard of it, go off and find out about it. The basics are quite simple, and we're only using the basics here.)
+
+The result is a series of *indexes* telling us the **start and end position** of the matches that it finds. The start position (index) is always 3: because the 'c' in 'chartdiv' is the 3rd character in each item (in the vector). The second capital appears at index 14.
+
+We can use the `substr` function to test this like so:
+
+```{r}
+substr(thisisavector,11,14)
+```
+
+Try this and you'll see we get one character we don't want before and after. So we can try a slight change: 
+
+```{r}
+substr(thisisavector,12,13)
+```
+
+This grabs our state codes and nothing else. So let's store that in a vector which we can combine with others later:
+
+```{r}
+state_codes <- substr(thisisavector,12,13)
+```
+
+We can also add that to the dataframe as a new column like so:
+
+```{r}
+asdf$stateclean <- state_codes
+```
+
+
+## Grabbing the values
+
+Now it gets harder because our other matches aren't always going to be in the same position. At this point it's useful to look at the text file with the original code in it, to find the string of characters you're trying to match on. In this case it's something like *"value": "6",</td>*
+
+But we know the value isn't going to be 6 every time, and sometimes it will be two digits, not one, so we need to use the regex `[0-9]*` to indicate *none or more of any number*.
+
+```{r}
+str_locate_all(isthisavector, '"value": "[0-9]*",</td>')
+```
+
+The good sign is that we seem to get 5 matches for each item in our vector (each state), matching up with the 5 years that we're expecting.
+
+The positions are also almost all the same - which suggests it is the same information. But because they are not all the same, we can't use one set of indexes to grab them.
+
+We *could* use *those* indexes - but there's another way as well: the function `gsub`
+
+`gsub` will substitute a particular string or pattern (regex again) with something else. It is like the `SUBSTITUTE` function in Excel.
+
+Below we use it to substitute everything *up to and including* '"value": "', and put it in a new variable called 'strippedstart':
+
+```{r}
+strippedstart <- gsub('.*"value": "','',thisisavector)
+```
+
+The *everything up to and including* bit is done with `.*`: the full stop means 'any character' and the asterisk means 'none or more of'. So it starts at the beginning by finding none or more of any character (in other words, it starts substituting at the start as soon as it hits the first character), up to the point with '"value": "', which happens to be just before the number we want.
+
+The result is that each of our items should now *start* with the value we need. 
+
+We can check this by using `substring` to show just the first few characters (from index 1 to 4) of each item in that new variable:
+
+```{r}
+substring(strippedstart,1,4)
+```
+
+Now we just need to strip out everything *after* that number. Because the number is always follows by `",</td>` we can replace that *and anything that follows it*, in the same way:
+
+```{r}
+strippedstart2 <- gsub('",</td>.*','',strippedstart)
+```
+
+Now we can add those to the dataset too: 
+
+```{r}
+asdf$strippedstart <- strippedstart
+asdf$stateclean <- state_codes
+```
+
