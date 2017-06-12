@@ -1,0 +1,282 @@
+"","genresvec","Freq"
+"1","acid house",1
+"2","acid jazz",1
+"3","acoustic blues",1
+"4","acoustic pop",5
+"5","adult standards",4
+"6","album rock",45
+"7","albuquerque indie",1
+"8","alt-indie rock",14
+"9","alternative country",8
+"10","alternative dance",32
+"11","alternative hip hop",1
+"12","alternative metal",15
+"13","alternative rock",79
+"14","anti-folk",13
+"15","art rock",36
+"16","australian alternative rock",2
+"17","australian dance",1
+"18","australian pop",1
+"19","bassline",1
+"20","bebop",1
+"21","big beat",13
+"22","big room",2
+"23","blues",1
+"24","blues-rock",21
+"25","bmore",1
+"26","boogie-woogie",1
+"27","boston rock",1
+"28","bow pop",1
+"29","boy band",1
+"30","breakbeat",2
+"31","brill building pop",2
+"32","british alternative rock",1
+"33","british blues",7
+"34","british folk",2
+"35","british indie rock",2
+"36","british invasion",2
+"37","britpop",41
+"38","brooklyn indie",3
+"39","brostep",3
+"40","bubblegum dance",1
+"41","canadian indie",1
+"42","canadian pop",5
+"43","candy pop",2
+"44","canterbury scene",1
+"45","catstep",1
+"46","celtic",1
+"47","celtic rock",2
+"48","chamber pop",35
+"49","chamber psych",7
+"50","chicago indie",1
+"51","chicago soul",2
+"52","chillwave",8
+"53","classic funk rock",11
+"54","classic rock",48
+"55","comic",1
+"56","compositional ambient",3
+"57","contemporary jazz",1
+"58","contemporary post-bop",1
+"59","cool jazz",1
+"60","country blues",2
+"61","country rock",3
+"62","dance pop",32
+"63","dance rock",60
+"64","dance-punk",22
+"65","dancehall",1
+"66","dark cabaret",1
+"67","deep groove house",1
+"68","deep new americana",1
+"69","delta blues",1
+"70","detroit hip hop",1
+"71","dirty south rap",2
+"72","disco",13
+"73","disco house",11
+"74","downtempo",6
+"75","downtempo fusion",1
+"76","dream pop",18
+"77","drum and bass",2
+"78","dub",1
+"79","e6fi",1
+"80","east coast hip hop",5
+"81","edm",8
+"82","electric blues",5
+"83","electro",2
+"84","electro house",4
+"85","electroclash",1
+"86","electronic",44
+"87","emo",2
+"88","escape room",5
+"89","ethereal wave",1
+"90","etherpop",2
+"91","eurodance",1
+"92","europop",13
+"93","experimental",4
+"94","experimental rock",6
+"95","filter house",1
+"96","fingerstyle",1
+"97","flamenco",1
+"98","focus",1
+"99","folk",9
+"100","folk christmas",12
+"101","folk rock",19
+"102","folk-pop",42
+"103","fourth world",1
+"104","freak folk",20
+"105","funk",7
+"106","funk metal",3
+"107","funk rock",23
+"108","g funk",2
+"109","gangster rap",5
+"110","garage psych",3
+"111","garage rock",51
+"112","german metal",1
+"113","german techno",1
+"114","glam metal",6
+"115","glam rock",8
+"116","grime",6
+"117","groove metal",1
+"118","grunge",3
+"119","hard bop",1
+"120","hard rock",34
+"121","hardcore hip hop",4
+"122","hardcore techno",1
+"123","harp",1
+"124","heavy christmas",8
+"125","hip hop",12
+"126","hip house",5
+"127","hip pop",4
+"128","house",6
+"129","icelandic pop",2
+"130","indie anthem-folk",2
+"131","indie christmas",13
+"132","indie folk",34
+"133","indie pop",50
+"134","indie r&b",10
+"135","indie rock",83
+"136","indietronica",29
+"137","industrial",1
+"138","industrial metal",1
+"139","industrial rock",1
+"140","intelligent dance music",1
+"141","irish folk",1
+"142","irish rock",4
+"143","jam band",1
+"144","jangle pop",1
+"145","jazz",1
+"146","jazz blues",2
+"147","jazz funk",3
+"148","jazz fusion",1
+"149","kraut rock",2
+"150","laboratorio",1
+"151","latin alternative",1
+"152","leeds indie",1
+"153","lilith",7
+"154","liquid funk",1
+"155","lo-fi",17
+"156","lovers rock",1
+"157","madchester",33
+"158","mande pop",1
+"159","math pop",1
+"160","mbalax",1
+"161","melancholia",12
+"162","mellow gold",41
+"163","memphis soul",3
+"164","metal",7
+"165","metalcore",1
+"166","metropopolis",4
+"167","minimal dub",1
+"168","modern blues",3
+"169","moombahton",1
+"170","motown",8
+"171","neo mellow",31
+"172","neo soul",2
+"173","neo-psychedelic",32
+"174","neue deutsche harte",1
+"175","new americana",8
+"176","new jack swing",1
+"177","new rave",35
+"178","new romantic",40
+"179","new wave",58
+"180","new wave pop",47
+"181","new weird america",3
+"182","no wave",1
+"183","noise pop",12
+"184","noise rock",3
+"185","norwegian pop",1
+"186","norwegian rock",1
+"187","nu disco",1
+"188","nu gaze",6
+"189","nu jazz",2
+"190","nu metal",11
+"191","nu skool breaks",1
+"192","nwobhm",1
+"193","ok indie",1
+"194","old school hip hop",2
+"195","outlaw country",2
+"196","permanent wave",54
+"197","piano rock",4
+"198","pop",40
+"199","pop christmas",21
+"200","pop punk",6
+"201","pop rap",19
+"202","pop rock",61
+"203","post rock",7
+"204","post-disco",6
+"205","post-grunge",16
+"206","post-hardcore",2
+"207","post-punk",11
+"208","post-teen pop",6
+"209","power pop",12
+"210","progressive bluegrass",1
+"211","progressive house",2
+"212","progressive rock",5
+"213","protopunk",7
+"214","psychedelic rock",8
+"215","pub rock",5
+"216","punk",9
+"217","punk blues",3
+"218","punk christmas",3
+"219","quiet storm",6
+"220","r&b",6
+"221","rap",17
+"222","rap metal",4
+"223","rap rock",4
+"224","reggae",1
+"225","reggae fusion",2
+"226","rock",109
+"227","rock en espanol",1
+"228","rock-and-roll",1
+"229","rockabilly",1
+"230","roots reggae",1
+"231","roots rock",24
+"232","rumba",1
+"233","scottish rock",4
+"234","screamo",2
+"235","sheffield indie",3
+"236","shimmer pop",9
+"237","shiver pop",1
+"238","shoegaze",3
+"239","singer-songwriter",57
+"240","skate punk",1
+"241","slow core",11
+"242","soft rock",36
+"243","soul",9
+"244","soul blues",2
+"245","soul christmas",7
+"246","soul jazz",1
+"247","southern hip hop",6
+"248","southern rock",5
+"249","southern soul",2
+"250","space rock",8
+"251","speed metal",1
+"252","stomp and holler",23
+"253","stoner metal",1
+"254","stoner rock",3
+"255","swedish indie rock",1
+"256","symphonic rock",4
+"257","synthpop",44
+"258","texas blues",1
+"259","texas country",2
+"260","thrash metal",1
+"261","traditional blues",1
+"262","traditional british folk",1
+"263","traditional country",1
+"264","traditional folk",4
+"265","trap music",1
+"266","trip hop",12
+"267","tropical house",11
+"268","twee pop",1
+"269","uk funky",1
+"270","uk garage",5
+"271","uk post-punk",10
+"272","urban contemporary",3
+"273","vegas indie",1
+"274","viral pop",2
+"275","vocal house",4
+"276","vocal jazz",2
+"277","welsh rock",4
+"278","west coast rap",2
+"279","world",3
+"280","world christmas",1
+"281","zolo",1
