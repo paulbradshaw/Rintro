@@ -1,0 +1,20 @@
+---
+title: "analysing spotify data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Grabbing the data
+
+The data has already been scraped from the API using a Python script in Quickcode.io.The data can be queried using SQL with results provided in JSON. The URL for the result of `select * from swdata` (select all data) is [https://premium.scraperwiki.com/1c6u0ci/n4n1dvnblw9ieyh/sql/?q=select%20*%0Afrom%20swdata%0A](https://premium.scraperwiki.com/1c6u0ci/n4n1dvnblw9ieyh/sql/?q=select%20*%0Afrom%20swdata%0A).
+
+To grab that we first need the `jsonlite` package. Then we can use the `fromJSON` command to grab it and put it in an object
+
+```{r}
+library("jsonlite")
+spotifydata <- fromJSON("https://premium.scraperwiki.com/1c6u0ci/n4n1dvnblw9ieyh/sql/?q=select%20*%0Afrom%20swdata%0A")
+```
+
