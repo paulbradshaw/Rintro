@@ -53,5 +53,31 @@ That table is enough to create a CSV from:
 write.csv(genrestable, 'genrecount.csv')
 ```
 
+## Repeating but with appearances factored in
+
+The above process gives us the most popular genre by artists. But if we want to reflect the popularity of genres at festivals, we need to factor in the fact that some artists have appeared more than once (are more popular).
+
+To do this we've taken the list of appearances in Excel and used VLOOKUP to match those with genres, correcting for misspellings and other inconsistencies along the way. The resulting CSV file is then re-imported for our analysis:
+
+```{r}
+spotifydata2 <- read.csv("spotifygenres_x_appearances.csv")
+```
+
+Then we follow the same steps as above, but with that as the basis:
+
+```{r}
+#For some reason this time the write command generates a list of numbers, whereas write.csv doesn't, so we'll use that and ignore the indexes that write.csv creates
+write.csv(spotifydata2$genres.on.Spotify, 'genresastext2.txt')
+genres2 <- scan('genresastext2.txt', what="char", sep=",")
+# We convert all text to lower case to prevent any case sensitive issues with counting
+genres2 <- tolower(genres2)
+#create a list object by splitting 'genres' on comma
+genres.split2 <- strsplit(genres2, ",")
+#create a vector object from that
+genresvec2 <- unlist(genres.split2)
+#create a table from the vector
+genrestable2 <- table(genresvec2)
+write.csv(genrestable2, 'genrecount_x_appearances.csv')
+```
 
 
