@@ -1,0 +1,77 @@
+---
+title: "Scraping MP registers of interests"
+author: "Paul Bradshaw"
+date: "3 April 2017"
+output: html_document
+---
+
+# Scraping the register of interests
+
+```{r}
+install.packages("rvest")
+library(rvest)
+install.packages("XML")
+```
+
+```{r}
+#Grab the webpage and put in an object
+indexpage <- read_html("https://www.publications.parliament.uk/pa/cm/cmregmem/170502/contents.htm")
+```
+
+Each MP is listed in a *second* <a> tag within a <p> tag
+
+```{r}
+#This will also catch some matches we don't need, but we'll address that later
+mpslist <- html_nodes(indexpage, 'p a')
+#To grab the text in each 'node' of the list that's been grabbed, we can use the html_text function
+mpsastext <- html_text(mpslist)
+#But we need the links, so use html_attr instead, which needs an additional argument specifying which attribute we want to grab:
+mpsasattr <- html_attr(mpslist, "href")
+```
+
+We can use trial and error to identify where the first MP appears. It's Diane Abbott at position 25. To remove the rest we can recreate the object starting from that position:
+
+```{r}
+mpsasattr <- mpsasattr[25:673]
+mpsastext <- mpsastext[25:673]
+```
+
+To go at fetch the information at each of those URLs we first need to form them. There are two ways we could do this - one is to treat the date "170502" and the rest separately. For example:
+
+```{r}
+baseurl <- "https://www.publications.parliament.uk/pa/cm/cmregmem/"
+datestamp <- "170502/"
+```
+
+Let's first try to scrape one page. First, form the URL and store the contents:
+
+```{r}
+mpurl <- "hammond_philip.htm"
+fullurl <- paste(baseurl,datestamp,mpurl, sep="")
+intpage <- read_html(fullurl)
+```
+
+Now, drill down:
+
+```{r}
+indents <- html_nodes(intpage, 'p.indent')
+indentsastxt <- html_text(indents)
+categories <- html_nodes(intpage, 'p strong')
+catsastxt <- html_text(categories)
+```
+
+We can see that the positioning of the categories and text is not going to be easy to identify and grab. Instead, we might grab a larger portion of text and split it instead:
+
+```{r}
+#First, clean up by removing the objects we don't need
+#We can always re-run the lines above to re-create them
+rm(categories, catsastxt)
+rm(indents, indentsastxt)
+#Grab the larger div containing all our text
+textblocks <- html_nodes(intpage, '#mainTextBlock')
+textblocksastxt <- html_text(textblocks)
+#Now access any entry under 6. Land and property by using strsplit and an index:
+prop <- strsplit(textblocksastxt, "6. Land and property portfolio")[[1]][2]
+```
+
+The above is best stored in an R function/script that can then be used over and over again on each MP page. It also needs to handle the error of not finding a match to split on.

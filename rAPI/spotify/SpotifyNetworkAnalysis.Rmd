@@ -112,9 +112,9 @@ write.csv(relationshipids,"relationshipids.csv")
 We can adapt the process above to create a lookup table of all the ID codes too:
 
 ```{r}
-relateds <- spotifydata$relatedartists
-relatedids <- spotifydata$relatedartistsid
-relatedpops <- spotifydata$relatedartistspop
+relateds <- strsplit(spotifydata$relatedartists,",")
+relatedids <- strsplit(spotifydata$relatedartistsid,",")
+relatedpops <- strsplit(spotifydata$relatedartistspop,",")
 colid <- c()
 colname <- c()
 colpop <- c()
@@ -126,6 +126,9 @@ for (artist in 1:305){
    colpop <- c(colpop,relatedpops[[artist]][related])
  }
 }
+# Now to save as a data fram
+artistidlookup <- data.frame(colid,colname,colpop)
+write.csv(artistidlookup,"artistidlookup.csv")
 ```
 
 
