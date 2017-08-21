@@ -1,0 +1,248 @@
+---
+title: "using_charities_api"
+author: "Paul Bradshaw"
+date: "8/12/2017"
+output: html_document
+---
+
+# Using the Charity Data API in R
+
+The [Charity Data API](https://olib.uk/charity/html/api/) was built by Oliver Benson as an easy way of interrogating data from the Charity Commission Register of Charities. 
+
+## Grabbing the areas of operation
+
+We want to query the data based on charities' 'area of operation'. In order to do that we first need to grab a list of those areas, which we can do like so:
+
+```{r}
+library(jsonlite)
+install.packages("curl")
+areas <- fromJSON("https://olib.uk/charity/json/lookups/areasofoperation/")
+#The JSON has two main branches - "areasofoperation" and "boilerplate" - so we need to drill down a bit further into it:
+areas2 <- areas["areasofoperation"][[1]]
+```
+
+Now we have a list of 440 items, but each of *those* items is also a list, of 3 properties: the code, the name ("value"), and something called "sortorder".
+
+Searching 'R list to data frame' brings up [this result from Stackoverflow](https://stackoverflow.com/questions/4227223/r-list-to-data-frame) which includes a suggestion for using the `ldply` function from the `plyr` package. So we install that and use it convert the object:
+
+```{r}
+install.packages("plyr")
+library (plyr)
+areadf <- ldply (areas2, data.frame)
+#export as a CSV so we can refer if needed
+write.csv(areadf,'charityareas.csv')
+```
+
+Now we have all the codes and the areas they refer to, in one data frame. 
+
+## Filtering to codes in UK regions
+
+Now we want to grab charities which operate in UK regions. These always begin with B (authorities) or C (regions). We could grab these as a subset, or just to generate the list if we know that it runs from B-1 to B-76:
+
+```{r}
+#First create an empty vector
+bcodes <- c()
+#Then loop from 1 to 76, using 'paste' to add that number to "B-", with no gap between, and then add that to the vector bcodes
+for (i in 1:76) {bcodes <- c(bcodes, paste("B-",i,sep=""))}
+```
+
+But actually it *doesn't* run from 1 to 76 - it actually then jumps to 101, and on, so generating a sequential list isn't going to work. 
+
+Now, we could extract the list from the CSV file quite easily by filtering on anything that begins with B, but let's use R instead.
+
+First, we need to grab the codes column and put it in a new variable - this is now a vector:
+
+```{r}
+codesonly <- areadf$.id
+```
+
+Now to find out where the B codes are. As always there are [various ways of doing this](https://stackoverflow.com/questions/39185825/filter-character-vector-based-on-first-two-elements), but let's use `grep`: this looks for a particular pattern in an object. In the code below, it's going to return the *index position* of any object in the vector which contains that pattern:
+
+```{r}
+#Next, create a list of the positions for all the B codes. 
+bcodepositions <- grep("B-", codesonly)
+```
+
+The result is something like `5 6 7 8 9`... and so on. This means that the codes in that vector at position 5, 6, 7, 8, 9 and so on all have "B-" in them, which matches with what you can see in the data frame or vector. 
+
+We can now use those positions to extract those codes into a new vector:
+
+```{r}
+bcodes <- codesonly[bcodepositions]
+```
+
+In fact, instead of storing the positions separately, we could just *combine* both stages into one, like so:
+
+```{r}
+bcodes <- codesonly[grep("B-", codesonly)]
+```
+
+### Adding the regional 'C' codes
+
+There are also larger regions included here beginning with "C-". We can grab those the same way:
+
+```{r}
+ccodes <- codesonly[grep("C-", codesonly)]
+```
+
+And we can combine the two like so:
+
+```{r}
+ukregioncodes <- c(bcodes,ccodes)
+```
+
+
+## Grabbing data on charities operating in those regions
+
+Searching the CharityData API involves forming an API like so:
+
+`https://olib.uk/charity/json/search/?areasofoperation=B-1`
+
+The last part of the URL after `search/?` can be any of the parameters [listed on the documentation page](https://olib.uk/charity/html/api/). 
+
+We can add further parameters - separated by ampersands - to filter further, specify what information is shown, and change how it is ordered. For example:
+
+`https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration`
+
+Now, by adding `&ordering=%21dateofregistration`, we have specified we want to order by the date of registration. The only clue to that is the registration number - but we can specify that we want to show the date of registration by adding `&show=dateofregistration` to the URL:
+
+`https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration`
+
+We can specify more than one field by adding a comma and the name. Here, we've added `,classes` so we can see what types of work each charity does too:
+
+`https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration,classes`
+
+And let's add `,income` too:
+
+`https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration,classes,income`
+
+A final parameter to add is how many results per page we want. The default for this is 20 results per page, but by using `resultsperpage` we can change this to the maximum: `resultsperpage=50`. Here is the URL with that added at the end:
+
+`https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration,classes,income&resultsperpage=50`
+
+We want to look for charities operating in each area, so we need to generate a list of URLs like the one above - but for each of the 181 region codes we've already grabbed. 
+
+We can do this by using another `for` loop to go through those codes and insert them into that URL where the code needs to go:
+
+```{r}
+#create empty vector to hold the URLs
+regionurls <- c()
+#create a loop which runs from 1 to the length of ukregioncodes (181)
+for (i in 1:length(ukregioncodes)){
+  regionurls <- c(
+    regionurls,paste(
+      "https://olib.uk/charity/json/search/?areasofoperation=",ukregioncodes[i],"&ordering=%21dateofregistration&show=dateofregistration,classes,income&resultsperpage=50",sep=""
+      )
+    )
+}
+```
+
+## Test one region
+
+Now we have a list of all the URLs to grab data on charities in each region. Before looping through those we need to test how to grab data from one of them - in particular, we need to look at how to drill down past the first page of results.
+
+```{r}
+#store a URL to test
+testurl <- "https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration,classes,income&resultsperpage=50"
+#pull data from that URL, in JSON
+b64charities <- fromJSON(testurl)
+```
+
+As before, this JSON actually has 5 branches: 'queryString' contains information about the query; 'errors' shows any errors; and 'searchResults' contains the actual information we need. The other branches are 'meta' (which includes the page number and results); and 'boilerplate' (date, licence, etc.)
+
+To drill down into the search results we need to specify that path, as before. And then we can use `ldply` again to convert that into a data frame:
+
+```{r}
+#drill down into 'searchResults' path:
+b64results <- b64charities["searchResults"][[1]]
+#Convert into data frame
+b64df <- ldply (b64results, data.frame)
+```
+
+To find out how many results there are - and so how many pages we need to grab - we can drill down into the 'meta' branch like so:
+
+```{r}
+b64charities["meta"][[1]]["totalResults"]
+```
+
+Note that the API has a limit on the total results that can be shown:
+
+```{r}
+b64charities["meta"][[1]]["maxResults"]
+```
+
+With 50 results per page, that means we can only grab 5 pages before we hit that maximum.
+
+To grab the *next* 50 results, we can add `&pagenumber=` to the URL, like so: 
+
+`https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration,classes&resultsperpage=50&pagenumber=2`
+
+Note that any page number after 5 (if showing 50 results per page) will provide the same results as page 5 (look for `"startingFrom"` in the JSON - it will always be `201`), because of that maximum limit of 250 results.
+
+Even adding parameters that specify a date of operation or regno less than a particular value does not seem to change this: `https://olib.uk/charity/json/search/?areasofoperation=B-64&dateOfRegistration%3C2012-08-23&ordering=%21dateofregistration&show=dateofregistration,classes&resultsperpage=50&pagenumber=4`
+
+So we now need to create a loop to collect all 250 results for a particular area:
+
+```{r}
+#Create an empty vector
+b64urls5 <- c()
+#Loop through numbers 1 to 5, add to the end of the URL and add URL to list
+for (i in 1:5){
+  b64urls5 <- c(b64urls5, paste("https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration,classes,income&resultsperpage=50&pagenumber=",i,sep=""))
+}
+```
+
+And test one of those URLs:
+
+```{r}
+b64urls5[2]
+```
+Then extract the JSON, drill down into it and convert into a data frame as before:
+
+```{r}
+b64charities2 <- fromJSON(b64urls5[2])
+b64results2 <- b64charities2["searchResults"][[1]]
+#Convert into data frame
+b64df2 <- ldply (b64results2, data.frame)
+```
+
+We can merge the two sets of 50 results using `rbind` (rows bind) like so:
+
+```{r}
+b64charitiesall <- rbind(b64df,b64df2)
+```
+
+
+Because we're going to have to do this multiple times, it's best to store the steps in some sort of function. This will need to do the following:
+
+* Take a URL
+* Extract the JSON
+* Extract the branch at ["searchResults"][[1]]
+* Convert into a dataframe
+* Bind that dataframe to the rest of the data from that code
+
+```{r}
+grabcharitydata <- function(jsonurl){
+ fulljson <- fromJSON(jsonurl)
+ resultsbranch <- fulljson["searchResults"][[1]]
+ #Convert into data frame
+ resultsbranch.as.df <- ldply (resultsbranch, data.frame)
+ #return that data frame to whatever called the function
+ return(resultsbranch.as.df)
+}
+```
+
+Now let's run that function on all 5 URLs in the list:
+
+```{r}
+#First, let's create a data frame using the column names we've already grabbed, but with none of the data rows
+charitiesdf <- b64charitiesall[0,]
+for (i in 1:5){
+  grabbeddataframe <- grabcharitydata(b64urls5[i])
+  rbind(charitiesdf,grabbeddataframe)
+}
+```
+
+
+
+
