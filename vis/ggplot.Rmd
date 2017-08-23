@@ -1,0 +1,61 @@
+---
+title: "Ggplot2"
+output: html_document
+---
+
+# Using ggplot2 to visualise data
+
+```{r}
+#Install packages and set defaults
+options(scipen=999)  # turn off scientific notation like 1e+06
+install.packages("ggplot2")
+library(ggplot2)
+data("midwest", package = "ggplot2")  # load the data
+ggplot(midwest, aes(x=area, y=poptotal))  # area and poptotal are columns in 'midwest'
+```
+
+Let's try the same approach with some real data:
+
+```{r}
+schooldata <- read.csv("schooldata.csv")
+ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....))
+```
+
+Now to add the points with `geom_point()`:
+
+```{r}
+ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + geom_point(col="orange", size=0.5) 
+#geom_point has various options that can be customised
+?geom_point
+```
+
+...and a trend line - or 'line of best fit':
+
+```{r}
+#this time the results are stored in g - a ggplot object...
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + geom_point() + geom_smooth(method="lm", col="yellow")
+#only now is the ggplot object plotted:
+plot(g)
+#while we're at it, show the Help file for geom_smooth
+?geom_smooth
+```
+
+```{r}
+#Zoom in on particular coordinates
+g1 <- g + coord_cartesian(xlim=c(10,50), ylim=c(0,50))  # zooms in
+plot(g1)
+```
+
+Now to add some label text:
+
+```{r}
+g1 + labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies")
+```
+
+And customise the points to colour based on category:
+
+```{r}
+#this time the results are stored in g - a ggplot object...
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + geom_point(aes(col=type)) + geom_smooth(method="lm", col="yellow") + labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies")
+plot(g)
+```
