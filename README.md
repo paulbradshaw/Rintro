@@ -8,6 +8,7 @@ This repo contains a bunch of guides and resources to help get started with R, o
 
 * [10 things to do first in R](https://github.com/paulbradshaw/Rintro/blob/master/10thingstodofirst.md) explains some key processes to get started with R. By the end you should be able to import data, analyse it, and save it as a new file on your computer.
 * [10 things to do next in R](https://github.com/paulbradshaw/Rintro/blob/master/10morethings.md) introduces **packages** in R: libraries of commands for particular problems. It also covers combining datasets, and importing and cleaning sheets from Excel workbooks.
+* [10 Excel things in R](https://github.com/paulbradshaw/Rintro/blob/master/10excelthings.md) explains how you can reproduce pivot tables in R, and why you might want to. 
 * After that you might want to get your head around how R works more generally. [This page explains different types of 'objects' in R](https://github.com/paulbradshaw/Rintro/blob/master/Robjects.md), from vectors (a type of list) and data frames (tables) to R's names for strings of characters, numbers and TRUE/FALSE values.
 * Once you're working on projects and need to think about collaboration, saving code and other aspects of project management, [read this page on R project files, R scripts, and notebooks in R markdown](https://github.com/paulbradshaw/Rintro/blob/master/rprojects.md)
 
@@ -20,6 +21,7 @@ In addition there are lots and lots of resources to help you get to grips with R
 * **.Rddj** is a list of [resources specifically for data journalism with R](http://rddj.info/)
 * This [video outlines how data journalism outfit FiveThirtyEight use R](http://blog.revolutionanalytics.com/2016/07/data-journalism-with-r-at-538.html)
 * The New York Times' [**Amanda Cox** talks about how they use R in this excellent Data Stories podcast](http://datastori.es/ds-56-amanda-cox-nyt/)
+* **Marie-Louise Timcke**, a data trainee at Berliner Morgenpost’s Interactive Team, [wrote about "A typical ddj workflow in R" in the team](http://journocode.com/2017/08/16/datajournalism-workflow-ddj-r-rstats-rstudio-dplyr-ggplot2-tidyr/)
 * Rob Grant from Trinity Mirror's data unit has created [R for Journalists](http://rforjournalists.com/)
 
 Once you understand the basics, however, remember that the best way to learn R is to pick a project, work out what you'll need to do to complete it - and then search online for those techniques in R. Sites like [R-Bloggers](https://www.r-bloggers.com/) have lots of posts explaining different techniques to solve different problems.
