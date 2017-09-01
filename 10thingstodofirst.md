@@ -18,13 +18,13 @@ Once you've created a new project R will create a new file in that folder ending
 
 ## 3. Import and store data
 
-Like most programming languages, R allows you to import and store data in 'objects' called **variables**. 
+Like most programming languages, R allows you to import and store data in 'objects' called **variables**.
 
 *Note: you cannot use an underscore in R, which instead tends to use a dot to separate words in variables. You should also avoid using one-letter functions as these already have special meanings in R: c, q, s, t, C, D, F, I, and T.*
 
 The easiest way to import data is to put it in the same folder as your project. This way you don't have to describe a path to data somewhere else.
 
-If you've created a project in R Studio, and got it open, in the *console* on the left you should see a `>` and a flashing cursor. 
+If you've created a project in R Studio, and got it open, in the *console* on the left you should see a `>` and a flashing cursor.
 
 To import data into a variable, type something like this:
 
@@ -34,9 +34,13 @@ The bit that says `'yourdata.csv'` should obviously be the name of your file: no
 
 The bit that says `yourvariable` is just a name that you choose. It can be almost anything, but choose something meaningful.
 
-The bit that says `read.csv` is a **function**. Functions are basically recipes: the `read.csv` function is a recipe for reading CSV files. If you wanted to read other formats you can use other functions but I'll come onto that below. 
+The bit that says `read.csv` is a **function**. Functions are basically recipes: the `read.csv` function is a recipe for reading CSV files. If you wanted to read other formats you can use other functions but I'll come onto that below.
 
 The `<-` bit is taking the result of reading that CSV and putting it into your variable. You can actually just use `=` if you're used to that from other languages, but `<-` has a certain appeal.
+
+You can add extra parameters when you import. One important one is `stringsAsFactors=FALSE`. This prevents numeric columns containing non-numeric values (like #N/A) being treated as 'factors' when you want them to be treated as numbers. Add it with a comma inside the parentheses like so:
+
+`yourvariable <- read.csv('yourdata.csv', stringsAsFactors=FALSE)`
 
 If you don't know where the file is you can use:
 
@@ -74,11 +78,11 @@ If you just want to know what's biggest, smallest, average, most common, most la
 
 ## 5. Join data
 
-Quite often you need to join two datasets that have a column in common. 
+Quite often you need to join two datasets that have a column in common.
 
 For example, imagine one dataset has crimes in each area, and another has the population in each area. You need to combine the two datasets in order to calculate a crimes per person. The two datasets have a column in common: the name of the area.
 
-To join these you first need to import each of them (as described earlier) into a variable in R. Let's say you call one *crimes* and the other *populations*. 
+To join these you first need to import each of them (as described earlier) into a variable in R. Let's say you call one *crimes* and the other *populations*.
 
 You can now merge those using the `merge` function like so:
 
@@ -96,7 +100,7 @@ You can add extra parameters to the `merge` function: `by=` will specify the fie
 
 In addition to `merge` you can also combine rows or columns by using the `rbind` (rows) and `cbind` (columns) functions:
 
-* `rbind` will bind extra *rows*, so the data frames (or matrices or vectors) need to have the same *names of columns* (although they don't need to be in the same order). 
+* `rbind` will bind extra *rows*, so the data frames (or matrices or vectors) need to have the same *names of columns* (although they don't need to be in the same order).
 * `cbind` will add extra *columns*, so the data frames (or matrices or vectors) need to have the same *number of rows*. And of course the order should be the same too (in other words the first row in one dataset must correspond to the first row in another).
 
 Both functions are used with the objects to be combined in parentheses afterwards like so:
@@ -107,7 +111,7 @@ Both functions are used with the objects to be combined in parentheses afterward
 
 ## 6. Import different types of data
 
-If you need to deal with data in formats other than CSV, R should be able to import it. 
+If you need to deal with data in formats other than CSV, R should be able to import it.
 
 Data from the statistical software SPSS, for example, can be imported using `read.SPSS` like so:
 
@@ -121,7 +125,7 @@ A `read.table` function then might look like this:
 
 `newdata <- read.table("mylovelydata.csv", "TRUE", ",")`
 
-In those brackets are 3 ingredients: the name of the file, then after a comma, either `"TRUE"` (if it has headers) or `"FALSE"` (if it does not), then after another comma the delimiter in quotation marks: `","` means that the delimited is a comma. 
+In those brackets are 3 ingredients: the name of the file, then after a comma, either `"TRUE"` (if it has headers) or `"FALSE"` (if it does not), then after another comma the delimiter in quotation marks: `","` means that the delimited is a comma.
 
 Other useful commands include `read.delim` (to import delimited data formats) and `read.fwf` (to import fixed width formats)
 
@@ -139,7 +143,7 @@ The `subset` function can also be used to create a filtered version of your data
 
 `2014crimes <- subset(crimes, crimes$year == 2014)`
 
-The `subset` function needs 2 ingredients: the name of the variable with your data, and after a comma, the criteria. 
+The `subset` function needs 2 ingredients: the name of the variable with your data, and after a comma, the criteria.
 
 Normally the criteria needs to specify a column within that data using the dollar sign. So `crimes$year == 2014` means the year column in the crimes dataset, and `==` means 'is the same as' whatever comes after it (2014 in this case). Note that we use two equals signs in programming to say 'is equal to'; one equals sign on its own is normally used to create a variable.
 
@@ -191,7 +195,7 @@ Adding more ingredients allows you to control more about a chart. This example a
 
 `barplot(height = donations$amount, xlab = 'Amount')`
 
-You can also add a y axis label, a legend, title, and limits to each axis, among other things. To find out how you need to read the **documentation** for the particular function. 
+You can also add a y axis label, a legend, title, and limits to each axis, among other things. To find out how you need to read the **documentation** for the particular function.
 
 The image is normally shown in the bottom right corner of RStudio, in the tab 'plots'. If you want to save an image you can click 'Export' above the image to save it as an image or PDF.
 

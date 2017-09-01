@@ -24,9 +24,35 @@ To do other types of pivot tables you need to use the `tapply` function. This ap
 
 What this does is apply the `sum` function to the values in `mydata$numbers`. But sandwiched in between those two is the column you want to aggregate those sums by: `mydata$category`: the results should be the sums for each category.
 
-Sometimes you will get an error if you specify a non-numeric column. Even if it looks like numbers, R may be seeing it as something else. To correct this, put the column inside `as.numeric` like so:
+### Troubleshooting: when numbers aren't numbers
 
-`tapply(as.numeric(mydata$numbers), mydata$category, sum)`
+Sometimes you will get an error if you specify a non-numeric column. Even if it looks like numbers, R may be seeing it as something else (for example if it also contains text values like #NA or No entry). To test this, put the column inside `is.numeric()` like so:
+
+`is.numeric(mydata$numbers)`
+
+If it is numeric you should get `TRUE`. If it is not numeric (`FALSE`), try generating a summary of the column like so:
+
+`summary(mydata$numbers)`
+
+This will treat each value as a character object, and give you a count of each value - if it was numeric then you would instead get quartiles, mean and median.
+
+Note that `as.numeric()` will not directly convert those values to equivalent numbers. Instead they will be converted into ordinal numbers: `1` for the first unique value, `2` for the second, and so on.
+
+[One solution](https://stackoverflow.com/questions/4931545/converting-string-to-numeric) is this: put the column name in the parentheses of `levels()`, and then put the whole thing in `as.numeric()`, *and* then put the column name *again* in square brackets after that expression. Here's each step in turn:
+
+1. `levels(mydata$numbers)`
+2. `as.numeric(levels(mydata$numbers))`
+3. `as.numeric(levels(mydata$numbers))[mydata$numbers]`
+
+This can then be stored in a new variable, or re-stored in the same column like so:
+
+`mydata$numbers <- as.numeric(levels(mydata$numbers))[mydata$numbers]`
+
+An alternative solution is to import the data again with the setting `stringsAsFactors=FALSE`. If the data was created within R you would first have to export it using an expression like `write.csv(mydata, "mydata.csv")`
+
+You would then import it using an expression like `read.csv("mydata.csv", stringsAsFactors=FALSE)`
+
+Then use `is.numeric()` to test the column that was wrongly interpreted as a factor (text) before.  
 
 ## Create a pivot that calculates averages
 
@@ -80,6 +106,32 @@ You can even show the **range** of numbers (lowest and highest) for each categor
 `tapply(mydata$numbers, mydata$category, range)`
 
 Because this produces two sets of numbers, it cannot be easily exported as a CSV. Some conversion is needed first.
+
+## Access columns, rows, and cells
+
+Cells are accessed in Excel using cell references like `A1` and `C4`: the letter identifies the column and the number the row. Cell ranges can be specified using a colon between the first and last cell like so: `A1:C4`
+
+Rows and columns can be identified this way, too, though, e.g. `A:A` will select the whole of column `A`, and `2:2` will select the whole of the second column.
+
+Cells can be accessed in a similar way in R by using square brackets, only this time letters aren't used at all - just one number for the row, and another number for the column, separated by commas. For example, if you want to access the first cell (the equivalent of A1) in a data frame called `mydata` you would do it like this:
+
+`mydata[1,1]`
+
+To access the equivalent of C4 (the third column, and fourth row) you would use:
+
+`mydata[4,3]`
+
+Note that the ordering is the reverse of Excel: row, then column.
+
+To access a whole row or column, just omit the other number - but retain the comma. For example to grab the first row you would use:
+
+`mydata[1,]`
+
+And to access the first column you would use:
+
+`mydata[,1]`
+
+
 
 ## Try some more advanced exercises
 
