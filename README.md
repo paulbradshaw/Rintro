@@ -8,8 +8,9 @@ This repo contains a bunch of guides and resources to help get started with R, o
 
 * [10 things to do first in R](https://github.com/paulbradshaw/Rintro/blob/master/10thingstodofirst.md) explains some key processes to get started with R. By the end you should be able to import data, analyse it, and save it as a new file on your computer.
 * [10 things to do next in R](https://github.com/paulbradshaw/Rintro/blob/master/10morethings.md) introduces **packages** in R: libraries of commands for particular problems. It also covers combining datasets, and importing and cleaning sheets from Excel workbooks.
-* [10 Excel things in R](https://github.com/paulbradshaw/Rintro/blob/master/10excelthings.md) explains how you can reproduce pivot tables in R, and why you might want to. 
 * After that you might want to get your head around how R works more generally. [This page explains different types of 'objects' in R](https://github.com/paulbradshaw/Rintro/blob/master/Robjects.md), from vectors (a type of list) and data frames (tables) to R's names for strings of characters, numbers and TRUE/FALSE values.
+* [10 pretty pictures to make in R](https://github.com/paulbradshaw/Rintro/blob/master/10prettythings.md) introduces some of the charting/visualisation capabilities of R.
+* [10 Excel things in R](https://github.com/paulbradshaw/Rintro/blob/master/10excelthings.md) explains how you can reproduce pivot tables in R, and why you might want to, as well as other techniques like accessing cells and reproducing COUNTIF.
 * Once you're working on projects and need to think about collaboration, saving code and other aspects of project management, [read this page on R project files, R scripts, and notebooks in R markdown](https://github.com/paulbradshaw/Rintro/blob/master/rprojects.md)
 
 In addition there are lots and lots of resources to help you get to grips with R. If you want a general tutorial on using R, try some of the following:
