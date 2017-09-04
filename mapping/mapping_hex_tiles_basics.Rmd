@@ -78,6 +78,17 @@ Now we have a merged file (variable) we can plot that. The first argument is the
 plot(n, col = n$color, lwd = 1, main = "This is the map heading", sub = "Black = some random colour\nPink = another random colour")
 ```
 
+## Export as image
+
+If you want to use that image, you need to create a PNG 'device' using `png()`, then generate the `plot()`, and then turn it off with `dev.off()`. 
+
+```{r}
+png(filename="map.png")
+plot(n, col = n$color, lwd = 1, main = "This is the map heading", sub = "Black = some random colour\nPink = another random colour")
+dev.off()
+```
+
+
 ## More on hex maps
 
 RPubs maintains a [page on tilegrams in R](http://rpubs.com/bhaskarvk/tilegramsR)
