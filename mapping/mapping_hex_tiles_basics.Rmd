@@ -21,7 +21,9 @@ If your dataset doesn't use these, you'll need to find one that does, and match 
 
 You will also need a column full of hexadecimal codes, which will be used to colour each tile in the final map.
 
-Again, chances are you'll need to generate those somehow. For example, by choosing 3-5 colours to represent different 'buckets' of values (lowest quartile, highest quartile, and so on) and assigning them using a formula like `IF`
+Again, chances are you'll need to generate those somehow. For example, by choosing 3-5 colours to represent different 'buckets' of values (lowest quartile, highest quartile, and so on) and assigning them using a formula like `IF`. Here's an example formula which uses two `IF` functions (one nested in another) to test if a value is below 33, above 66, or neither (i.e. between 33 and 66):
+
+`=IF(C5<33,"#FF0000",IF(C5>66,"#00FF00","#0000FF"))`
 
 For the sake of convenience I've created a dataset that you can map straight away. It's called 'tomap.csv' and it's in the same folder as this tutorial.
 
@@ -75,7 +77,7 @@ Now we have a merged file (variable) we can plot that. The first argument is the
 
 ```{r}
 #the variable is called n and the column is m$color
-plot(n, col = n$color, lwd = 1, main = "This is the map heading", sub = "Black = some random colour\nPink = another random colour")
+plot(n, col = n$color, lwd = 0.5, main = "This is the map heading", sub = "Red = some random colour\nGreen = another random colour")
 ```
 
 ## Export as image
@@ -84,7 +86,7 @@ If you want to use that image, you need to create a PNG 'device' using `png()`, 
 
 ```{r}
 png(filename="map.png")
-plot(n, col = n$color, lwd = 1, main = "This is the map heading", sub = "Black = some random colour\nPink = another random colour")
+plot(n, col = n$color, lwd = 0.5, main = "This is the map heading", sub = "Red = some random colour\nGreen = another random colour")
 dev.off()
 ```
 
