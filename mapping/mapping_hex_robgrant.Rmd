@@ -1,0 +1,200 @@
+---
+title: "Mapping migration with hex tiles"
+output: html_notebook
+---
+
+# Mapping migration with hex tiles
+
+*This is based on [Rob Grant's tutorial](http://rforjournalists.com/2017/07/20/internal-migration-part-i-hexagonal-maps-of-movement-of-people/)*
+
+## Grab the data and combine
+
+We've manually downloaded [two zip files](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/migrationwithintheuk/datasets/internalmigrationbyoriginanddestinationlocalauthoritiessexandsingleyearofagedetailedestimatesdataset), unzipped them, and moved the CSV files into the same directory. Those steps could equally be done in R. But that takes us to Rob's first piece of code: 
+
+```{r}
+pt1 <- read.csv("Detailed_Estimates_2016_Dataset_1.csv")
+pt2 <- read.csv("Detailed_Estimates_2016_Dataset_2.csv")
+#join two together
+
+data <- rbind(pt1, pt2)
+```
+
+Now to get the overview of the data with `str`:
+
+```{r}
+str(data)
+```
+
+Now to install and activate the `dplyr` package:
+
+```{r}
+install.packages("dplyr")
+library(dplyr)
+```
+
+## Create new aggregate data
+
+With that library available, we can use some functions as outlined by Rob:
+
+```{r}
+first <- data %>%
+group_by(OutLA, InLA) %>%
+summarise (sum = sum(Moves))
+
+LA_totals_in <- data %>%
+group_by(InLA) %>%
+summarise (sum = sum(Moves))
+
+LA_totals_out <- data %>%
+group_by(OutLA) %>%
+summarise (sum = sum(Moves))
+```
+
+The `%>%` operator may be unfamiliar. This is an operator that `dplyr` borrowed from anoher package, `magrittr`, and [is explained here](https://stackoverflow.com/questions/23621209/differences-between-dplyr-and-magrittr). It is used "to pass the left hand side as an argument of the function on the right hand side"
+
+Put another way, where the `<-` operator passes from right to left, `%>%` passes information in the other direction, from left to right. For more on dplyr [see this Data School introduction](http://www.dataschool.io/dplyr-tutorial-for-faster-data-manipulation-in-r/)
+
+Let's continue to creating some totals of net migration by subtracting the in and out numbers:
+
+```{r}
+LA_totals <- merge(LA_totals_in, LA_totals_out, by.x = "InLA", by.y = "OutLA")
+ #calculate net figure
+LA_totals$net <- LA_totals$sum.x - LA_totals$sum.y
+```
+
+## Import mapping libraries
+
+Next Rob imports some mapping libraries. He doesn't install the packages first, but you'll probably need to:
+
+```{r}
+install.packages("rgdal")
+library(rgdal)
+#sp is a dependency of rgdal so doesn't need installing
+library(sp)
+install.packages("rgeos")
+library(rgeos)
+```
+
+He also mentions a [link to a hexagonal map of local authorities](https://www.arcgis.com/home/item.html?id=593037bc399e460bb7c6c631ceff67b4). Hugely useful.
+
+Download this, unzip, and put the files in the same place as this project. This code will throw an error if you are missing the .dbf, .shp or .shx files.
+
+```{r}
+#These two lines are missing from the first tutorial but can be found in the code in the second
+hex <- readOGR(".","GB_Hex_Cartogram_LAs")
+#This is adapted from the link in the example, but there is no shapefile function, so I've added two lines installing the raster package which includes that function
+install.packages("raster")
+library(raster)
+p <- shapefile("GB_Hex_Cartogram_LAs.shp")
+
+#Fill a new column with NA values - will be changed below.
+LA_totals$color <- NA
+```
+
+Create a function to allocate colours:
+
+```{r}
+color <- function (a, b) {   
+
+  if (a >= 0) {    
+  b = "#0000FF" 
+  } else {    
+  b = "#ff8000" 
+  }
+
+}
+```
+
+Rob writes: "An apply function (there are several, this one is mapply) takes a formula and applies it to several different values." And that's what happens next:
+
+```{r}
+#Note that a and b are used by the function above
+LA_totals$color <- mapply(FUN = color, a = LA_totals$net, b = LA_totals$color)
+```
+
+The color column is overwritten with colour codes based on the figure in the net column.
+
+Now we try to visualise this. It throws an error initially because the hexadecimal code in the function above is mistyped as `ff80000` (one too many zeroes). But when corrected, it works.
+
+```{r}
+m <- merge(hex, LA_totals, by.x = "LAD12CD", by.y = "InLA")
+plot(m, col = m$color, lwd = 0.5, main = "Internal migration in England and Wales, year to June 2016", sub = "Blue = net gain\nOrange = net loss")
+```
+
+## Trying the second map
+
+Let's see if we have any more luck with the second tutorial. First calculating the moves from particular authorities:
+
+```{r}
+OutIn <- data.frame(paste(first$OutLA, first$InLA),first$sum)
+InOut <- data.frame(paste(first$InLA, first$OutLA),first$sum)
+
+#rename columns
+colnames(OutIn) <- c("pair","sum")
+colnames(InOut) <- c("pair","sum")
+```
+
+Merging columns:
+
+```{r}
+net <- merge(OutIn, InOut, by = "pair", all = TRUE)
+```
+
+Converting NA to zeroes:
+
+```{r}
+#create a function
+na.zero <- function (x) {
+ x[is.na(x)] <- 0
+ return(x)
+}
+
+#apply that function
+net$sum.x <- mapply(FUN = na.zero, x = net$sum.x)
+net$sum.y <- mapply(FUN = na.zero, x = net$sum.y)
+
+#Create a net value
+net$net <- net$sum.y - net$sum.x
+net$net <- mapply(FUN = na.zero, x = net$net)
+```
+
+Install and activate more packages to split columns again:
+
+```{r}
+library(dplyr)
+install.packages("tidyr")
+library(tidyr)
+
+from_to <- net %>% 
+#separate using the space (sep) 
+separate(pair, into = c("from", "to"), sep = " ")
+```
+
+And create columns again for colours:
+
+```{r}
+#note we are reversing the colours
+color <- function (a, b) {
+ 
+ if (a >= 0) {
+ b = "#ff8000"
+ } else {
+ b = "#0000FF"
+ }
+}
+
+manchesterIn <- from_to[from_to$to == "E08000003", ]
+manchesterIn$color <- NA
+manchesterIn$color <- mapply(FUN = color, a = manchesterIn$net, b = manchesterIn$color)
+
+```
+
+And now to plot it as a map:
+
+```{r}
+manchesterIn[350,] <- c("E08000003","E08000003", 0,0,0,"#7f0000")
+b <- merge(hex, manchesterIn, by.x = "LAD12CD", by.y = "from")
+plot(b,  col = b$color, lwd = 1, main = "Internal migration to and from Manchester, year to June 2016",
+sub = "Blue = net gain\nOrange = net loss\nRed = Manchester")
+```
+
