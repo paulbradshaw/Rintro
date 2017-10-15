@@ -37,6 +37,6 @@ summary(electionsurvey15$generalElectionVote)
 We can put those in a new table that might be more easily examined in Excel:
 
 ```{r}
-
+simplifiedtable <- electionsurvey15[c(5,113)]
 ```
 
