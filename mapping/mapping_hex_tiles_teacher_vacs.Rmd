@@ -1,0 +1,91 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Teacher vacancies: mapping hex tiles in R
+
+This notebook takes [a tutorial by Rob Grant on mapping migration](http://rforjournalists.com/2017/08/09/internal-migration-part-ii-homing-in-on-individual-authorities/), and applies it to some teacher vacancy data from a BBC story.
+
+## Compile your dataset
+
+Let's grab the data
+
+```{r}
+#Using readr as it's supposed to be better
+install.packages("readr")
+library(readr)
+teachervacs <- read_csv("https://raw.githubusercontent.com/BBC-Data-Unit/teacher-vacancies-deprivation/master/teacher_vacancies_by_LA_primaryLACODE.csv")
+summary(teachervacs)
+```
+
+Now create a new column with the hexadecimal codes
+
+```{r}
+teachervacs$hexcode <- ifelse(teachervacs$`Average of Full-Time Posts Vacant (%)`<0.8,"#00ff00","#ff0000")
+```
+
+## Grab the shapefile for the hexagonal tiles
+
+Any map involving shapes requires a 'shapefile': this is a set of data describing the coordinates of different shapes (countries, regions, administrative areas, etc.). In the case of hex tiles, those can be found in the [hexagonal map of local authorities](https://www.arcgis.com/home/item.html?id=593037bc399e460bb7c6c631ceff67b4) that Rob links to.
+
+Download that zip file, unzip it, and then move all the files into the same location as this file. Now you need to get them into R - and for that we'll need some packages.
+
+
+## Import mapping libraries
+
+Here are the 3 libraries:
+
+```{r}
+install.packages("rgdal")
+library(rgdal)
+#sp is a dependency of rgdal so doesn't need installing
+library(sp)
+install.packages("rgeos")
+library(rgeos)
+```
+
+To get that shape file into R we use the `readOGR` function, which is [from the `rgdal` library](https://www.rdocumentation.org/packages/rgdal/versions/1.2-8/topics/readOGR).
+
+```{r}
+#Use the name of the files without the file extension
+hex <- readOGR(".","GB_Hex_Cartogram_LAs")
+```
+
+
+## Merge the shape file and the data frame
+
+Now the two files are merged with `merge`. In the shape file data the authority is in a column called `LAD12CD` - we can replace `InLA` with the name of whatever our authority code column is.
+
+```{r}
+#duplicateGeoms = TRUE is used because there is an error thrown otherwise
+vacmap <- merge(hex, teachervacs, by.x = "LAD12CD", by.y = "new_la_code", duplicateGeoms = TRUE)
+```
+
+## Plot the resulting merged file
+
+Now we have a merged file (variable) we can plot that. The first argument is the name of that variable. The colour is specified with the argument `col =` followed by the colour column. Title and caption can be added with `main =` and `sub =`. The `lwd` parameter specifies the thickness of the borders.
+
+```{r}
+#the variable is called n and the column is m$color
+plot(vacmap, col = vacmap$hexcode, lwd = 0.5, main = "This is the map heading", sub = "Red = some random colour\nGreen = another random colour")
+```
+
+## Export as image
+
+If you want to use that image, you need to create a PNG 'device' using `png()`, then generate the `plot()`, and then turn it off with `dev.off()`.
+
+```{r}
+png(filename="map.png")
+plot(n, col = n$color, lwd = 0.5, main = "This is the map heading", sub = "Red = some random colour\nGreen = another random colour")
+dev.off()
+```
+
+
+## More on hex maps
+
+RPubs maintains a [page on tilegrams in R](http://rpubs.com/bhaskarvk/tilegramsR)
+
+ODILeeds has a [tool for creating HexJSON](https://odileeds.org/projects/hexmaps/constituencies.html)
+
+Tony Hirst has written about creating a [HexJSON HTMLWidget for R, starting here](https://blog.ouseful.info/2017/06/28/hexjson-htmlwidget-for-r-part-1/), with two subsequent parts.

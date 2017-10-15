@@ -1,0 +1,42 @@
+---
+title: "Grabbing data by class, not area of operation"
+output: html_notebook
+---
+
+# Grabbing data by class, not area of operation
+
+A URL for searching by class looks like this:
+
+`https://olib.uk/charity/json/search/?classes=104&ordering=%21dateofregistration&pagenumber=8`
+
+Extra information can be added with the `show=` parameter like so:
+
+`https://olib.uk/charity/json/search/?classes=105&ordering=%21dateofregistration&pagenumber=9&show=dateOfRegistration,areasofoperation`
+
+Let's start grabbing some data from one URL:
+
+```{r}
+library(jsonlite)
+install.packages("curl")
+class105 <- fromJSON("https://olib.uk/charity/json/search/?classes=105&ordering=%21dateofregistration&show=dateOfRegistration,areasofoperation")
+#Drill down into the "searchResults" branch:
+class105 <- class105["searchResults"][[1]]
+#Convert to data frame
+install.packages("plyr")
+library (plyr)
+class105df <- ldply (class105, data.frame)
+```
+
+```{r}
+#We need to loop through 250 results - up to 13 pages - using &pagenumber=
+for (p in 2:13){ 
+  url <- paste("https://olib.uk/charity/json/search/?classes=105&ordering=%21dateofregistration&show=dateOfRegistration,areasofoperation&pagenumber=",p,sep="")
+  class105next <- fromJSON(url)
+  class105next <- class105next["searchResults"][[1]]
+  class105nextdf <- ldply (class105next, data.frame)
+  class105df <- rbind(class105df,class105nextdf)
+}
+summary(class105df)
+```
+
+

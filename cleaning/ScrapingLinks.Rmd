@@ -1,0 +1,83 @@
+---
+title: "Scraping links with R"
+output: html_notebook
+---
+
+# Scraping links with R
+
+We're going to grab some linked XLS files from this URL: 
+
+```{r}
+url1617 <- "https://www.england.nhs.uk/statistics/statistical-work-areas/dementia/dementia-assessment-and-referral-2016-17/"
+```
+
+The links look like this: `https://www.england.nhs.uk/statistics/wp-content/uploads/sites/2/2017/06/Dementia-Data-Collection-Q4-2016-17-CSV-36KB.csv`
+
+```{r}
+#Install rvest for scraping html pages
+install.packages("rvest")
+library(rvest)
+#put into variable ps from url1617...
+ps <- url1516 %>%
+  read_html() %>% #read the HTML 
+  html_nodes(xpath="//p/a/@href") %>% #grab all nodes in <p><a> and the href attributes
+  as.character() #store as a character string
+```
+
+Now we need to filter that list to just those with have a Q in the URL:
+
+```{r}
+#Create a data frame from the vector ps
+psdf <- data.frame(c(ps))
+#create a subset based on those with Q in
+psdfsubset <- subset(psdf,grepl("Q", psdf$c.ps.))
+#Further refine by grabbing those with csv
+psdfsubset <- subset(psdfsubset,grepl("csv",psdfsubset$c.ps.))
+#For XLS use: psdfsubset <- subset(psdfsubset,grepl("xls",psdfsubset$c.ps.))
+#The quarter always appears at position (106 in XLS)
+psdfsubset$quarter <- substr(psdfsubset$c.ps.,106,107)
+#Then the year
+psdfsubset$year <- substr(psdfsubset$c.ps.,109,115)
+#This part says REVISED if it is
+psdfsubset$lastbit <- substr(psdfsubset$c.ps.,117,123)
+#Remove the href=", the closing ", and any spaces using gsub
+psdfsubset$url <- gsub(" ","",gsub('"','',gsub('href="','',psdfsubset$c.ps.)))
+```
+
+Let's put all of that into a dedicated function, as we'll need to do it again for other pages. This time we'll rename a few things:
+
+```{r}
+scrapeQuarterlyCsvLinks <- function(url){
+  print("running scrapeQuarterlyCsvLinks")
+  #NOTE: you need to install the rvest package for this function to work
+  library(rvest)
+  links <- url %>%
+    read_html() %>% #read the HTML 
+    html_nodes(xpath="//p/a/@href") %>% #grab all nodes in <p><a> and the href attributes
+    as.character() #store as a character string
+  #Create a data frame from the vector ps
+  linksDataFrame <- data.frame(c(links))
+  #create a subset based on those with Q in
+  linksDataFrameFiltered <- subset(linksDataFrame,grepl("Q", linksDataFrame$c.ps.))
+  #Further refine by grabbing those with csv
+  linksDataFrameFiltered <- subset(linksDataFrameFiltered,grepl("csv",linksDataFrameFiltered$c.ps.))
+  #For XLS use: psdfsubset <- subset(psdfsubset,grepl("xls",psdfsubset$c.ps.))
+  #The quarter always appears at position (106 in XLS)
+  linksDataFrameFiltered$quarter <- substr(linksDataFrameFiltered$c.ps.,106,107)
+  #Then the year
+  linksDataFrameFiltered$year <- substr(linksDataFrameFiltered$c.ps.,109,115)
+  #This part says REVISED if it is
+  linksDataFrameFiltered$lastbit <- substr(linksDataFrameFiltered$c.ps.,117,123)
+  #Remove the href=", the closing ", and any spaces using gsub
+  linksDataFrameFiltered$url <- gsub(" ","",gsub('"','',gsub('href="','',linksDataFrameFiltered$c.ps.)))
+  return (linksDataFrameFiltered)
+}
+```
+
+And now to test it:
+
+
+```{r}
+url1516 <- "https://www.england.nhs.uk/statistics/statistical-work-areas/dementia/dementia-assessment-and-referral-2015-16/"
+scrapeQuarterlyCsvLinks(url1516)
+```

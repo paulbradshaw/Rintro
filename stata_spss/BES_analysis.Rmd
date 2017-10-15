@@ -1,0 +1,42 @@
+---
+title: "British Election Survey analysis"
+output: html_notebook
+---
+
+Once you have downloaded the election survey you can do some analysis or cleaning. Let's get an overview:
+
+```{r}
+head(electionsurvey15)
+```
+
+There are *lots* of columns, so aside from seeing the first few lines, we might just need to see what the column names are...
+
+```{r}
+colnames(electionsurvey15)
+```
+
+
+And let's get a quick pivot table of one particular column: why did people vote for a particular party?
+
+```{r}
+table(electionsurvey15$reasonForVote)
+```
+
+What about the EU referendum?
+
+```{r}
+summary(electionsurvey15$euRefVote)
+```
+
+And the general election?
+
+```{r}
+summary(electionsurvey15$generalElectionVote)
+```
+
+We can put those in a new table that might be more easily examined in Excel:
+
+```{r}
+
+```
+

@@ -23,7 +23,7 @@ areas2 <- areas["areasofoperation"][[1]]
 
 Now we have a list of 440 items, but each of *those* items is also a list, of 3 properties: the code, the name ("value"), and something called "sortorder".
 
-Searching 'R list to data frame' brings up [this result from Stackoverflow](https://stackoverflow.com/questions/4227223/r-list-to-data-frame) which includes a suggestion for using the `ldply` function from the `plyr` package. So we install that and use it convert the object:
+Searching 'R list to data frame' brings up [this result from Stackoverflow](https://stackoverflow.com/questions/4227223/r-list-to-data-frame) which includes a suggestion for using the `ldply` function from the `plyr` package. So we install that and use it to convert the object:
 
 ```{r}
 install.packages("plyr")
@@ -173,6 +173,8 @@ b64charities["meta"][[1]]["maxResults"]
 
 With 50 results per page, that means we can only grab 5 pages before we hit that maximum.
 
+### Grabbing subsequent results pages
+
 To grab the *next* 50 results, we can add `&pagenumber=` to the URL, like so: 
 
 `https://olib.uk/charity/json/search/?areasofoperation=B-64&ordering=%21dateofregistration&show=dateofregistration,classes&resultsperpage=50&pagenumber=2`
@@ -206,12 +208,24 @@ b64results2 <- b64charities2["searchResults"][[1]]
 b64df2 <- ldply (b64results2, data.frame)
 ```
 
+### Merging the resulting dataframes
+
 We can merge the two sets of 50 results using `rbind` (rows bind) like so:
 
 ```{r}
 b64charitiesall <- rbind(b64df,b64df2)
 ```
 
+We can also use `cbind` to add an extra column for the area of operation, like so:
+
+```{r}
+areacode <- b64charities["queryString"][[1]]["areasofoperation"]
+b64charitiesall <- cbind(b64charitiesall,areacode)
+#Delete the old dataframes before we continue
+rm(b64df,b64df2)
+```
+
+We need this to distinguish different sets of results in the combined dataset.
 
 Because we're going to have to do this multiple times, it's best to store the steps in some sort of function. This will need to do the following:
 
@@ -225,8 +239,11 @@ Because we're going to have to do this multiple times, it's best to store the st
 grabcharitydata <- function(jsonurl){
  fulljson <- fromJSON(jsonurl)
  resultsbranch <- fulljson["searchResults"][[1]]
+ areacode <- fulljson["queryString"][[1]]["areasofoperation"]
  #Convert into data frame
  resultsbranch.as.df <- ldply (resultsbranch, data.frame)
+ #Add column with area code
+ resultsbranch.as.df <- cbind(resultsbranch.as.df,areacode)
  #return that data frame to whatever called the function
  return(resultsbranch.as.df)
 }
@@ -235,14 +252,109 @@ grabcharitydata <- function(jsonurl){
 Now let's run that function on all 5 URLs in the list:
 
 ```{r}
-#First, let's create a data frame using the column names we've already grabbed, but with none of the data rows
-charitiesdf <- b64charitiesall[0,]
+#First, let's create a data frame using the column names we've already grabbed, but with none of the data rows. We can overwrite the test dataframe to create this:
+b64charitiesall <- b64charitiesall[0,]
 for (i in 1:5){
   grabbeddataframe <- grabcharitydata(b64urls5[i])
-  rbind(charitiesdf,grabbeddataframe)
+  b64charitiesall <- rbind(b64charitiesall,grabbeddataframe)
+}
+```
+
+## Applying this to multiple regions
+
+Now we've got it to work on one region, we need to plan how to do this across all 181 areas:
+
+* For each url in regionurls
+* Create 5 page result URLs
+* Run grabcharitydata function on each of those URLs
+* Combine 
+
+We could do all this in one run of code, but I'll split this into two parts to make it easier to understand: first, compiling a list of all the URLs we need to grab. Here we loop through all the region URLs that we have, then within *that* loop through the numbers 1 to 5 to create 5 different page URLs for each:
+
+```{r}
+#Create an empty vector which will store our URLs
+pageurls <- c()
+#Loop 181 times through the regionurls
+for (i in 1:length(regionurls)){
+  #Grab the URL at that position
+  regionurl <- regionurls[i]
+  #Second loop goes from numbers 1 to 5
+  for (p in 1:5){
+    #add to our vector <- the vector itself plus, a URL formed by adding &pagenumber and the number
+    pageurls <- c(pageurls, paste(regionurl,"&pagenumber=",p,sep=""))
+  }
+}
+```
+
+That gives us a list of 905 items, which makes sense (181 regions times 5 pages = 905). Now to run that function to grab the data from each...
+
+
+```{r}
+#Create an empty dataframe with the same headings as our test one:
+charitiesall <- b64charitiesall[0,]
+#Create an empty vector
+#Loop through the list of URLs
+for (i in 1:length(pageurls)){
+  grabbeddataframe <- grabcharitydata(pageurls[i])
+  charitiesall <- rbind(charitiesall,grabbeddataframe)
+}
+```
+
+905 pages of 50 results per page is... 45,250 results. So it takes a while. In fact, it generates an error - but by that time it's generated 43,500 results, so it might be that one of the later codes doesn't have 5 pages of results. (A later check shows that the C codes don't have any results).
+
+```{r}
+#Create an empty dataframe with the same headings as our test one:
+charitiesall <- b64charitiesall[0,]
+#Create an empty vector
+#Loop through the list of URLs
+for (i in 1:length(pageurls)){
+  grabbeddataframe <- grabcharitydata(pageurls[i])
+  pageurls[i]
+  try(charitiesall <- rbind(charitiesall,grabbeddataframe))
 }
 ```
 
 
+## Grabbing the classes lookup
+
+If we want to analyse the charities, we will need to know what the classes numbers mean. As with the area codes, there is a URL which provides a list, and as before, we need to convert it to a dataframe in the same way, before exporting as a CSV.
+
+```{r}
+classeslookup <- fromJSON("https://olib.uk/charity/json/lookups/classes")
+classeslookup <- classeslookup["classes"][[1]]
+classesdf <- ldply (classeslookup, data.frame)
+write.csv(classesdf,'classeslookup.csv')
+```
+
+## Adding classes to main dataframe
+
+We can bring those descriptions into the main dataset using `merge` like so:
+
+```{r}
+#because the columns don't have the same name, we need to specify them. Alternatively, we could have just changed the column name in classesdf
+charitieswclasses <- merge(charitiesall,classesdf,by.x = "classes",by.y = ".id")
+#if you're happy that's worked, remove the original dataframe
+rm(charitiesall)
+#And export a csv
+write.csv(charitieswclasses,"charitieswclasses.csv")
+```
+
+## Extracting and converting dates
+
+Our data has dates in it, but it helps if we convert that to a proper date format, and place the year and month in separate columns:
+
+```{r}
+#First, ensure date is formatted as date
+b64charitiesall$dateOfRegistration <- as.Date(b64charitiesall$dateOfRegistration, format="%Y-%m-%d")
+#Create a new column which just shows the year
+b64charitiesall$yearOfRegistration <- format(as.Date(b64charitiesall$dateOfRegistration, format="%Y-%m-%d"), "%Y")
+b64charitiesall$monthOfRegistration <- format(as.Date(b64charitiesall$dateOfRegistration, format="%Y-%m-%d"), "%m")
+#Alternatively, bring in lubridate package which can be used to extract year or month
+install.packages("lubridate")
+library(lubridate)
+#Create new columns for extracted year, then month
+b64charitiesall$yearOfRegistrationLUB <- lubridate::year(b64charitiesall$dateOfRegistration)
+b64charitiesall$monthOfRegistrationLUB <- lubridate::month(b64charitiesall$dateOfRegistration)
+```
 
 

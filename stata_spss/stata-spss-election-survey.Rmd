@@ -26,6 +26,8 @@ Instead, then, we try a different package, `readstata13`, designed to address th
 install.packages("readstata13")
 library(readstata13)
 electionsurvey15 <- read.dta13('BES2015_W6_v1.2.dta')
+electionsurvey15 <- read.dta13('http://www.britishelectionstudy.com/custom/uploads/2015/07/BES2015_W6_v1.2.dta')
+
 ```
 
 Now to write that as a new CSV file:

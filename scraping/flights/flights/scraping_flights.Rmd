@@ -1,0 +1,123 @@
+---
+title: "Scraping flight details"
+output: html_notebook
+---
+
+# Scraping flight details
+
+We've already got a list of URLs, generated from a list of flight numbers:
+
+```{r}
+#We have some URLs we need to scrape - here I import those from a CSV
+flightdata <- read.csv("flighturls.csv")
+#Pull the URL column into a separate object
+flighturls <- flightdata$Planefinder.URL
+```
+
+Now to scrape those we need the `rvest` package:
+
+```{r}
+#First we need to install the rvest package
+install.packages("rvest")
+library(rvest)
+testurl <- "https://planefinder.net/data/flight/FR3105"
+testpage <- read_html(testurl)
+#This grabs every table cell (in <td> tags)
+seats_html <-html_nodes(testpage,xpath='//td')
+#Convert to text
+seats_text <- html_text(seats_html)
+#Grab the 9th one, which is the seats
+seats_text[[9]]
+```
+Now to store that in a function:
+
+```{r}
+grabseats <- function(url){
+  #Store the page
+  page <- read_html(testurl)
+  #This grabs every table cell (in <td> tags)
+  cells_html <-html_nodes(testpage,xpath='//td')
+  #Convert to text
+  cells_text <- html_text(seats_html)
+  #Grab the 9th one, which is the seats
+  seats <- seats_text[[9]]
+  return(seats)
+}
+```
+
+
+Now to create a loop to run that function on every URL:
+
+```{r}
+alltheseats <- c()
+for (i in 1:length(flightdata$Planefinder.URL)){
+  seats <- grabseats(urlbeingscraped <- flightdata$Planefinder.URL[i])
+  alltheseats <- c(alltheseats,seats)
+}
+#Add results to main dataset
+flightdata$seats <- alltheseats
+#Remove extra characters to leave numbers
+flightdata$seatsasnum <-gsub("\nSeats\n", "", alltheseats)
+#Remove characters at the end
+flightdata$seatsasnum <-gsub("\n", "", flightdata$seatsasnum)
+#But it's still seen as a character
+typeof(flightdata$seatsasnum)
+#Convert to number using sapply
+flightdata$seatsasnum <- sapply(flightdata$seatsasnum, as.numeric)
+#Test
+typeof(flightdata$seatsasnum)
+#Double test!
+summary(flightdata$seatsasnum)
+```
+## Repeating the process for another website (flight distance)
+
+Utiket has data on flight distances too, e.g. `https://utiket.com/en/flights/schedule/fr6341.html`
+
+```{r}
+utiketurl <- "https://utiket.com/en/flights/schedule/fr6341.html"
+utiketpage <- read_html(utiketurl)
+#This grabs the distances, using the inspector and copy XPath
+utiket_html <-html_nodes(utiketpage,xpath='//div[@id="flight-number-box"]/text()[6]')
+#Convert to text
+utiket_text <- html_text(utiket_html)
+utiket_text
+```
+
+Now store that in a function:
+
+```{r}
+grabdistance <- function(url){
+  #Note: needs a utiket URL like this "https://utiket.com/en/flights/schedule/fr6341.html"
+  utiketpage <- read_html(utiketurl)
+  #This grabs the distances, using the inspector and copy XPath
+  utiket_html <-html_nodes(utiketpage,xpath='//div[@id="flight-number-box"]/text()[6]')
+  #Convert to text
+  utiket_text <- html_text(utiket_html)
+  return(utiket_text)
+}
+```
+
+Now to loop through and use it:
+
+```{r}
+allthedistances <- c()
+length(flightdata$Filght.no..full)
+#There are 512 codes - I've used that number rather than the length of the list because this script doesn't work well with so many URLs, so you may want to try reducing it to 5 or 10 to test it first
+for (i in 1:512){
+  url <- paste("https://utiket.com/en/flights/schedule/",flightdata$Filght.no..full[i],".html",sep="")
+  distance <- grabdistance(url)
+  allthedistances <- c(allthedistances,distance)
+}
+#Add results to main dataset
+flightdata$distance <- allthedistances
+#Remove extra characters to leave numbers
+flightdata$distanceinkm <-gsub(" km ", "", allthedistances)
+#But it's still seen as a character
+typeof(flightdata$distanceinkm)
+#Convert to number using sapply
+flightdata$distanceinkm <- sapply(flightdata$distanceinkm, as.numeric)
+#Test
+typeof(flightdata$distanceinkm)
+#Double test!
+summary(flightdata$distanceinkm)
+```

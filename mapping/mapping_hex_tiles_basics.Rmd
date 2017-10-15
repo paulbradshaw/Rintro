@@ -3,7 +3,7 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-# Mapping hex tiles in R 
+# Mapping hex tiles in R
 
 This notebook takes [a tutorial by Rob Grant on mapping migration](http://rforjournalists.com/2017/08/09/internal-migration-part-ii-homing-in-on-individual-authorities/), and boils it down to just the mapping part. You will need:
 
@@ -15,7 +15,7 @@ This notebook takes [a tutorial by Rob Grant on mapping migration](http://rforjo
 
 ## Compile your dataset
 
-Creating a hex tile map means we need our dataset (the data that's going to be mapped) to match the names of the hex tiles. Those are local authority codes like E06000009. 
+Creating a hex tile map means we need our dataset (the data that's going to be mapped) to match the names of the hex tiles. Those are local authority codes like E06000009.
 
 If your dataset doesn't use these, you'll need to find one that does, and match it with yours (assuming they share another aspect, like authority name, or a different type of code)
 
@@ -82,7 +82,7 @@ plot(n, col = n$color, lwd = 0.5, main = "This is the map heading", sub = "Red =
 
 ## Export as image
 
-If you want to use that image, you need to create a PNG 'device' using `png()`, then generate the `plot()`, and then turn it off with `dev.off()`. 
+If you want to use that image, you need to create a PNG 'device' using `png()`, then generate the `plot()`, and then turn it off with `dev.off()`.
 
 ```{r}
 png(filename="map.png")
@@ -97,3 +97,4 @@ RPubs maintains a [page on tilegrams in R](http://rpubs.com/bhaskarvk/tilegramsR
 
 ODILeeds has a [tool for creating HexJSON](https://odileeds.org/projects/hexmaps/constituencies.html)
 
+Tony Hirst has written about creating a [HexJSON HTMLWidget for R, starting here](https://blog.ouseful.info/2017/06/28/hexjson-htmlwidget-for-r-part-1/), with two subsequent parts.
