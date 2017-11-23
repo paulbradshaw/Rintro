@@ -1,0 +1,41 @@
+---
+title: "FSA API"
+output: html_notebook
+---
+
+# Grabbing XML data from the Food Standards Agency (FSA) API
+
+The FSA API provides data in XML format at a series of fixed URLs, one for each local authority. A list of links can be found at [http://ratings.food.gov.uk/open-data/](http://ratings.food.gov.uk/open-data/). Below we store the URL for the Birmingham food hygiene ratings:
+
+```{r}
+xmlurl <- "http://ratings.food.gov.uk/OpenDataFiles/FHRS402en-GB.xml"
+```
+
+To handle XML we need to install a package and add it to our library:
+
+```{r}
+install.packages('XML') 
+library(XML)
+```
+
+Now to parse that XML file. We're following instructions from [this tutorial](https://www.r-bloggers.com/r-and-the-web-for-beginners-part-ii-xml-in-r/):
+
+```{r}
+xmlfile <- xmlTreeParse(xmlurl)
+class(xmlfile)
+xmltop = xmlRoot(xmlfile)
+plantcat <- xmlSApply(xmltop, function(x) xmlSApply(x, xmlValue))
+plantcat_df <- data.frame(t(plantcat$EstablishmentCollection),row.names=NULL)
+```
+
+
+Alternatively, because this is nested XML, we could download the file to the same folder as this R script, and pull it in that way, then follow the [instructions on this StackOverflow thread](https://stackoverflow.com/questions/34627994/nested-xml-parsing-in-r):
+
+```{r}
+xmlxpath <- xmlParse("bhamfsa.xml")
+fsa.df <- as.data.frame(t(xpathSApply(xmlxpath,"//EstablishmentCollection/EstablishmentDetail",function(x) xmlSApply(x,xmlValue))))
+```
+
+The result is the same. 
+
+

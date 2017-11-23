@@ -1,0 +1,72 @@
+---
+title: "Using grep on MPs' expenses"
+output: html_notebook
+---
+
+# Using grep and regex in R
+
+First, let's get our data into R
+
+```{r}
+exesdata <- read.csv("Individual_claims_for_16_17.csv")
+```
+
+Now let's create a list of TRUE/FALSE values saying whether each row contains a particular pattern:
+
+```{r}
+#This looks for any match for .*Birmingham.* OR .*Sutton Coldfield.*
+wmconstituency <- grepl(".*Birmingham,.*|.*Sutton Coldfield.*", exesdata$MP.s.Constituency)
+```
+
+Next, add it to the original data:
+
+```{r}
+exesdata$westmids <- wmconstituency
+```
+
+Now use that to create a subset:
+
+```{r}
+wmexes <- subset(exesdata, exesdata$westmids == TRUE)
+```
+
+## Advanced: doing this in fewer lines of code
+
+In fact, instead of using 2 lines - one to create a TRUE/FALSE list, and another to add that to our data frame - we could have done both in one line like this:
+
+```{r}
+exesdata$westmids <- grepl(".*Birmingham,.*|.*Sutton Coldfield.*", exesdata$MP.s.Constituency)
+```
+
+And going further, we could actually *nest* part of the earlier line of code to do all 3 lines of the above code in one line: 
+
+```{r}
+westmidsonly <- subset(exesdata, grepl(".*Birmingham,.*|.*Sutton Coldfield.*", exesdata$MP.s.Constituency))
+```
+
+## Advanced: using `grep` to fetch values
+
+The `grep` function will tell you *which* items in a vector (column) contain a match *or* - if `value=TRUE` is added - will return the text that matches. 
+
+In the first case, that result is a list of numbers (indices indicating which row the matches are in). In the second case it is a list of strings, as shown below (I've added `head()` so you don't get lots of results):
+
+```{r}
+print("First the indexes")
+head(grep("Const.*",westmidsonly$Expense.Type, value=FALSE))
+print("Now with value set to false")
+head(grep("Const.*",westmidsonly$Expense.Type, value=TRUE))
+```
+
+We can use `table()` to summarise the results instead and get a list of matching 'expense type' descriptions:
+
+```{r}
+table(grep("Const.*",westmidsonly$Expense.Type, value=TRUE))
+```
+
+This can be exported as a CSV to use in Excel as a lookup table:
+
+```{r}
+write.csv(table(grep("Const.*",westmidsonly$Expense.Type, value=TRUE)), "constituencytypes.csv")
+```
+
+
