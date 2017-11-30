@@ -1,0 +1,181 @@
+---
+title: "Gambling hashtags network analysis"
+output: html_notebook
+---
+
+# Analysing accounts behind tweets with gambling hashtags
+
+In this notebook we're going to look at a dataset of almost 100,000 scraped tweets to try to identify the main companies behind the accounts. First, let's get the data into R:
+
+```{r}
+hashtagsNov1 <- read.csv("scrape2017Nov1.csv")
+#What are the columns called?
+colnames(hashtagsNov1)
+```
+
+We're interested in the tweetuser field. 
+
+```{r}
+summary(hashtagsNov1$tweetuser)
+```
+
+63,000 of these tweets have nothing in that field, because the scraper only started collecting that information after it had already collected 63,000 tweets. Let's create a subset:
+
+```{r}
+#We use != "" to mean 'IS NOT BLANK'
+tweetswithhandles <- subset(hashtagsNov1, hashtagsNov1$tweetuser != "")
+```
+
+Let's turn that summary into a data frame - but we can't use `summary` as it will only show the top 100. Instead let's use `table`:
+
+```{r}
+twitterhandles <- data.frame(table(tweetswithhandles$tweetuser))
+#rename the cols
+colnames(twitterhandles) <- c("handle", "freq")
+#attach so we can order it
+attach(twitterhandles)
+#order the table by frequency
+twitterhandles <- twitterhandles[order(-freq),]
+#detach now we're finished
+detach(twitterhandles)
+#Now to see the top 50:
+head(twitterhandles, 50)
+```
+
+
+
+## Scraping each user page
+
+Now we want to find out the URL on each page's profile. We need to:
+
+* Test a scraper against one URL
+* Compile a list of URLs
+* Loop through that list and apply the scraper to each, storing the result
+
+Let's start with a test url:
+
+```{r}
+testurl <- "https://twitter.com/topturnbets"
+#First we need to install the rvest package
+install.packages("rvest")
+library(rvest)
+testurl
+testpage <- read_html(testurl)
+#We need to grab <a class="u-textUserColor">
+profilelinks <-html_nodes(testpage,xpath='//a[@class="u-textUserColor"]')
+#Convert to text
+profiletext <- html_text(profilelinks)
+#Grab the 1st one - the only one
+profiletext[[1]]
+#Now let's clean out the \n and empty space:
+gsub("\n","",gsub(" ","",profiletext[[1]]))
+```
+
+That works, so let's store it in a function:
+
+```{r}
+grabtwitterurl <- function(url){
+  url
+  page <- read_html(testurl)
+  #We need to grab <a class="u-textUserColor">
+  profilelinks <-html_nodes(page,xpath='//a[@class="u-textUserColor"]')
+  #Convert to text
+  profiletext <- html_text(profilelinks)
+  #Grab the 1st one - the only one
+  profiletext[[1]]
+  #Now let's clean out the \n and empty space and return to whatever called the function:
+  return(gsub("\n","",gsub(" ","",profiletext[[1]])))
+}
+```
+
+And test - this time with a profile that has no link:
+
+```{r}
+testurl <- "https://twitter.com/sayfieldgeorge"
+testfunction <- grabtwitterurl(testurl)
+testfunction
+```
+
+We need to adapt the function to handle pages with no profile link. [The answer is `try` or `tryCatch`](http://www.endmemo.com/program/R/try.php)
+
+```{r}
+grabtwitterurl <- function(url){
+  url
+  page <- read_html(url)
+  #We need to grab <a class="u-textUserColor">
+  profilelinks <-html_nodes(page,xpath='//a[@class="u-textUserColor"]')
+  #Convert to text
+  profiletext <- html_text(profilelinks)
+  #Grab the 1st one - the only one
+  #profiletext[[1]]
+  #Now let's clean out the \n and empty space and return to whatever called the function:
+  #HERE IS A TRY VERSION, WHICH SUPPRESSES ERRORS WITH SILENT=TRUE
+  try(return(gsub("\n","",gsub(" ","",profiletext[[1]]))), silent=TRUE)
+  
+}
+```
+
+Now try again.  
+
+```{r}
+testurl <- "https://twitter.com/sayfieldgeorge"
+testfunction <- grabtwitterurl(testurl)
+testfunction
+```
+
+Test on some that work
+
+```{r}
+testurl <- "https://twitter.com/topfinancialbet"
+testfunction <- grabtwitterurl(testurl)
+testfunction
+testurl <- "https://twitter.com/beerbetfun"
+testfunction <- grabtwitterurl(testurl)
+testfunction
+```
+
+
+### Create a list of URLs
+
+Let's get our handles in a vector:
+
+```{r}
+handlesvec <- twitterhandles$handle
+head(handlesvec)
+```
+
+```{r}
+#Create an empty list, which we'll start filling in the loop below
+handleurls <- c()
+#Loop through the handlesvec vector object, call each item 'handle'
+for (handle in handlesvec) {
+  #create a new object called 'handleurl' that combines the base Twitter URL with that handle, and has no separator between them
+  handleurl <- paste("https://twitter.com/",handle,sep="")
+  #Update the handleurls list to add the new url
+  handleurls <- c(handleurls,handleurl)
+}
+#Check the second item in that vector
+handleurls[2]
+```
+
+Now we have those urls in a vector, we can loop through and apply the function.
+
+```{r}
+head(handleurls, 50)
+```
+
+
+
+```{r}
+profileurls <- c()
+urls100 <- head(handleurls, 50)
+for (handleurl in urls100){
+  print(handleurl)
+  profileurl <- grabtwitterurl(handleurl)
+  print(profileurl)
+  profileurls <- c(profileurls, profileurl)
+}
+head(profileurls)
+```
+
+

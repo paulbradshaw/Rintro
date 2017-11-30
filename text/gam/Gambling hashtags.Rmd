@@ -1,0 +1,245 @@
+---
+title: "Gambling hashtags"
+output: html_notebook
+---
+
+# Analysing tweets with key hashtags for gambling
+
+Elsewhere I have written a Python scraper which grabs tweets using 5 of the most common hashtags related to gambling. That scraper has an 'API endpoint' which means we can query it to get the data, or part of it. The API provides the data in JSON format.
+
+The URL to get all of the data is `https://premium.scraperwiki.com/46l8don/dqwanyha9chthci/sql/?q=select%20%0A*%0Afrom%20swdata%0A--%20where%20tweetxt%20%3E%20%0Aorder%20by%20tweetdate`. 
+
+First, then, grab the data and convert it from JSON into an R data frame:
+
+```{r}
+#First activate the library for handling JSON
+library('jsonlite')
+#Now use the fromJSON function to grab from that URL
+hashtagdata <- fromJSON("https://premium.scraperwiki.com/46l8don/dqwanyha9chthci/sql/?q=select%20%0A*%0Afrom%20swdata%0A--%20where%20tweetxt%20%3E%20%0Aorder%20by%20tweetdate")
+```
+
+Let's get a quick overview:
+
+```{r}
+colnames(hashtagdata)
+head(hashtagdata)
+```
+
+## Identifying the most prolific accounts
+
+We are particularly interested in the most prolific accounts. We can use `table()` on a specific column to create a count of how frequently each account name appears. But to sort that to show the most frequent, we need to nest that within a `sort()` function:
+
+```{r}
+accounts <- sort(table(hashtagdata$name), decreasing=T)
+head(accounts)
+```
+
+Let's export that as a CSV:
+
+```{r}
+write.csv(hashtagdata,"gamblinghashtags.csv")
+```
+
+## Creating a filtered dataset for one account
+
+We can easily find the top 4 Twitter accounts, but 'Club Chat' is harder. It's not @clubchat, so we need to find one of those tweets:
+
+```{r}
+clubchatonly <- subset(hashtagdata, hashtagdata$name == "Club Chat")
+# The tweetid numbers are formatted scientifically, ending in e+17 because they're so long
+#We can create a column formatted differently by using format like so:
+clubchatonly$tweetidnum <- format(clubchatonly$tweetid, scientific=FALSE)
+head(clubchatonly$tweetidnum)
+```
+
+## Identifying the peaks
+
+The times in the data are very specific. To get a count by hour we need to extract the hour into a new column. Let's look at how the times are formatted:
+
+```{r}
+head(hashtagdata$tweettime)
+```
+
+We could format this as time in R, but we don't need to. Instead let's extract the first two characters. There are various ways of doing this: below we use the `sub` function to substitute any match for the regex `:.*` (a colon followed by none or more of any character) with nothing.
+
+```{r}
+hashtagdata$tweethour <- sub(":.*","",hashtagdata$tweettime)
+```
+
+We can now get a frequency for each hour using `table()`:
+
+```{r}
+table(hashtagdata$tweethour)
+#Now export that
+write.csv(table(hashtagdata$tweethour), "tweetsperhour.csv")
+```
+
+This is useful but given that some hashtags might be more targeted at particular countries in different timezones, we might want to look specifically at a subset that is more UK-based.
+
+## Creating subsets for hashtags
+
+We already have a column showing a hashtag that's in each tweet:
+
+```{r}
+table(hashtagdata$hashtag)
+```
+
+However, there will be tweets with more than one hashtag. In those cases the last hashtag to be scraped is the one stored. To add columns specifying whether the tweet contains a particular hashtag, we need to use `grepl` to give us a TRUE or FALSE value if it matches a pattern described in regex.
+
+```{r}
+hashtagdata$casino <- grepl(".*#casino.*",hashtagdata$tweetxt, ignore.case = TRUE)
+hashtagdata$freebets <- grepl(".*#freebets.*",hashtagdata$tweetxt, ignore.case = TRUE)
+hashtagdata$odds <- grepl(".*#odds.*",hashtagdata$tweetxt, ignore.case = TRUE)
+hashtagdata$poker <- grepl(".*#poker.*",hashtagdata$tweetxt, ignore.case = TRUE)
+hashtagdata$slots <- grepl(".*#slots.*",hashtagdata$tweetxt, ignore.case = TRUE)
+```
+
+Now let's see how many have TRUE against each hashtag:
+
+```{r}
+summary(hashtagdata$casino)
+summary(hashtagdata$freebets)
+summary(hashtagdata$odds)
+summary(hashtagdata$slots)
+summary(hashtagdata$poker)
+```
+
+Now let's export *that* as a CSV for analysis in Excel:
+
+```{r}
+write.csv(hashtagdata, "hashtagdata.csv")
+```
+
+
+## Add column for links
+
+To extract the links we need to first identify which tweets have a link, create a subset of those, and then describe the pattern of each link. We're using [regular expressions in R](http://astrostatistics.psu.edu/su07/R/html/base/html/regex.html) to describe them. 
+
+Specifically, the pattern is this: "https://t.co/[[:alnum:]]*[[:space:]]*"
+
+Each link starts with `https://t.co/`, followed by alphanumeric characters - `[[:alnum:]]` and one or more of those (indicated by the asterisk `*`). Finally, we have a space character: `[[:space:]]` - and again we indicate one or more, because sometimes links might appear at the end of a tweet where there is no space.
+
+```{r}
+#grep returns the position of the match - but will not be same length as dataset due to non-matches
+#grepl returns true or false
+hashtagdata$linktco <- grepl(".*https://t.co/.* ", hashtagdata$tweetxt)
+head(hashtagdata)
+#So we create a subset for just those with links
+tweetswithlinks <- subset(hashtagdata, hashtagdata$linktco == TRUE)
+#We need to describe the pattern of each link. We're using regular expressions in R
+pattern <- "https://t.co/[[:alnum:]]*[[:space:]]*"
+#Now we use that pattern, and the column, as ingredients in a function which will return the indexes (positions) of each match:
+m <- regexpr(pattern, tweetswithlinks$tweetxt)
+#Let's store it in a column too anyway
+tweetswithlinks$linkpos <- regexpr(pattern, tweetswithlinks$tweetxt)
+#The first few matches
+head(m)
+#Now we can use regmatches to grab the text in the positions of the matches
+tweetswithlinks$linktext2 <- regmatches(tweetswithlinks$tweetxt, m)
+```
+
+## Unshorten the URLs
+
+Now to see if we can unshorten those URLs. [One StackOverflow thread](https://stackoverflow.com/questions/6500721/find-where-a-t-co-link-goes-to) contains an R function for doing just that. We've copied it here:
+
+```{r}
+unshorten_url <- function(uri){
+        require(RCurl)
+        if(RCurl::url.exists(uri)){
+                # listCurlOptions()
+                opts <- list(
+                        followlocation = TRUE,  # resolve redirects
+                        ssl.verifyhost = FALSE, # suppress certain SSL errors
+                        ssl.verifypeer = FALSE, 
+                        nobody = TRUE, # perform HEAD request
+                        verbose = FALSE
+                );
+                curlhandle = getCurlHandle(.opts = opts)
+                getURL(uri, curl = curlhandle)
+                info <- getCurlInfo(curlhandle)
+                rm(curlhandle)  # release the curlhandle!
+                info$effective.url
+        } else {
+                # just return the url as-is
+                uri
+        }
+}
+```
+
+Now to test it on one of the URLs:
+
+```{r}
+unshorten_url("https://t.co/FiUMEU84hw")
+```
+
+This error means we need to install the RCurl package, which we should have noticed if we'd read the thread properly ;). 
+
+```{r}
+#Install package
+install.packages("RCurl")
+#Activate in library
+library(RCurl)
+#Now try the function again
+unshorten_url("https://t.co/FiUMEU84hw")
+```
+
+It works! Let's try it for all the links then. But first, let's check that column:
+
+```{r}
+head(tweetswithlinks$linktext2)
+```
+
+There's a problem here - these all have a space at the end. We need to remove that first.
+
+[The function `gsub`](http://www.endmemo.com/program/R/gsub.php) is made for this - it will substitute all specified characters.
+
+```{r}
+tweetswithlinks$linktrimmed <- gsub(" ","",tweetswithlinks$linktext2)
+head(tweetswithlinks$linktrimmed)
+```
+
+That looks better. Now we could try to grab all 55,000 links with something like this:
+
+`tweetswithlinks$linkreal <- unshorten_url(tweetswithlinks$linktrimmed)`
+
+...But that would take a long time, and involve a lot of duplication: some links will appear more than once. Instead we probably want to focus on the most common ones.
+
+First, let's test 6 of the links:
+
+```{r}
+links6 <- head(tweetswithlinks$linktrimmed)
+reallinks <- c()
+for (tcourl in links6){
+  reallinks <- c(reallinks, unshorten_url(tcourl))
+}
+reallinks
+```
+
+Now let's get our most used links
+
+```{r}
+pivotlinks <- data.frame(table(tweetswithlinks$linktext2))
+#rename the cols
+colnames(pivotlinks) <- c("url", "freq")
+#attach so we can order it
+attach(pivotlinks)
+#order the table by frequency
+pivotlinks <- pivotlinks[order(-freq),]
+#detach now we're finished
+detach(pivotlinks)
+#Now to see the top 50:
+head(pivotlinks, 50)
+```
+
+Now let's convert just those 50:
+
+```{r}
+links50 <- head(pivotlinks, 50)
+reallinks50 <- c()
+for (tcourl in links50$url){
+  reallinks50 <- c(reallinks50, unshorten_url(tcourl))
+}
+write.csv(tweetswithlinks,"gamblingtweetstonetwork.csv")
+```
+
+
