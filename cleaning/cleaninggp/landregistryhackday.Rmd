@@ -1,0 +1,61 @@
+---
+title: "GP surgeries"
+output: html_notebook
+---
+
+## Mapping Land Registry data to Offshore Leaks data
+
+Import the data
+
+```{r}
+offshorecompanies <- read.csv("Entities.csv")
+table(offshorecompanies$jurisdiction_description)
+head(table(offshorecompanies$name))
+```
+
+Create a subset where the jurisdiction is "British Virgin Islands"
+
+```{r}
+bvionly <- subset(offshorecompanies, offshorecompanies$jurisdiction_description == 'British Virgin Islands')
+jerseyonly <- subset(offshorecompanies, offshorecompanies$jurisdiction_description == 'Jersey')
+```
+
+Import the Land Registry data - this is the UK data:
+
+```{r}
+lrdata <- read.csv("brum_ccod2.csv")
+head(table(lrdata$Proprietor_Name1))
+```
+
+Combine the two:
+
+
+```{r}
+#Create a new dataframe containing only the names from the Offshore Leaks subset
+companynamesonly <- data.frame(bvionly$name)
+#Repeat for the Land Registry dataset
+companynamesonlylr <- data.frame(lrdata$Proprietor_Name1)
+#Rename the columns so they're the same name
+colnames(companynamesonlylr) <- c("name")
+colnames(companynamesonly) <- c("name")
+#Let's add another column specifying where the data came from
+companynamesonly$dataset <- "OL"
+companynamesonlylr$dataset <- "LR"
+#Merge both datasets
+companynamesonlyall <- rbind(companynamesonly,companynamesonlylr)
+#Check the two sources
+table(companynamesonlyall$dataset)
+#Export as CSV to clean in Open Refine
+write.csv(companynamesonlyall, "companynamesonlyall.csv")
+```
+
+## UK DATA
+
+```{r}
+lrdataoc <- read.csv("brum_ocod2.csv")
+```
+
+
+
+
+

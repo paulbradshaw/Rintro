@@ -1,0 +1,193 @@
+---
+title: "Fetching local authorities for GP postcodes"
+output: html_notebook
+---
+
+# Fetching local authorities for GP postcodes
+
+We have some data on GP surgeries, but the location data is inconsistent: a 'county' column contains values ranging from 'Bolton' to 'England', while a 'city' column contains individual streets as well as metropolitan areas. We need to code that data more consistently.
+
+The Postcodes.io API allows us to fetch the local authority for each postcode. First, then, we create a list of postcodes from the data by generating a pivot table in Excel with a row for each postcode (meaning we only have to geocode 8160 rows instead of 124,000 in the original data). 
+
+This is saved as a CSV, and imported into R using the code below:
+
+```{r}
+gppostcodes <- read.csv("gppostcodes.csv")
+```
+
+The postcodes have spaces in them, so we need to remove those before we use them in any URL:
+
+```{r}
+gppostcodes$nospaces <- gsub(" ","",gppostcodes$GP_postcodes)
+```
+
+
+## Installing a package
+
+To import JSON from the API we need to activate a **package** called `jsonlite`. 
+
+```{r}
+install.packages('jsonlite')
+library('jsonlite')
+```
+
+## Creating a loop
+
+We need to:
+
+* Generate a URL for each postcode
+* Grab the JSON from each URL
+* Store something from that JSON
+
+Here's a loop to do that:
+
+```{r}
+#This creates an empty list called 'resultslist'
+resultslist = c()
+for (i in gppostcodes$nospaces){
+  url <- paste("http://api.postcodes.io/postcodes/",i, sep="")
+  jsoneg <- fromJSON(url)
+  print(jsoneg[['result']][['ccg']])
+  #This time we store the results of drilling down into part of the JSON
+  ccg <- jsoneg[['result']][['ccg']]
+  #Then we add it to the list
+  resultslist = c(resultslist, ccg)
+}
+```
+
+This works for 208 postcodes - and then hits a 404 error. 
+
+(We could add an extra `print` command to show us the postcode and help us debug, but we can also just look at the 209th postcode in our data, and test that. It is B44 9SG, and a [check confirms](http://api.postcodes.io/postcodes/B449SG) that postcode doesn't have any result on Postcodes.io.)
+
+To prevent this causing problems in our loop we add some extra lines to handle the possibility of an error, and store warning data against those problematic postcodes.
+
+```{r}
+#This creates an empty list called 'resultslist'
+resultslist = c()
+for (i in gppostcodes$nospaces){
+  url <- paste("http://api.postcodes.io/postcodes/",i, sep="")
+  #This tries the lines of code in curly brackets first, but if there's an error, it moves on to the error = part after the comma
+  tryCatch({
+    jsoneg <- fromJSON(url)
+    status <- jsoneg[['status']]
+    print(status)
+    print(jsoneg[['result']][['ccg']])
+    #This time we store the results of drilling down into part of the JSON
+    ccg <- jsoneg[['result']][['ccg']]
+    #Then we add it to the list
+    resultslist = c(resultslist, ccg)
+  },
+  error = function(cond) {
+    resultslist = c(resultslist, "no data")
+  }
+  )
+}
+```
+
+That now works without throwing an error. The resulting vector is 8142 items long, compared to the postcodes data frame which had 8160 objects. This is a problem as we can't match them exactly. So we need to adapt the code to store the postcodes too.
+
+```{r}
+
+#This creates an empty list called 'resultslist'
+resultslist = c()
+#This creates an empty list for the postcodes which get results
+postcodeslist = c()
+for (i in gppostcodes$nospaces){
+  url <- paste("http://api.postcodes.io/postcodes/",i, sep="")
+  #This tries the lines of code in curly brackets first, but if there's an error, it moves on to the error = part after the comma
+  tryCatch({
+    jsoneg <- fromJSON(url)
+    status <- jsoneg[['status']]
+    print(status)
+    print(jsoneg[['result']][['ccg']])
+    #This time we store the results of drilling down into part of the JSON
+    ccg <- jsoneg[['result']][['ccg']]
+    #Then we add it to the list
+    resultslist = c(resultslist, ccg)
+    postcodeslist = c(postcodeslist,i)
+  },
+  error = function(cond) {
+    resultslist = c(resultslist, "no data")
+  }
+  )
+}
+```
+
+That's the CCGs sorted, the same code is adapted for local authorities:
+
+```{r}
+#This creates an empty list called 'resultslistla' (for local authority)
+resultslistla = c()
+#This creates an empty list for the postcodes which get results
+postcodeslistla = c()
+lacodeslist <- c()
+for (i in gppostcodes$nospaces){
+  url <- paste("http://api.postcodes.io/postcodes/",i, sep="")
+  #This tries the lines of code in curly brackets first, but if there's an error, it moves on to the error = part after the comma
+  tryCatch({
+    jsoneg <- fromJSON(url)
+    status <- jsoneg[['status']]
+    print(status)
+    #we store this in a variable to avoid calling it twice
+    admin_district <- jsoneg[['result']][['admin_district']]
+    print(admin_district)
+    lacode <- jsoneg[['result']][['codes']][['admin_district']]
+    #Then we add it to the list
+    resultslistla = c(resultslistla, admin_district)
+    postcodeslistla = c(postcodeslistla,i)
+    lacodeslist = c(lacodeslist, lacode)
+  },
+  error = function(cond) {
+    resultslist = c(resultslistla, "no data")
+  }
+  )
+}
+```
+
+
+Now, with two vectors the same length, they can be combined into a data frame and exported as a CSV file:
+
+```{r}
+gppostcodes.withccgs <- data.frame(postcodeslist,resultslist)
+write.csv(gppostcodes.withccgs,"gppostcodeswccgs.csv")
+gppostcodes.withlas <- data.frame(postcodeslistla,resultslistla,lacodeslist)
+write.csv(gppostcodes.withlas,"gppostcodeswlas.csv")
+```
+
+
+Because of the different in numbers we can assume that 18 postcodes didn't work, and a vlookup in Excel would tell us which ones. Those can then be coded manually.
+
+
+## Storing the code in a function 
+
+Chances are we may need to do this again, so it's worth storing that code in a function.
+
+```{r}
+grabccgs <- function(postcodes){
+  #This creates an empty list called 'resultslist'
+  resultslist = c()
+  #loop through the list of postcodes - this must be a vector
+  for (i in postcodes){
+    url <- paste("http://api.postcodes.io/postcodes/",i, sep="")
+    #This tries the lines of code in curly brackets first, but if there's an error, it moves on to the error = part after the comma
+    tryCatch({
+      jsoneg <- fromJSON(url)
+      status <- jsoneg[['status']]
+      print(status)
+      print(jsoneg[['result']][['ccg']])
+      #This time we store the results of drilling down into part of the JSON
+      ccg <- jsoneg[['result']][['ccg']]
+      #Then we add it to the list
+      resultslist = c(resultslist, ccg)
+    },
+    #what happens if there's an error
+    error = function(cond) {
+      resultslist = c(resultslist, "no data")
+    }
+    )
+  return(resultslist)
+}
+}
+```
+
+
