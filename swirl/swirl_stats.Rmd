@@ -1,0 +1,25 @@
+---
+title: "swirl stats"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook documenting playing with the [swirl package](http://swirlstats.com/students.html) for learning R.
+
+Swirl doesn't come pre-installed in RStudio, so we need to install it first
+
+```{r}
+install.packages("swirl")
+```
+
+Now to activate it:
+
+```{r}
+library("swirl")
+```
+Let's do what it says...
+
+```{r}
+swirl()
+```
+
+Note that this generates a response in the Console, but not within the Notebook itself. So you'll need to switch to that...
