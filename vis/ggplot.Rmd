@@ -16,14 +16,16 @@ data("midwest", package = "ggplot2")  # load the data
 ggplot(midwest, aes(x=area, y=poptotal)) + geom_point()  # area and poptotal are columns in 'midwest'
 ```
 
-Let's try the same approach with some real data:
+## Specifying the x and y axes used to draw the plot
+
+Let's try the same approach with some real data. Note that `ggplot` takes two arguments: a data frame (`schooldata`) and which fields from that you want to plot on the x and y axes - specified within `aes()`:
 
 ```{r}
 schooldata <- read.csv("schooldata.csv")
 ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....))
 ```
 
-Now to add the points with `geom_point()`:
+Now to add the points with `+ geom_point()`:
 
 ```{r}
 ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + geom_point(col="orange", size=0.5) 
@@ -31,7 +33,11 @@ ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Fil
 ?geom_point
 ```
 
-...and a trend line - or 'line of best fit':
+### Adding a trend line
+
+...and a trend line - or 'line of best fit' by adding a `+ geom_smooth()` layer.
+
+This time the results are stored in g - a ggplot object - which is only used when the `plot()` function is called
 
 ```{r}
 #this time the results are stored in g - a ggplot object...
@@ -42,22 +48,153 @@ plot(g)
 ?geom_smooth
 ```
 
+### Zooming in on a particular area of the chart
+
+Here we take the `ggplot` object `g` and add more specifications around which coordinates we want to zoom in, using `coord_cartesian`: `xlim` specifies the x axis limits (a vector with two numbers: min and max) and `ylim` does the same for the y axis.
+
+The results are stored in a new variable called `g1`, which is then plotted with `plot`
+
 ```{r}
 #Zoom in on particular coordinates
+#the x axis is limited to 10-50 and y axis is limited to 0-50
 g1 <- g + coord_cartesian(xlim=c(10,50), ylim=c(0,50))  # zooms in
+#Now draw that
 plot(g1)
 ```
 
-Now to add some label text:
+## Adding labels
+
+Now to add some label text by adding `+ labs()` and specifying various types of labels including y and x labels. You can find out more about other options by typing `?labs`:
 
 ```{r}
 g1 + labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies")
+?labs
 ```
 
-And customise the points to colour based on category:
+## Customising points by colour
+
+And customise the points to colour based on category: until now `geom_point()` has either been left empty (defaulting to black) or as `geom_point(col="orange", size=0.5)` has specified one colour, but we can change colour to be determined by one of the columns in the data frame (for example, there is a 'type' column which specifies the type of school) by rewriting it as `geom_point(aes(col=type))`:
 
 ```{r}
 #this time the results are stored in g - a ggplot object...
 g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + geom_point(aes(col=type)) + geom_smooth(method="lm", col="yellow") + labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies")
 plot(g)
 ```
+
+The code can be more easily interpreted by indenting each extra element on a new line like so:
+
+```{r}
+#this time the results are stored in g - a ggplot object...
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=type)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies")
+
+plot(g)
+```
+
+There are too many types of school here so we may need to narrow our data a little
+
+```{r}
+schooldata$academy <- grepl("Academy.*",schooldata$type)
+#repeat above code but change column used to colour points
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies")
+
+plot(g)
+```
+
+### Changing the size of dots based on a variable
+
+We can also change other parameters based on values in the data - for example the size of the dot by adding `, size=indexofdep`:
+
+
+```{r}
+#repeat above code but add column to size points
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=academy, size=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies")
+
+plot(g)
+```
+
+### Using a colour palette
+
+Let's use that index of deprivation for colour instead, and set the colour palette to a particular scale from colourbrewer - `+ scale_colour_brewer(palette = "RdYlGn")`:
+
+```{r}
+#repeat above code but add line to specify colour palette for scale
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies") +
+  scale_colour_brewer(palette = "RdYlGn")
+
+plot(g)
+```
+
+## Specifying the scale of the x and y axes 
+
+We can change the scale used on the x axis using `scale_x_continuous()`. The `breaks()` parameter specifies the start point, end point, and intervals; the `labels =` parameter specifies what to use to label those (these need to be of the same length, i.e. 10 intervals means 10 labels). Find out more with `?scale_x_continuous`:
+
+```{r}
+#repeat above code but add line to change x scale
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant (%)", caption="2016 school vacancies") +
+  scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5))
+
+plot(g)
+```
+
+Reverse the x scale using `scale_x_reverse()`:
+
+```{r}
+g + scale_x_reverse()
+```
+
+### Customising label axes
+
+We can customise the labels to add a % sign. [The `sprintf()` function](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/sprintf) will insert the numbers into a string. 
+
+In `"%.0f%%"` below it is adapted from the literal example given in [the documentation](https://stat.ethz.ch/R-manual/R-devel/library/base/html/sprintf.html) - this takes the number and adds a percentage sign at the end (note that the whole is wrapped by a single percentage symbol which means something else, but an extra percentage symbol is treated literally.
+
+```{r}
+#repeat above code but add labels to penultimate line
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))
+
+plot(g)
+```
+
+## Applying themes
+
+Use `theme_set()` to apply a theme - the built-in ones can be explored using `?theme_bw` - note that the main affect is on backgrounds and lines. For example `theme_dark` has "a dark background. Useful to make thin coloured lines pop out." and `theme_classic` isa "classic-looking theme, with x and y axis lines and no gridlines." 
+
+The ggplot tutorial notes: 
+
+> "For more customized and fancy themes have a look at the [ggthemes](https://github.com/jrnold/ggthemes) package and the [ggthemr](https://github.com/cttobin/ggthemr) package."
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) +
+  theme_set(theme_classic())  #Here are the new lines
+
+plot(g)
+```
+
+

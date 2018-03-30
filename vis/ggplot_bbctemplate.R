@@ -1,13 +1,21 @@
+### This code has been added to fix errors generated when using template code outside VJ team
+#This one isn't pre-installed
+install.packages("png")
+#you will get an error 'could not find function "grid.draw"'
+library("grid")
+
 #Load libraries
 library("dplyr")
 library("ggplot2")
+
 library("png") #For importing image
 
+
 #Load data
-data <- read.csv("data.csv")
+data <- read.csv("schooldata.csv")
 
 #BBC logo
-img <- readPNG("~/Documents/Projects/ggplot.templates/bbc_logo_grey.png")
+img <- readPNG("bbc_logo_grey.png")
 logo <- rasterGrob(img)
 
 ###STYLE TEMPLATE###
