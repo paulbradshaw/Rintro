@@ -151,3 +151,6 @@ The Frank McCown tutorial [Producing Simple Graphs with R](http://www.harding.ed
 Christophe Ladroue has a [post on creating a polar histogram in R using the ggplot package](http://chrisladroue.com/2012/02/polar-histogram-pretty-and-useful/). This is very pretty, but remember that circular charts like this and pie charts tend to be much harder for people to interpret than standard histograms and bar charts.
 
 
+## More
+
+You can find more resources on visualisation using R in [the vis folder of this repo](https://github.com/paulbradshaw/Rintro/tree/master/vis)
