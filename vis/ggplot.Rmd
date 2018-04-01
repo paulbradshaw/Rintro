@@ -28,7 +28,7 @@ ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Fil
 Now to add the points with `+ geom_point()`:
 
 ```{r}
-ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + geom_point(col="orange", size=0.5) 
+ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + geom_point(col="orange", size=1) 
 #geom_point has various options that can be customised
 ?geom_point
 ```
@@ -176,7 +176,7 @@ g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporaril
 plot(g)
 ```
 
-## Applying themes
+## Applying themes using `theme_set()` and `theme()`
 
 Use `theme_set()` to apply a theme - the built-in ones can be explored using `?theme_bw` - note that the main affect is on backgrounds and lines. For example `theme_dark` has "a dark background. Useful to make thin coloured lines pop out." and `theme_classic` isa "classic-looking theme, with x and y axis lines and no gridlines." 
 
@@ -197,4 +197,748 @@ g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporaril
 plot(g)
 ```
 
+### Customising themes using `theme()`
+
+[Part 2 of the ggplot tutorial](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part2-Customizing-Theme-With-R-Code.html) provides more detail on customising themes using `theme()`.
+
+The `theme()` function can specify a number of parameters, including:
+
+* The title, subtitle and caption, margin and background of the chart using `plot.title`, `plot.subtitle`, `plot.caption`, `plot.margin`, `plot.background` etc.
+* Markers and labels on axes using `axis.title`, `axis.text` (for either x or y), `axis.ticks` etc.
+* Decoration such as `panel.background`, `panel.grid`, `panel.margin`, `panel.border` etc.
+
+Let's track back to a plot with the `theme_set()` commented out:
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) #+
+  #theme_set(theme_classic())  
+
+plot(g)
+```
+
+Now we specify our own theme using `theme()` instead - starting with the title. We set the `size` to 20, and the font `family` among other things:
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) +
+  theme(plot.title=element_text(size=20, 
+                                face="bold", 
+                                family="Helvetica",
+                                color="orange",
+                                hjust=0.5, #horizontal justification - centred
+                                lineheight=1.2),
+        )
+
+plot(g)
+```
+Next we customise the subtitle - here we use the `face` argument to make it italic:
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2),  # title
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="italic", #can be italic, bold.italic etc
+                                       hjust=0.5),
+        )
+
+plot(g)
+```
+
+
+The caption, x and y axes' title text (`axis.title`) and point labels (`axis.text`) can all be themed too - note the use of `vjust` for vertical justification and `angle` to tilt some labels:
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8)  # y axis points same size
+        )
+
+plot(g)
+```
+
+### Changing the background
+
+Another `theme` option is background, using `panel.background =`, `panel.grid.major`, etc. I've intentionally chosen a horrid scheme!
+
+A margin can be added using `plot.margin = ` and coloured using `plot.background =` (the `panel` decoration sits on top of that so the background only shows through in the margin):
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8),  # y axis points same size
+        #---------------add backgrounds----------------
+            panel.background = element_rect(fill = "cyan"),
+            panel.grid.major = element_line(colour = "grey44", size=1),
+            panel.grid.minor = element_line(colour = "orange", 
+                                          size=.25, 
+                                          linetype = "dashed"),
+            plot.margin = unit(c(2, 2, 1, 1), "cm"),
+            plot.background = element_rect(fill="pink")
+        )
+
+plot(g)
+```
+
+### Adding a logo or background image
+
+You can add a background image using `annotation_custom()` - first the image needs to be grabbed and stored in a variable using a couple of lines:
+
+```
+img <- png::readPNG("bbc_logo_grey.png")  
+g_pic <- rasterGrob(img, interpolate=TRUE)
+```
+
+Then you add `+ annotation_custom()` with 5 parameters: the name of the variabe containing the image (created in the lines above); and the minimum and maximum x and y coordinates that it can occupy (measured from the bottom left corner). [More on annotation here](http://ggplot2.tidyverse.org/reference/annotation_custom.html).
+
+```{r}
+#grab the image
+img <- png::readPNG("bbc_logo_grey.png")  
+bbclogo <- rasterGrob(img, interpolate=TRUE)
+#create the ggplot object
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8)  # y axis points same size
+        ) +
+  #---------------add logo----------------
+            annotation_custom(bbclogo,xmin=15, xmax=80, ymin=10, ymax=35)
+        
+
+plot(g)
+```
+
+
+
+### Removing lines and ticks
+
+Setting elements to `element_blank()` turns them off, so you can make gridlines and axes invisible by setting them to that, e.g. `axis.ticks = element_blank()`
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(col=indexofdep)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5))) +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+        #---------------alter axes to be invisible----------------
+            axis.title = element_blank(),
+            axis.text = element_blank(),
+            panel.background = element_rect(fill = "cyan"),
+        #---------------alter grids to be invisible----------------
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+        #---------------turn off axes etc.----------------
+            axis.ticks = element_blank(),
+            panel.border = element_blank()
+        )
+
+plot(g)
+```
+
+## Changing the legend
+
+We'll also customise the legend with `labs()`. Note that the arguments need to match those inside `geom_point(aes())` (which are used to create a legend by default). 
+
+For example, if we have a line that says `geom_point(aes(size=indexofdep, color=))` then the corresponding label line would be `labs(size="Deprivation index")`
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8)  # y axis points same size
+        ) +
+  labs(size="Deprivation index",color="Academy") #new line
+
+plot(g)
+```
+
+You can turn off the legend if you need by using `guide = FALSE` as one of the arguments in functions like `scale_color_discrete` and `scale_size_continuous` (note the function names are based on the type of variable you are using - discrete categories or continuous numbers - and the type of aesthetic - colour or size).
+
+In the example below although 'Deprivation Index' *looks* like a continuous variable using numbers, because it also contains `#N/A` it is treated as discrete and gives us a warning.
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8)  # y axis points same size
+        ) +
+  #labs(size="Deprivation index",color="Academy") + 
+  scale_color_discrete(name="Academy") + scale_size_discrete(name = "Deprivation index", guide = FALSE) 
+
+plot(g)
+```
+
+### Changing the legend labels
+
+We can customise what labels are used in the legend, too. At the moment 'TRUE' and 'FALSE' are the values in the column, but that's not very user friendly. Adding `scale_color_manual` allows us to specify the labels instead.
+
+The `scale_color_manual()` function needs three arguments for each legend: `name="Academy"` specifies the name being used for the legend; `labels = c("Non academy","Academy")` uses a vector containing a list of labels to apply, in order. Because the 'FALSE' came first in our previous label we need to make sure 'Non academy' comes first here. You could equally use a column from a data frame, e.g. `labels = schooldata$academy`. The final argument specifies what the values *really* are and how to colour those: `values = c("TRUE" = "red","FALSE" = "blue"))`. Again this is a vector, but containing pairs.
+
+
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8)  # y axis points same size
+        ) +
+  #labs(size="Deprivation index",color="Academy") + 
+  scale_color_discrete(name="Academy") + scale_size_discrete(name = "Deprivation index", guide = FALSE) + 
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue"))
+
+plot(g)
+```
+
+## Using `guides()` to change order
+
+Let's change `scale_color_discrete()` so that the deprivation index legend is no longer hidden (by deleting `guide = FALSE`). We can then change the order using `guides()`
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8)  # y axis points same size
+        ) +
+  #labs(size="Deprivation index",color="Academy") + 
+  #These lines specify the titles to be used for the legends
+  scale_color_discrete(name="Academy") + scale_size_discrete(name = "Deprivation index") + 
+  #These lines specify the labels and colours to be used in one of the legends
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue")) +
+  #These lines specify which order the size and colour legends go
+  guides(size = guide_legend(order = 1),
+         color = guide_legend(order = 2))
+
+plot(g)
+```
+
+
+### Styling the legend etc.
+
+We already have a `theme()` function specifing the `plot.` title, subtitle and caption, and the x and y `axis.` title and text. We can add `legend.` arguments to specify the theme of the legend too. Note that we need to add a comma to the end of the preceding line `axis.text.y=element_text(size=8),` to continue the list.
+
+The new lines are `legend.title = element_text(size=10), legend.text = element_text(size=8), legend.key = element_rect(fill="yellow")` - note that below `element_rect()` draws a border around the element as a side effect of creating a background.
+
+You can move the legend around using `legend.position = `, e.g. "bottom" will place it at the bottom underneath the chart, or you can use coordinates relative to the bottom left of the chart (`c(0,0)`) - below we use "left" to place it on the other side to the default right.
+
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8),  # y axis points same size
+            legend.title = element_text(size=10),
+            legend.text = element_text(size=8),
+            legend.key = element_rect(fill="yellow"),
+            legend.position = "left"
+        ) +
+  #labs(size="Deprivation index",color="Academy") + 
+  #These lines specify the titles to be used for the legends
+  scale_color_discrete(name="Academy") + scale_size_discrete(name = "Deprivation index") + 
+  #These lines specify the labels and colours to be used in one of the legends
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue")) +
+  #These lines specify which order the size and colour legends go
+  guides(size = guide_legend(order = 1),
+         color = guide_legend(order = 2))
+
+plot(g)
+```
+
+We can use coordinates to place it on top of the chart instead of to the side. This means we need to make the background transparent with `legend.background = element_blank()`.
+
+We also use `legend.justification = ` to anchor the legend: `c(0,1)` is zero from the left and 1 from the bottom
+
+```{r}
+#repeat above code but add line to set theme
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8),  # y axis points same size
+            legend.title = element_text(size=10),
+            legend.text = element_text(size=8),
+            #legend.key = element_rect(fill="yellow"),
+            legend.position = c(0.8,0.99), #changed to move
+            legend.justification = c(0,1),
+            legend.background = element_blank()
+        ) +
+  #labs(size="Deprivation index",color="Academy") + 
+  #These lines specify the titles to be used for the legends
+  scale_color_discrete(name="Academy") + scale_size_discrete(name = "Deprivation index") + 
+  #These lines specify the labels and colours to be used in one of the legends
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue")) +
+  #These lines specify which order the size and colour legends go
+  guides(size = guide_legend(order = 1),
+         color = guide_legend(order = 2))
+
+plot(g)
+```
+
+## Labelling
+
+If we want to label the outliers we first need to create a subset for just those data points. We can use `subset()` or `schooldata.outliers <- schooldata[schooldata$Full.Time.Posts.Vacant....>20,]` (note the comma) - both methods are shown below.
+
+Then we use `geom_text()` as shown below to add text to each point. Note that `label = School.Name` specifies the column and `data=schooldata.outliers` specifies what data frame that column is located in (because it's a different one). Text size is determined by `size=4`
+
+```{r}
+#Create a subset of the outliers - method 1
+schooldata.outliers <- subset(schooldata,schooldata$Full.Time.Posts.Vacant....>30)
+#Create a subset of the outliers - method 2
+schooldata.outliers <- schooldata[schooldata$Full.Time.Posts.Vacant....>25,]
+#The code to draw - stripped back a little to remove the placement of the legend.
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  # New line below ------------------------------------------------------
+  geom_text(aes(label = School.Name),size=4, data=schooldata.outliers) + #NEW LINE
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8),  # y axis points same size
+            legend.title = element_text(size=10),
+            legend.text = element_text(size=8)
+        ) +
+  labs(size="Deprivation index",color="Academy") + 
+  #These lines specify the labels and colours to be used in one of the legends
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue")) 
+
+plot(g)
+```
+
+The labels overlap - we can use the `ggrepel` package to give us access to the `geom_text_repel()` function that makes text label repel each other.
+
+```{r}
+#Install and activate ggrepel  ------------------------------------------------------
+install.packages("ggrepel")
+library(ggrepel)
+
+#Create a subset of the outliers - method 1
+schooldata.outliers <- subset(schooldata,schooldata$Full.Time.Posts.Vacant....>30)
+#Create a subset of the outliers - method 2
+schooldata.outliers <- schooldata[schooldata$Full.Time.Posts.Vacant....>35,]
+#The code to draw - stripped back a little to remove the placement of the legend.
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  # Change line below to repel ------------------------------------------------------
+  geom_text_repel(aes(label = School.Name),size=3, data=schooldata.outliers) + #NEW LINE
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8),  # y axis points same size
+            legend.title = element_text(size=10),
+            legend.text = element_text(size=8)
+        ) +
+  labs(size="Deprivation index",color="Academy") + 
+  #These lines specify the labels and colours to be used in one of the legends
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue")) 
+
+plot(g)
+```
+
+Alternatively we can create 'labels' that have borders using `geom_label_repel()`:
+
+```{r}
+library(ggrepel)
+
+#Create a subset of the outliers - method 1
+schooldata.outliers <- subset(schooldata,schooldata$Full.Time.Posts.Vacant....>30)
+#Create a subset of the outliers - method 2
+schooldata.outliers <- schooldata[schooldata$Full.Time.Posts.Vacant....>35,]
+#The code to draw - stripped back a little to remove the placement of the legend.
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  geom_smooth(method="lm", col="yellow") + 
+  # Change line below to label  ------------------------------------------------------
+  geom_label_repel(aes(label = School.Name),size=3, data=schooldata.outliers) + #NEW LINE
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8),  # y axis points same size
+            legend.title = element_text(size=10),
+            legend.text = element_text(size=8)
+        ) +
+  labs(size="Deprivation index",color="Academy") + 
+  #These lines specify the labels and colours to be used in one of the legends
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue")) 
+
+plot(g)
+```
+## Adding annotations using `grid`
+
+The [grid package](https://bookdown.org/rdpeng/RProgDA/the-grid-package.html) provides extra functionality/control within ggplot. We need to activate that to use `grid.text()` to create a 'grob' ("grid graphical object"") including coordinates, then `annotation_custom()` to add it to our plot.
+
+You can find a [reference guide to colour names in ggplot here](http://sape.inf.usi.ch/quick-reference/ggplot2/colour).
+
+```{r}
+# NEW LIBRARY
+library(grid)
+#Store text - this makes it aesier to change the annotation later
+storytext <- "Primary schools have the biggest staff gaps"
+#Create 'grob' with that text, specifying x and y coordinates, colour, size and weight
+storygrob = grid.text(storytext, x=0.6,  y=0.8, gp=gpar(col="grey18", fontsize=12, fontface="bold"))
+
+
+#Create a subset of the outliers - method 1
+schooldata.outliers <- subset(schooldata,schooldata$Full.Time.Posts.Vacant....>30)
+#Create a subset of the outliers - method 2
+schooldata.outliers <- schooldata[schooldata$Full.Time.Posts.Vacant....>35,]
+#The code to draw - stripped back a little to remove the placement of the legend.
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point(aes(size=indexofdep,color=academy)) + 
+  # Here is where the 'grob' is added as an annotation  ------------------------------------------------------
+  annotation_custom(storygrob) + 
+  geom_smooth(method="lm", col="yellow") + 
+  geom_label_repel(aes(label = School.Name),size=3, data=schooldata.outliers) + #NEW LINE
+  labs(title="Vacant posts vs temps", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  #scale_colour_brewer(palette = "RdYlGn") + 
+  scale_x_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  theme(plot.title=element_text(size=20, 
+                                    face="bold", 
+                                    family="Helvetica",
+                                    color="orange",
+                                    hjust=0.5, #horizontal justification - centred
+                                    lineheight=1.2), 
+            plot.subtitle=element_text(size=10, 
+                                       family="Arial",
+                                       face="bold",
+                                       hjust=0.5),
+            plot.caption=element_text(size=10),  
+            axis.title.x=element_text(vjust=10,  
+                                      size=8),  
+            axis.title.y=element_text(size=8),  
+            axis.text.x=element_text(size=8, 
+                                     angle = 45, #tilt labels at a 45 degree angle
+                                     vjust=.5),  # vertical justification - 0.5 = centred
+            axis.text.y=element_text(size=8),  # y axis points same size
+            legend.title = element_text(size=10),
+            legend.text = element_text(size=8)
+        ) +
+  labs(size="Deprivation index",color="Academy") + 
+  #These lines specify the labels and colours to be used in one of the legends
+  scale_color_manual(name="Academy", 
+                     labels = c("Non academy","Academy"), 
+                     values = c("TRUE" = "red","FALSE" = "blue")) 
+
+plot(g)
+```
+
+
+## Faceting to create multiple charts
+
+Faceting allows you create 'small multiples' of the same chart applied to different categories. For example instead of showing all schools in one chart above, we could generate one each for different types. 
+
+Because the charts are going to be smaller, we might need to consider issues such as the size of points and the number of rows. The `facet_wrap` function needs to be told which column to use as a category (it will generate as many charts as there are values in that column). In this example we use the column 'type':
+
+`g + facet_wrap( ~ type, nrow = 10)`
+
+That generates too many charts to be easily understandable, so below we've used the binary 'academy' column (another option is to subset the data to the most common categories):
+
+```{r}
+g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporarily.Filled.Posts....)) + 
+  geom_point() + 
+  labs(title="Vacant posts vs temps: Academies (TRUE) vs non academies (FALSE)", subtitle="2016", y="Full time temporarily filled posts", x="Full-Time Posts Vacant", caption="2016 school vacancies") +
+  theme_bw() +
+  scale_y_continuous(breaks=seq(0, 50, 5), labels = sprintf("%0.f%%",seq(0, 50, 5)))  +
+  labs(size="Deprivation index") 
+
+plot(g)
+
+#'type' is the name of a column in our dataset - that will change for other datasets
+g + facet_wrap( ~ academy, nrow = 2)
+summary(schooldata$Full.Time.Temporarily.Filled.Posts....)
+```
+
+The `facet_grid()` function allows you to specify *two* category fields and creates a grid of charts for those. Below we use this to compare categories within academies (TRUE) and outside (FALSE).
+
+```{r}
+g + facet_grid(type ~ academy)
+```
 
