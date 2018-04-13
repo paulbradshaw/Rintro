@@ -106,7 +106,7 @@ g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporaril
 plot(g)
 ```
 
-### Changing the size of dots based on a variable
+## Bubble charts: changing the size of dots based on a variable 
 
 We can also change other parameters based on values in the data - for example the size of the dot by adding `, size=indexofdep`:
 
@@ -434,7 +434,7 @@ g <- ggplot(schooldata, aes(x=Full.Time.Posts.Vacant...., y=Full.Time.Temporaril
 plot(g)
 ```
 
-## Changing the legend
+## Changing the legend 
 
 We'll also customise the legend with `labs()`. Note that the arguments need to match those inside `geom_point(aes())` (which are used to create a legend by default). 
 

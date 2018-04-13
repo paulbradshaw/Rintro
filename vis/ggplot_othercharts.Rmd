@@ -7,3 +7,6 @@ output: html_document
 
 Having explored the range of functionality offered by the `ggplot` package in a separate notebook, this notebook focuses on different chart types. Most of this is adapted from [this tutorial](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
 
+## Animated bubble chart
+
+The `gganimate` package can animate a chart.
