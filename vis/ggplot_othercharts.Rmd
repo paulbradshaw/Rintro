@@ -5,8 +5,54 @@ output: html_document
 
 # Using ggplot2 to create other charts
 
-Having explored the range of functionality offered by the `ggplot` package in a separate notebook, this notebook focuses on different chart types. Most of this is adapted from [this tutorial](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+Having explored the range of functionality offered by the `ggplot` package in a separate notebook, this notebook focuses on different chart types. Most of this is adapted from [this tutorial](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) which also has lots of other examples of charts which aren't covered here.
 
 ## Animated bubble chart
 
-The `gganimate` package can animate a chart.
+The `gganimate` package [can animate a chart](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html#Animated%20Bubble%20Plot). 
+
+The key line at that link above is `g <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, frame = year))` - note that `frame = year` as one of the `aes()` parameters specifies that the `year` column is used for each 'frame' of the animation. Then, `gganimate(g, interval=0.2)` specifies that the `g` object should be animated, and the `interval` sets the time between each frame (in this case each year's data) being shown.
+
+## Diverging bar chart
+
+To try out the diverging bar chart (where bars go up and down from a baseline, typically to show positive and negative values), we need to create some data to show. I've downloaded some data from [a BBC investigation into the rate of EU staff leaving the NHS](https://github.com/BBC-Data-Unit/EU-workers-NHS) and imported it below:
+
+```{r}
+nhstaff <- read.csv('NHSworkforce.csv')
+#if you try to subtract columns that show numbers of staff from each other, you get the error "'-' not meaningful for factors" so we have to convert them to numbers first, following the advice given here: https://stackoverflow.com/questions/18045096/r-error-sum-not-meaningful-for-factors
+nhstaff$eustaff1415 <- as.numeric(as.character(nhstaff$EU.2014.15))
+nhstaff$eustaff1617 <- as.numeric(as.character(nhstaff$EU.2016.17))
+#Now we can create a column showing differences by subtracting one from the other
+nhstaff$euchange1417 <- nhstaff$eustaff1617 - nhstaff$eustaff1415
+#Just grab the first 20
+nhsstaff20 <- head(nhstaff,20)
+#Check that there are no NA values
+summary(nhsstaff20$euchange1417)
+#Add a new column to show TRUE/FALSE whether the change is negative. This is important as it will be used to set a baseline.
+nhsstaff20$euchange1417down <- nhsstaff20$euchange1417 < 0
+
+```
+
+Now to try the chart. Note that the `y=` needs a numeric field and `x=` can be a character or factor.
+
+`geom_bar(stat='identity` is what makes this diverging. We need a field that specifies that, which is `aes(fill=euchange1417down)`. The manual labelling needs the `"FALSE"` value to match those in the data; the labels are arbitrary however.
+
+```{r}
+library(ggplot2)
+theme_set(theme_bw())  
+summary(nhstaff$euchange1417)
+
+# Diverging Barcharts
+ggplot(nhsstaff20, aes(x=Org.name, y=euchange1417, label=euchange1417)) + 
+  geom_bar(stat='identity', aes(fill=euchange1417down), width=.5)  + 
+  scale_fill_manual(name="Change", 
+                    labels = c("Staff increased","Staff dropped"), 
+                    values = c("FALSE"="#00ba38", "TRUE"="#f8766d")) + 
+  labs(subtitle="A selection of 20 trusts", 
+       title= "EU staff in the NHS 2014-17",
+       y = "Change 2014-2017",
+       x = "") + 
+  coord_flip()
+```
+
+
