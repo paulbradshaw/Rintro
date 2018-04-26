@@ -40,6 +40,10 @@ This generates a count of how many times each category occurs in that column. It
 
 `write.csv(table(mydata$category), "categoriespivot.csv")`
 
+By the way, you can store a list of all unique values in a column by using `unique()`, e.g.
+
+`categorylist <- unique(mydata$category)`
+
 ## 3. Create a pivot that calculates totals
 
 To do other types of pivot tables you need to use the `tapply` function. This applies a particular calculation (such as `sum`, `mean`, `average`, etc.) to a column of your data, and aggregates it by another. In other words, just like dragging one thing into *Values* in a pivot table (what you want to calculate) and another into *Rows* what you want to aggregate by. Here's an example:
@@ -149,7 +153,22 @@ Now, imagine if that `sum` is 21 and the total items is 100.
 
 The `mean` function will divide that 21 by the total items to get 0.21, or 21%.
 
-## 10. Try some more advanced exercises
+## 10. `IF` in R
+
+In Excel the `IF` function performs a test (typically on a cell) and then does one thing if the test comes back as true, or a second thing if it is false. It is often used for generating new columns which assign categories to the value in another column. For example the formula `=IF(A2>5,"Above 5","5 or below")`, when repeated down a column will fill each cell with either 'Above 5' or '5 or below'.
+
+In R you can do the same with `ifelse`, and the construction is the same: first the test you want to perform, then a parameter saying what to do if it's true, and third parameter is what to do if it's false.
+
+The big difference is that you do this with *an entire column* rather than cell-by-cell. Here's an example which creates a vector:
+
+`whiteornot <- ifelse(testdata$self_defined_ethnicity == "White - White British (W1)","White","Not white")`
+
+And here's one which adds a new column:
+
+`testdata$whiteornot <- ifelse(testdata$self_defined_ethnicity == "White - White British (W1)","White","Not white")`
+
+
+## Try some more advanced exercises
 
 [This series of tutorials](https://www.mathsisfun.com/data/standard-deviation.html) extends the techniques outlined above, and brings in other useful tips such as filtering with `subset`, creating percentages, and turning a table into a data frame.
 
