@@ -1,0 +1,122 @@
+---
+title: "summary tools"
+author: "Paul Bradshaw"
+date: "23 July 2018"
+output: html_document
+---
+
+# Using the `summarytools` package
+
+These are notes from following [the guide to the `summarytools` package](https://cran.r-project.org/web/packages/summarytools/vignettes/Introduction.html) on CRAN.
+
+Let's install and activate the package first:
+
+```{r}
+install.packages("summarytools")
+library(summarytools)
+```
+
+Now let's import some data to play with. I've got some food hygiene data:
+
+```{r}
+fooddata <- read.csv("bhamfooddata.csv")
+#Clean up the column names which all begin with EstablishmentDetail...
+colnames(fooddata) <-gsub("EstablishmentDetail...","",colnames(fooddata))
+```
+
+## The killer app: `dfSummary()`
+
+The `dfSummary()` function provides a massive summary including histograms. Just run it and see:
+
+```{r}
+#You can run this without using view() but the results are prettier with it - you can see it in the Viewer panel on the right which should open when run.
+view(dfSummary(iris))
+```
+
+If your data has anything non-numeric such as NA values then it will throw an error so you need to subset it to remove those first:
+
+```{r}
+foodnums <- data.frame(fooddata$Scores...Hygiene,fooddata$Scores...Structural,fooddata$Scores...ConfidenceInManagement)
+foodnums.nonas <- subset(foodnums,foodnums$fooddata.Scores...Hygiene != "NA")
+view(dfSummary(foodnums.nonas))
+```
+
+
+## Showing frequencies (pivot table - counts and % of column) using `freq()`
+
+Now time to test out the functions in `summarytools`. First, `freq()`, which tells us what number and percentage of a column's cells contains each value:
+
+```{r}
+#We add the parameter style = "rmarkdown" which works nicely in a notebook. Other options are 'simple' or 'grid'
+freq(fooddata$RatingValue, style = "rmarkdown")
+```
+
+Other parameters include:
+
+* `report.nas = FALSE` to ignore `NA` values - we have 0 so it's not worth using, but it does remove those apparently duplicate extra 3 columns
+* `totals = FALSE` to remove the total row
+
+```{r}
+#We add the parameter style = "rmarkdown" which works nicely in a notebook. Other options are 'simple' or 'grid'
+freq(fooddata$RatingValue, style = "rmarkdown", report.nas = FALSE)
+```
+
+## Adding columns to our pivot table (crosstabulation) using `ctable()`
+
+What if we want to add a column to our table to divide up the totals by another category? `ctable()` allows us to do that. 
+
+We need to specify the row first and then the column like so:
+
+`ctable(RatingValue,BusinessType)`
+
+And then wrap that inside a `print() statement which in turn is contained in a `with()` function that specifies the table that those columns come from. The `print` function also has a `method =` parameter
+
+```{r}
+with(fooddata, print(ctable(RatingValue,BusinessType), method='render'))
+```
+
+We can exclude percentages by setting the `prop` parameter of `ctable` to "n":
+
+```{r}
+with(fooddata, 
+     print(
+  ctable(RatingValue,BusinessType, prop='n'), 
+    method='render')
+  )
+```
+
+Let's switch rows and columns - it's much easier to read:
+
+```{r}
+with(fooddata, 
+     print(
+  ctable(BusinessType,RatingValue, prop='n'), 
+    method='render')
+  )
+```
+
+## Descriptive statistics with `descr()`
+
+The `descr()` function will generate means, medians, quartiles etc. for any numerical columns:
+
+```{r}
+descr(fooddata, style="rmarkdown")
+```
+
+Some useful parameters include the ability to specify *which* stats you want, and to transpose:
+
+* `stats = c("mean", "sd", "min", "med", "max")`
+* `transpose = TRUE`
+
+```{r}
+descr(fooddata, style="rmarkdown",transpose = TRUE,stats = c( "min", "Q1", "med", "Q3","max"))
+```
+
+What we see from this is that the individual hygiene score is typically better (3rd quartile is 5) than the other components (structural and management on 10 each - low scores are good in these component categories).
+
+The results can be stored in a data object:
+
+```{r}
+stats <- descr(fooddata, style="rmarkdown",transpose = TRUE,stats = c( "min", "Q1", "med", "Q3","max"))
+```
+
