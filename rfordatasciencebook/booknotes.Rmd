@@ -7,7 +7,45 @@ output: html_document
 
 These are notes from the book [R for Data Science](http://r4ds.had.co.nz/).
 
+Let's start by installing the tidyverse collection of packages, and activating it in our library.
+
 ```{r}
 install.packages("tidyverse")
+library(tidyverse)
 ```
 
+And a few other packages that contain data we want to use:
+
+```{r}
+install.packages(c("nycflights13", "gapminder", "Lahman"))
+```
+
+
+## Story based inquiry, or hypothesis generation?
+
+Hadley Wickham conveniently mirrors the division within journalism between hypothesis-driven investigation, and using data to generate leads:
+
+> "It’s possible to divide data analysis into two camps: hypothesis generation and hypothesis confirmation (sometimes called confirmatory analysis)."
+
+## Importing data
+
+The tidyverse uses `read_csv` and `write_csv` as alternatives to R's own `read.csv` etc. However: "Note that the type information is lost when you save to csv ... you need to recreate the column specification every time you load in."
+
+Alternatives include writing as RDS or feather (using the `feather` package).
+
+[Other useful packages](http://r4ds.had.co.nz/data-import.html#other-types-of-data) include:
+
+* `haven` (SPSS, Stata, and SAS)
+* `readxl` (.xls and .xlsx).
+* `DBI` "along with a database specific backend (e.g. RMySQL, RSQLite, RPostgreSQL etc) allows you to run SQL queries against a database and return a data frame."
+* `jsonlite` for json
+* `xml2` for XML. See: https://jennybc.github.io/purrr-tutorial/.
+* `rio`
+
+## Cleaning data: `parse_` functions
+
+See the notebook in this repo.
+
+## Combining data
+
+See the notebook in this repo.

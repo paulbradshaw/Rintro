@@ -1,0 +1,89 @@
+---
+title: "book notes"
+author: "Paul Bradshaw"
+date: "5 March 2017"
+output: html_document
+---
+
+These are notes from the book [R for Data Science](http://r4ds.had.co.nz/) - specifically the [section on relational data](http://r4ds.had.co.nz/relational-data.html#relational-data).
+
+Let's start by installing the tidyverse collection of packages, and activating it in our library.
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+And a few other packages that contain data we want to use:
+
+```{r}
+install.packages(c("nycflights13", "gapminder", "Lahman"))
+```
+
+## 3 types of joins
+
+Hadley outlines "three families of verbs designed to work with relational data":
+
+* **Mutating joins**, which add new variables to one data frame from matching observations in another. 
+* **Filtering joins**, which filter observations from one data frame based on whether or not they match an observation in the other table.
+* **Set operations**, which treat observations as if they were set elements.
+
+And two types of **key**:
+
+* A **primary key** uniquely identifies an observation in its own table. For example, planes$tailnum is a primary key because it uniquely identifies each plane in the planes table.
+* A **foreign key** uniquely identifies an observation in another table. For example, the flights$tailnum is a foreign key because it appears in the flights table where it matches each flight to a unique plane.
+
+You can use a **surrogate key** such as an index (row number) if the dataset has no key and values cannot be combined to create a unique one.
+
+> "One way to [verify a primary key is unique] is to count() the primary keys and look for entries where n is greater than one:"
+
+```{r}
+#Bring in the library of data
+library(nycflights13)
+#Check the uniqueness of the tailnum field in the planes data
+planes %>% 
+  count(tailnum) %>% 
+  filter(n > 1) #The result is a tibble with 0 rows because there are no matches
+```
+
+## Combining tables using `left_join()`
+
+We can use the SQL-like function `left_join()` to join two tables on a common value. Note that this generates two outputs: the joined table but also a message about how it has decided to join the two original tables (because we haven't told it):
+
+```{r}
+#The two tables here have been generated in the cleaningtidydata.Rmd notebook - run the code in that notebook first.
+left_join(tidy4a,tidy4b)
+```
+ ![](http://r4ds.had.co.nz/diagrams/relational-nycflights.png)
+
+## Using the SQL `select` command
+
+Let's create a new dataset from the planes data using a pipe as the basis for a `select` command (think of the `%>%` as analagous to SQL's `FROM` command):
+
+```{r}
+flights2 <- flights %>%
+  #the colon indicates the columns between the two named
+  select(year:day, hour, origin, dest, tailnum, carrier) #select is a SQL command
+flights2
+```
+
+Now we use `left_join` to convert those carrier codes into actual names. These are stored in another dataset, *airlines*, and we specify the column they have in common with `by = `
+
+```{r}
+flights2 %>%
+  select(-origin,-dest) %>% #two columns are removed first
+  left_join(airlines, by = "carrier") #specify the common column to join on
+```
+
+### Doing the same with `mutate()`
+
+Here's the code with `mutate()` instead. This time we specify the column from `airlines` we want to grab, and what column we are matching against in each. This can be useful if the columns don't have the same name in each dataset:
+
+```{r}
+flights2 %>%
+  select(-origin, -dest) %>% 
+  mutate(name = airlines$name[match(carrier, airlines$carrier)]) #grab the 'name' column from airlines, match the 'carrier' column from flights2, to the 'carrier' column in airlines
+```
+
+
+
