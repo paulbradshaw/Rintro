@@ -1,0 +1,96 @@
+---
+title: "crime_regression"
+author: "Paul Bradshaw"
+date: "26/07/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Using simple linear regression with crime data
+
+We are going to import some data from the BBC Data Unit's [GitHub repo for a story on unsolved crime](https://github.com/BBC-Data-Unit/unsolved-crime):
+
+```{r}
+dataset = read.csv('https://raw.githubusercontent.com/BBC-Data-Unit/unsolved-crime/master/outcomes_by_force.csv')
+```
+
+This has a number of columns that can be used to generate a regression model for one of the other columns.
+
+First we need to split the dataset into a training set and a test set:
+
+```{r}
+# Splitting the dataset into the Training set and Test set
+# install.packages('caTools')
+library(caTools)
+#Create a seed so results are consistent with other people using same seed
+set.seed(123)
+#Split the dataset into a training set (0.75) and a test set (0.25)
+split = sample.split(dataset$Investigation.complete..no.suspect.identified, SplitRatio = 0.75)
+training_set = subset(dataset, split == TRUE)
+test_set = subset(dataset, split == FALSE)
+```
+
+Now let's make a regressor which seeks to link 'no suspect identified' (the dependent variable) to 'action is not in public interest' (independent variable):
+
+```{r}
+# Fitting Simple Linear Regression to the Training set
+# Specify dependent ~ independent variables, and data (training because we need test separate)
+regressor <- lm(formula = Investigation.complete..no.suspect.identified ~ Formal.action.is.not.in.the.public.interest,
+                data = training_set)
+```
+
+And see a summary:
+
+```{r}
+#Use summary() to see details about this model including the coefficient
+#Note the dot in this:
+#Formal.action.is.not.in.the.public.interest     16.12       8.52   1.892   0.0686 .  
+#Likewise p-value: 0.06857
+summary(regressor)
+```
+Some things to point out here: *2 observations deleted due to missingness* - this will be where there are `NA` values. That's quite useful - we should have made sure not to incude NA values otherwise.
+
+Also note: 
+
+`Formal.action.is.not.in.the.public.interest     16.12       8.52   1.892   0.0686 .`
+
+The `.` at the end corresponds to a significance of 0.05 in the legend underneath that line.
+
+Now let's show that line from the training set:
+
+```{r}
+# Predicting the Test set results
+y_pred = predict(regressor, newdata = test_set)
+
+# Visualising the Training set results
+library(ggplot2)
+ggplot() +
+  geom_point(aes(x = training_set$Formal.action.is.not.in.the.public.interest, y = training_set$Investigation.complete..no.suspect.identified),
+             colour = 'red') +
+  geom_line(aes(x = training_set$Formal.action.is.not.in.the.public.interest, y = predict(regressor, newdata = training_set)),
+            colour = 'blue') +
+  ggtitle('Salary vs Experience (Training set)') +
+  xlab('Years of experience') +
+  ylab('Salary')
+```
+
+And see how well that line fits the test set, which wasn't included in the training calculation:
+
+```{r}
+
+# Visualising the Test set results
+library(ggplot2)
+ggplot() +
+  geom_point(aes(x = test_set$Formal.action.is.not.in.the.public.interest, y = test_set$Investigation.complete..no.suspect.identified),
+             colour = 'red') +
+  geom_line(aes(x = training_set$Formal.action.is.not.in.the.public.interest, y = predict(regressor, newdata = training_set)),
+            colour = 'blue') +
+  ggtitle('Salary vs Experience (Test set)') +
+  xlab('Years of experience') +
+  ylab('Salary')
+```
+
+There's not a lot of data here, however, so we can try this on a larger dataset of school finances - see the relevant Rmd file in this folder for more.

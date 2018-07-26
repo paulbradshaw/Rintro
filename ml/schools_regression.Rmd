@@ -1,0 +1,131 @@
+---
+title: "schools_regression"
+author: "Paul Bradshaw"
+date: "26/07/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Using simple linear regression with school finance data
+
+We are going to import some data on [academy finances](https://www.gov.uk/government/statistics/income-and-expenditure-in-academies-in-england-2014-to-2015). This has been placed in the same folder as this code, then one of the sheets copied out, then saved as csv and renamed to make it easier:
+
+We're going to use the `tidyverse` package and `read_csv` from that to pick up any potential problems in the data formatting. Weirdly, it pulls out some headings (like "PFI Charges") and repeats them on a first row under the headings.
+
+```{r}
+library(tidyverse)
+rawdatasats = read_csv('rawdatasats.csv')
+```
+
+We might want to remove that:
+
+```{r}
+#The -1 indicates every row apart from the first one
+rawdatasats <- rawdatasats[-1,]
+head(rawdatasats)
+```
+
+
+The data has a number of columns that can be used to generate a regression model for one of the other columns.
+
+Let's rename a couple to make it easier:
+
+```{r}
+colnames(rawdatasats)[36]
+colnames(rawdatasats)[36] <- "supplystaffcost"
+colnames(rawdatasats)[36]
+colnames(rawdatasats)[55]
+colnames(rawdatasats)[55] <- "stafftraining"
+colnames(rawdatasats)[55]
+```
+
+And let's check that. Now, we realise it's a character column, so we can use `parse_integer` to convert that - and then multiply it by 1000 because we know that this column refers to *thousands* of pounds.
+
+```{r}
+#summarise the staff cost column
+summary(rawdatasats$supplystaffcost)
+#parse it into a new vector as integers
+supplystaffcost.num <- parse_integer(rawdatasats$supplystaffcost)
+#summarise again, while multiplying by 1,000
+summary(supplystaffcost.num*1000)
+#reassign to the original column
+rawdatasats$supplystaffcost <- supplystaffcost.num*1000
+summary(rawdatasats$supplystaffcost)
+#Now to repeat for the other column
+summary(rawdatasats$stafftraining)
+#These are numbers so we can leave as is.
+```
+
+
+First we need to split the dataset into a training set and a test set:
+
+```{r}
+# Splitting the dataset into the Training set and Test set
+# install.packages('caTools')
+library(caTools)
+#Create a seed so results are consistent with other people using same seed
+set.seed(123)
+#Split the dataset into a training set (0.8) and a test set (0.2)
+split = sample.split(rawdatasats$supplystaffcost, SplitRatio = 0.75)
+training_set = subset(rawdatasats, split == TRUE)
+test_set = subset(rawdatasats, split == FALSE)
+```
+
+Now let's make a regressor which seeks to link 'supplystaffcost' (the dependent variable) to 'stafftraining' (independent variable):
+
+```{r}
+# Fitting Simple Linear Regression to the Training set
+# Specify dependent ~ independent variables, and data (training because we need test separate)
+regressor <- lm(formula = supplystaffcost ~ stafftraining,
+                data = training_set)
+```
+
+And see a summary:
+
+```{r}
+#Use summary() to see details about this model including the coefficient
+#Note the *** in this:
+#stafftraining   1572.7      155.3   10.13   <2e-16 ***
+#Likewise the low p-value: < 2.2e-16
+summary(regressor)
+```
+This is quite a strong relationship - which we should have expected. Remember that we have a bunch of NA values, however, which we should remove.
+
+Now let's show that line from the training set:
+
+```{r}
+# Predicting the Test set results
+y_pred = predict(regressor, newdata = test_set)
+
+# Visualising the Training set results
+library(ggplot2)
+ggplot() +
+  geom_point(aes(x = training_set$stafftraining, y = training_set$supplystaffcost),
+             colour = 'red') +
+  geom_line(aes(x = training_set$stafftraining, y = predict(regressor, newdata = training_set)),
+            colour = 'blue') +
+  ggtitle('Supply staff costs vs training costs (Training set)') +
+  xlab('Training') +
+  ylab('Supply costs')
+```
+
+And see how well that line fits the test set, which wasn't included in the training calculation:
+
+```{r}
+
+# Visualising the Test set results
+library(ggplot2)
+ggplot() +
+  geom_point(aes(x = test_set$stafftraining, y = test_set$supplystaffcost),
+             colour = 'red') +
+  geom_line(aes(x = training_set$stafftraining, y = predict(regressor, newdata = training_set)),
+            colour = 'blue') +
+  ggtitle('Supply staff costs vs training costs (Test set)') +
+  xlab('Training') +
+  ylab('Supply costs')
+```
+
+There's a lot of clustering here so it's hard to see.
