@@ -1,0 +1,61 @@
+---
+title: "Datatables"
+author: "Paul Bradshaw"
+date: "03/10/2018"
+output: html_document
+---
+
+# Using R to create interactive datatables
+
+This is a very short notebook that explains how to use the `DT` package to create an interactive table.
+
+First, we need to import some data. In the same folder as this notebook is a CSV file with some data we can use:
+
+```{r}
+#Import data from the CSV file into a new data frame object called gpdata
+gpdata <- read.csv("gpdata.csv")
+```
+
+There's a lot here, so let's see the first few lines:
+
+```{r}
+#Show the first few lines of gpdata
+head(gpdata)
+```
+
+And get an overview of the column names:
+
+```{r}
+#Show the column names of gpdata
+colnames(gpdata)
+```
+
+And let's reduce it to just a few columns
+
+```{r}
+#Show the column names of gpdata - but just those for columns 8 to 16
+colnames(gpdata)[c(8:16)]
+```
+
+Then create a separate dataset with just those columns
+
+```{r}
+#Create a new data frame called gpsubset - by extracting columns 8 to 16 of gpdata
+gpsubset <- gpdata[c(8:16)]
+```
+
+
+## Draw a datatable
+
+Now let's create a datatables interface to look at that. To do that we use the `DT` package:
+
+```{r}
+#This line is commented out because DT is already installed
+#install.packages("DT")
+#This activates DT in the library, although again it isn't really needed
+library(DT)
+#Now use DT to generate a datatable for the data frame gpsubset
+DT::datatable(gpsubset)
+```
+
+This will preview in the notebook itself, but you can also generate a HTML version of this notebook by clicking the **Knit** button above the notebook, and selecting **Knit to HTML**.
