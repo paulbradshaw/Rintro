@@ -1,0 +1,153 @@
+---
+title: "Using internal migration data to merge, clean, filter and pivot"
+author: "Dan Wainwright"
+date: "8 October 2018"
+output: html_notebook
+---
+
+For this experiment we need data from the ons. download the zipped folders for part one and two and 
+Then copy the csvs into a folder on your computer.
+
+https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/migrationwithintheuk/datasets/internalmigrationbyoriginanddestinationlocalauthoritiessexandsingleyearofagedetailedestimatesdataset
+
+If you don't already have them then uncomment the following two lines ("uncomment" is the term for removing the hashtag, 
+anything "commented out" does not run).
+
+
+```{r}
+#install.packages("tidyverse")
+#install.packages("dplyr")
+```
+
+#Load your libraries
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+#Import your two datasets
+
+
+
+```{r}
+data1 <- read_csv("Detailed_Estimates_2017_Dataset_1.csv")
+data2 <- read_csv("Detailed_Estimates_2017_Dataset_2.csv")
+```
+
+#Merge your two datasets
+
+```{r}
+fulldata <- rbind(data1, data2)
+```
+
+#What if the datasets don't match?
+
+Hypothetically, we now need to import a new dataset, but this one has an extra column and a misspelled column heading.
+For this purpose, if you don't have the dummy dataset, open one of the two datsets in Excel, swap InLA and OutLA around, change the spelling of OutLA and add another column in
+Between Age and Sex, call that one Test and just put some random numbers in and then copy that all the way down
+Then save it as "Detailed_Estimates_2017_Dataset_3.csv".
+
+And now import it:
+
+```{r}
+datatest <- read_csv("Detailed_Estimates_2017_Dataset_3.csv")
+```
+
+
+Let's try to merge them and see what errors we get
+
+```{r}
+testdata <- rbind(data1, datatest)
+```
+
+To find out why, let's look at the names of the headings.
+
+
+```{r}
+names(data1)
+names(datatest)
+```
+
+We have a dodgy column heading, so let's change it.
+
+```{r}
+# rename the second column in the datatest set
+names(datatest)[2] <- "OutLA"
+names(datatest)
+```
+
+And now let's put the columns in the order we want and skip over the extra data we don't want.
+
+```{r}
+testdata <- datatest %>%
+  select(2,1,3,5,6)
+
+names(testdata)
+```
+
+Now we bring them together again
+
+```{r}
+newfulldata <- rbind(data1, testdata)
+newfulldata
+```
+
+
+#How to filter
+
+We need to write = twice
+
+
+```{r}
+youngest <- fulldata %>%
+  filter(Age==18)
+head(youngest)
+```
+
+For our other age groups, we need to specify each age we want
+
+```{r}
+youth <-  filter(fulldata, Age == 18 | Age == 19 | Age == 20 | Age == 21 | Age == 22 | Age == 23 | Age == 24)
+older <-  filter(fulldata, Age == 25 | Age == 26 | Age == 27 | Age == 28 | Age == 29 | Age == 30)
+head(youth)
+head(older)
+```
+
+Now we can export our data as three csvs.
+
+```{r}
+write_csv(youngest, "youngest.csv")
+write_csv(youth, "youth.csv")
+write_csv(older, "older.csv")
+```
+#Pivot tables
+
+We also want a unique list of LA codes for lookups in Excel, so we use R's version of a pivot table, group_by
+
+```{r}
+pivot <- fulldata %>%
+  group_by(OutLA) %>%
+  summarise(count=n()) %>% 
+  arrange(desc(count))
+
+write_csv(pivot, "LAs.csv")
+```
+
+#Getting really clever
+
+Now we want to add a table. Let's use our youngest data.
+
+```{r}
+datayoungest <-read_csv("18sout.csv")
+datayoung <- datayoungest %>%
+  select(1,2,3,4)
+```
+
+For this we need the DT package which is in another script and I'll explain later.
+
+```{r datayoung}
+DT::datatable(datayoung)
+
+```
+

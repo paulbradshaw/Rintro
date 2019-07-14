@@ -1,0 +1,75 @@
+---
+title: "Sankeys for internal migration"
+author: "Paul Bradshaw"
+date: "9 October 2018"
+output: html_notebook
+---
+
+Adapted from [Creating custom Sankey diagrams using R](https://www.r-bloggers.com/creating-custom-sankey-diagrams-using-r/). Also worth seeing [Using networkD3 in R to create simple and clear Sankey diagrams](https://towardsdatascience.com/using-networkd3-in-r-to-create-simple-and-clear-sankey-diagrams-48f8ba8a4ace).
+
+The series of steps:
+
+* Create a dataset in the shape needed by Sankey (nodes, links)
+* Generate the Sankey
+
+## Creating a subset for top 10 areas for outward migration
+
+In the 'findingdestingations.Rmd' notebook we generated a data frame for the top 10 authorities when it comes to people leaving:
+
+```{r}
+top10out
+```
+
+We can use this to generate a list to filter the original data against.
+
+```{r}
+#Note the double [[]] as an index - this forces the results to be a list
+for (i in top10out[[1]]){print(i)}
+```
+
+Then generate the subset using `%in%` to specify we want rows where the value is in our list:
+
+```{r}
+head(fulldata)
+#Note the double [[]] as an index - this forces the results to be a list
+just10out <- subset(fulldata, fulldata$OutLA %in% top10out[[1]])
+#Check the values
+table(just10out$OutName)
+```
+## Getting the data in a shape for Sankey
+
+We just need three of the columns - but there are 10:
+
+```{r}
+colnames(just10out)
+```
+
+The 3 we need are columns 5-7, but we need them in a different order: from-to-amount:
+
+```{r}
+head(just10out[c(6,7,5)])
+```
+
+Let's strip it back to those:
+
+```{r}
+just10out <- just10out[c(6,7,5)]
+```
+
+
+## Generate the Sankey
+
+```{r}
+# format in prep for sankey diagram
+results <- tidyr::gather(results, result, vote, -Region)
+# create nodes dataframe
+regions <- unique(as.character(results$Region))
+nodes <- data.frame(node = c(0:13), 
+                    name = c(regions, "Leave", "Remain"))
+#create links dataframe
+results <- merge(results, nodes, by.x = "Region", by.y = "name")
+results <- merge(results, nodes, by.x = "result", by.y = "name")
+links <- results[ , c("node.x", "node.y", "vote")]
+colnames(links) <- c("source", "target", "value")
+```
+

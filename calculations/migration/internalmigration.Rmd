@@ -1,0 +1,194 @@
+---
+title: "internalmigration"
+author: "Paul Bradshaw"
+date: "03/10/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Break down the problem
+
+First:
+
+* Import the 2 data files
+* Join them into one
+
+We want to get the picture of where young people move from and to, and where they stay put. We need to define 'young': there are 3 categories:
+
+* 18
+* 18-24
+* 23-30
+
+So we need to:
+
+* Add a T/F column for each of those, to help with subsetting.
+
+We also need to:
+
+* Convert the ONS codes to actual names. Or do we?
+
+## Install the packages
+
+```{r}
+#This first line is commented out because the package is already installed on my version of R
+#install.packages("tidyverse")
+library(tidyverse)
+```
+
+## Upload the data
+
+```{r}
+#read.csv is slower than read_csv for large files
+pt1 <- read.csv("Detailed_Estimates_2017_Dataset_1.csv")
+pt2 <- read.csv("Detailed_Estimates_2017_Dataset_2.csv")
+pt_1 <- read_csv("Detailed_Estimates_2017_Dataset_1.csv")
+pt_2 <- read_csv("Detailed_Estimates_2017_Dataset_2.csv")
+```
+
+We've used both `read.csv` and `read_csv` so we can compare the results:
+
+```{r}
+head(pt2)
+head(pt_2)
+summary(pt2)
+summary(pt_2)
+```
+
+Note that one dataset (the one using `read.csv`) uses factors, while another (using `read_csv`) uses characters.
+
+Let's remove some:
+
+```{r}
+#rm(pt_2,pt_2)
+rm(pt1,pt2)
+```
+
+
+
+## Combine the data
+
+```{r}
+#fulldata <- bind_rows(pt1,pt2)
+fulldata <- bind_rows(pt_1,pt_2)
+```
+
+## Summarise
+
+```{r}
+summary(fulldata)
+```
+
+## Lookup authority names
+
+We've got a file in this folder with the LA codes and corresponding authority names - it's an .xls file so we need `read_excel`:
+
+```{r}
+library(readxl)
+lalookupfull <- read_excel("lalookup.xls", skip=14)
+#Now to simplify
+lalookup <- lalookupfull[c(1,3)]
+```
+
+...But actually that data isn't clean - there are 4 rows that have 2 codes in them, so they won't work in a lookup. Instead we need to clean that (in this case we've cleaned it in Excel) and import the clean version:
+
+```{r}
+lalookupfull <- read_csv("lalookupcleaned.csv")
+#Now to simplify
+lalookup <- lalookupfull[c(1,4)]
+```
+
+
+Now to combine it:
+
+```{r}
+#We could instead specify what to join on
+fulldata <- left_join(fulldata,lalookup, by = c("OutLA" = "Code"))
+colnames(fulldata)[6] <- "OutName"
+colnames(fulldata)
+fulldata <- left_join(fulldata,lalookup, by = c("InLA" = "Code"))
+colnames(fulldata)
+colnames(fulldata)[7] <- "InName"
+```
+
+
+
+## Add category data
+
+We can create 3 new columns in our data table by generating a vector of TRUE/FALSE answers to particular questions, and assigning that vector to a new column:
+
+```{r}
+fulldata$is18 <- fulldata$Age == 18
+fulldata$is18to24 <- fulldata$Age > 17 & fulldata$Age < 25
+fulldata$is23to30 <- fulldata$Age > 22 & fulldata$Age < 31
+```
+
+## Create subsets
+
+Now let's create some subsets:
+
+```{r}
+migration18 <- subset(fulldata, fulldata$is18 == TRUE)
+migration18to24 <- subset(fulldata, fulldata$is18to24 == TRUE)
+migration23to30 <- subset(fulldata, fulldata$is23to30 == TRUE)
+```
+
+## Create aggregate figures for each group
+
+And generate a list of total moves from particular authorities:
+
+```{r}
+head(table(migration18$OutName))
+#Pivot by OutLA, sum of moves
+outmoves18 <- tapply(migration18$Moves, migration18$OutName, sum)
+outmoves18to24 <- tapply(migration18to24$Moves, migration18to24$OutName, sum)
+outmoves23to30 <- tapply(migration23to30$Moves, migration23to30$OutName, sum)
+#Order the data in descending numerical order
+outmoves18 <- outmoves18[order(-outmoves18)]
+outmoves18to24 <- outmoves18to24[order(-outmoves18to24)]
+outmoves23to30 <- outmoves23to30[order(-outmoves23to30)]
+write.csv(outmoves18, "outmoves18.csv")
+write.csv(outmoves18to24, "outmoves18to24.csv")
+write.csv(outmoves23to30, "outmoves23to30.csv")
+```
+
+The same for inbound authorities:
+
+```{r}
+#Pivot by InLA, sum of moves
+inmoves18 <- tapply(migration18$Moves, migration18$InName, sum)
+inmoves18to24 <- tapply(migration18to24$Moves, migration18to24$InName, sum)
+inmoves23to30 <- tapply(migration23to30$Moves, migration23to30$InName, sum)
+#Order the data in descending numerical order
+inmoves18 <- inmoves18[order(-inmoves18)]
+inmoves18to24 <- inmoves18to24[order(-inmoves18to24)]
+inmoves23to30 <- inmoves23to30[order(-inmoves23to30)]
+write.csv(inmoves18, "inmoves18.csv")
+write.csv(inmoves18to24, "inmoves18to24.csv")
+write.csv(inmoves23to30, "inmoves23to30.csv")
+
+```
+
+
+This would all be better stored in a function that we could call for different age group data tables.
+
+## Draw a datatable
+
+While we are at it, let's create a datatables interface in case we want to search for codes...
+
+```{r}
+DT::datatable(lalookup)
+```
+
+
+## Focus on the top 10 areas
+
+We want to focus on the top few areas if we're going to draw a Sankey...
+
+```{r}
+head(outmoves18, 10)
+```
+
+

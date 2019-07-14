@@ -38,7 +38,9 @@ The bit that says `read.csv` is a **function**. Functions are basically recipes:
 
 The `<-` bit is taking the result of reading that CSV and putting it into your variable. You can actually just use `=` if you're used to that from other languages, but `<-` has a certain appeal.
 
-You can add extra parameters when you import. One important one is `stringsAsFactors=FALSE`. This prevents numeric columns containing non-numeric values (like #N/A) being treated as 'factors' when you want them to be treated as numbers. Add it with a comma inside the parentheses like so:
+You can add extra parameters when you import. One important one is `stringsAsFactors=FALSE`. This prevents character columns being treated as 'factors', or numeric columns containing non-numeric values (like #N/A) being treated as 'factors' when you want them to be treated as numbers. ([more on factors here](https://blog.exploratory.io/why-factor-is-one-of-the-most-amazing-things-in-r-e967fe27d292))
+
+Add it with a comma inside the parentheses like so:
 
 `yourvariable <- read.csv('yourdata.csv', stringsAsFactors=FALSE)`
 

@@ -1,0 +1,407 @@
+﻿Code,Code LEN,Former Code,Local Authority,Country
+E07000223,9,45UB,Adur,England
+E07000026,9,16UB,Allerdale,England
+E07000032,9,17UB,Amber Valley,England
+E07000224,9,45UC,Arun,England
+E07000170,9,37UB,Ashfield,England
+E07000105,9,29UB,Ashford,England
+E07000004,9,11UB,Aylesbury Vale,England
+E07000200,9,42UB,Babergh,England
+E09000002,9,00AB,Barking and Dagenham,England
+E09000003,9,00AC,Barnet,England
+E08000016,9,00CC,Barnsley,England
+E07000027,9,16UC,Barrow-in-Furness,England
+E07000066,9,22UB,Basildon,England
+E07000084,9,24UB,Basingstoke and Deane,England
+E07000171,9,37UC,Bassetlaw,England
+E06000022,9,00HA,Bath and North East Somerset,England
+E06000055,9,00KB,Bedford,England
+E09000004,9,00AD,Bexley,England
+E08000025,9,00CN,Birmingham,England
+E07000129,9,31UB,Blaby,England
+E06000008,9,00EX,Blackburn,England
+E06000009,9,00EY,Blackpool,England
+E07000033,9,17UC,Bolsover,England
+E08000001,9,00BL,Bolton,England
+E07000136,9,32UB,Boston,England
+E06000028,9,00HN,Bournemouth,England
+E06000036,9,00MA,Bracknell Forest,England
+E08000032,9,00CX,Bradford,England
+E07000067,9,22UC,Braintree,England
+E07000143,9,33UB,Breckland,England
+E09000005,9,00AE,Brent,England
+E07000068,9,22UD,Brentwood,England
+E06000043,9,00ML,Brighton and Hove,England
+E06000023,9,00HB,Bristol,England
+E07000144,9,33UC,Broadland,England
+E09000006,9,00AF,Bromley,England
+E07000234,9,47UB,Bromsgrove,England
+E07000095,9,26UB,Broxbourne,England
+E07000172,9,37UD,Broxtowe,England
+E07000117,9,30UD,Burnley,England
+E08000002,9,00BM,Bury,England
+E08000033,9,00CY,Calderdale,England
+E07000008,9,12UB,Cambridge,England
+E09000007,9,00AG,Camden,England
+E07000192,9,41UB,Cannock Chase,England
+E07000106,9,29UC,Canterbury,England
+E07000028,9,16UD,Carlisle,England
+E07000069,9,22UE,Castle Point,England
+E06000056,9,00KC,Central Bedfordshire,England
+E07000130,9,31UC,Charnwood,England
+E07000070,9,22UF,Chelmsford,England
+E07000078,9,23UB,Cheltenham,England
+E07000177,9,38UB,Cherwell,England
+E06000049,9,00EQ,Cheshire East,England
+E06000050,9,00EW,Cheshire West and Chester,England
+E07000034,9,17UD,Chesterfield,England
+E07000225,9,45UD,Chichester,England
+E07000005,9,11UC,Chiltern,England
+E07000118,9,30UE,Chorley,England
+E07000048,9,19UC,Christchurch,England
+"E09000001, E09000033",20,"00AA, 00BK","City of London, Westminster",England
+E07000071,9,22UG,Colchester,England
+E07000029,9,16UE,Copeland,England
+E07000150,9,34UB,Corby,England
+"E06000052, E06000053",20,"00HE, 00HF","Cornwall, Isles of Scilly",England
+E07000079,9,23UC,Cotswold,England
+E06000047,9,00EJ,County Durham,England
+E06000019,9,00GA,County of Herefordshire,England
+E08000026,9,00CQ,Coventry,England
+E07000163,9,36UB,Craven,England
+E07000226,9,45UE,Crawley,England
+E09000008,9,00AH,Croydon,England
+E07000096,9,26UC,Dacorum,England
+E06000005,9,00EH,Darlington,England
+E07000107,9,29UD,Dartford,England
+E07000151,9,34UC,Daventry,England
+E06000015,9,00FK,Derby,England
+E07000035,9,17UF,Derbyshire Dales,England
+E08000017,9,00CE,Doncaster,England
+E07000108,9,29UE,Dover,England
+E08000027,9,00CR,Dudley,England
+E09000009,9,00AJ,Ealing,England
+E07000009,9,12UC,East Cambridgeshire,England
+E07000040,9,18UB,East Devon,England
+E07000049,9,19UD,East Dorset,England
+E07000085,9,24UC,East Hampshire,England
+E07000097,9,26UD,East Hertfordshire,England
+E07000137,9,32UC,East Lindsey,England
+E07000152,9,34UD,East Northamptonshire,England
+E06000011,9,00FB,East Riding of Yorks,England
+E07000193,9,41UC,East Staffordshire,England
+E07000061,9,21UC,Eastbourne,England
+E07000086,9,24UD,Eastleigh,England
+E07000030,9,16UF,Eden,England
+E07000207,9,43UB,Elmbridge,England
+E09000010,9,00AK,Enfield,England
+E07000072,9,22UH,Epping Forest,England
+E07000208,9,43UC,Epsom and Ewell,England
+E07000036,9,17UG,Erewash,England
+E07000041,9,18UC,Exeter,England
+E07000087,9,24UE,Fareham,England
+E07000010,9,12UD,Fenland,England
+E07000201,9,42UC,Forest Heath,England
+E07000080,9,23UD,Forest of Dean,England
+E07000119,9,30UF,Fylde,England
+E08000020,9,00CH,Gateshead,England
+E07000173,9,37UE,Gedling,England
+E07000081,9,23UE,Gloucester,England
+E07000088,9,24UF,Gosport,England
+E07000109,9,29UG,Gravesham,England
+E07000145,9,33UD,Great Yarmouth,England
+E09000011,9,00AL,Greenwich,England
+E07000209,9,43UD,Guildford,England
+E09000012,9,00AM,Hackney,England
+E06000006,9,00ET,Halton,England
+E07000164,9,36UC,Hambleton,England
+E09000013,9,00AN,Hammersmith and Fulham,England
+E07000131,9,31UD,Harborough,England
+E09000014,9,00AP,Haringey,England
+E07000073,9,22UJ,Harlow,England
+E07000165,9,36UD,Harrogate,England
+E09000015,9,00AQ,Harrow,England
+E07000089,9,24UG,Hart,England
+E06000001,9,00EB,Hartlepool,England
+E07000062,9,21UD,Hastings,England
+E07000090,9,24UH,Havant,England
+E09000016,9,00AR,Havering,England
+E07000098,9,26UE,Hertsmere,England
+E07000037,9,17UH,High Peak,England
+E09000017,9,00AS,Hillingdon,England
+E07000132,9,31UE,Hinckley and Bosworth,England
+E07000227,9,45UF,Horsham,England
+E09000018,9,00AT,Hounslow,England
+E07000011,9,12UE,Huntingdonshire,England
+E07000120,9,30UG,Hyndburn,England
+E07000202,9,42UD,Ipswich,England
+E06000046,9,00MW,Isle of Wight,England
+"E06000053, E06000052",20,"00HF, 00HE","Isles of Scilly, Cornwall",England
+E09000019,9,00AU,Islington,England
+E09000020,9,00AW,Kensington and Chelsea,England
+E07000153,9,34UE,Kettering,England
+E07000146,9,33UE,Kings Lynn and West Norfolk,England
+E06000010,9,00FA,Kingston upon Hull,England
+E09000021,9,00AX,Kingston-upon-Thames,England
+E08000034,9,00CZ,Kirklees,England
+E08000011,9,00BX,Knowsley,England
+E09000022,9,00AY,Lambeth,England
+E07000121,9,30UH,Lancaster,England
+E08000035,9,00DA,Leeds,England
+E06000016,9,00FN,Leicester,England
+E07000063,9,21UF,Lewes,England
+E09000023,9,00AZ,Lewisham,England
+E07000194,9,41UD,Lichfield,England
+E07000138,9,32UD,Lincoln,England
+E08000012,9,00BY,Liverpool,England
+E06000032,9,00KA,Luton,England
+E07000110,9,29UH,Maidstone,England
+E07000074,9,22UK,Maldon,England
+E07000235,9,47UC,Malvern Hills,England
+E08000003,9,00BN,Manchester,England
+E07000174,9,37UF,Mansfield,England
+E06000035,9,00LC,Medway Towns,England
+E07000133,9,31UG,Melton,England
+E07000187,9,40UB,Mendip,England
+E09000024,9,00BA,Merton,England
+E07000042,9,18UD,Mid Devon,England
+E07000203,9,42UE,Mid Suffolk,England
+E07000228,9,45UG,Mid Sussex,England
+E06000002,9,00EC,Middlesbrough,England
+E06000042,9,00MG,Milton Keynes,England
+E07000210,9,43UE,Mole Valley,England
+E07000091,9,24UJ,New Forest,England
+E07000175,9,37UG,Newark and Sherwood,England
+E08000021,9,00CJ,Newcastle upon Tyne,England
+E07000195,9,41UE,Newcastle-under-Lyme,England
+E09000025,9,00BB,Newham,England
+E07000043,9,18UE,North Devon,England
+E07000050,9,19UE,North Dorset,England
+E07000038,9,17UJ,North East Derbyshire,England
+E06000012,9,00FC,North East Lincolnshire,England
+E07000099,9,26UF,North Hertfordshire,England
+E07000139,9,32UE,North Kesteven,England
+E06000013,9,00FD,North Lincolnshire,England
+E07000147,9,33UF,North Norfolk,England
+E06000024,9,00HC,North Somerset,England
+E08000022,9,00CK,North Tyneside,England
+E07000218,9,44UB,North Warwickshire,England
+E07000134,9,31UH,North West Leicestershire,England
+E07000154,9,34UF,Northampton,England
+E06000048,9,00EM,Northumberland,England
+E07000148,9,33UG,Norwich,England
+E06000018,9,00FY,Nottingham,England
+E07000219,9,44UC,Nuneaton and Bedworth,England
+E07000135,9,31UJ,Oadby and Wigston,England
+E08000004,9,00BP,Oldham,England
+E07000178,9,38UC,Oxford,England
+E07000122,9,30UJ,Pendle,England
+E06000031,9,00JA,Peterborough,England
+E06000026,9,00HG,Plymouth,England
+E06000029,9,00HP,Poole,England
+E06000044,9,00MR,Portsmouth,England
+E07000123,9,30UK,Preston,England
+E07000051,9,19UG,Purbeck,England
+E06000038,9,00MC,Reading,England
+E09000026,9,00BC,Redbridge,England
+E06000003,9,00EE,Redcar and Cleveland,England
+E07000236,9,47UD,Redditch,England
+E07000211,9,43UF,Reigate and Banstead,England
+E07000124,9,30UL,Ribble Valley,England
+E09000027,9,00BD,Richmond upon Thames,England
+E07000166,9,36UE,Richmondshire,England
+E08000005,9,00BQ,Rochdale,England
+E07000075,9,22UL,Rochford,England
+E07000125,9,30UM,Rossendale,England
+E07000064,9,21UG,Rother,England
+E08000018,9,00CF,Rotherham,England
+E07000220,9,44UD,Rugby,England
+E07000212,9,43UG,Runnymede,England
+E07000176,9,37UJ,Rushcliffe,England
+E07000092,9,24UL,Rushmoor,England
+E06000017,9,00FP,Rutland,England
+E07000167,9,36UF,Ryedale,England
+E08000006,9,00BR,Salford,England
+E08000028,9,00CS,Sandwell,England
+E07000168,9,36UG,Scarborough,England
+E07000188,9,40UC,Sedgemoor,England
+E08000014,9,00CA,Sefton,England
+E07000169,9,36UH,Selby,England
+E07000111,9,29UK,Sevenoaks,England
+E08000019,9,00CG,Sheffield,England
+E07000112,9,29UL,Shepway,England
+E06000051,9,00GG,Shropshire,England
+E06000039,9,00MD,Slough,England
+E08000029,9,00CT,Solihull,England
+E07000006,9,11UE,South Bucks,England
+E07000012,9,12UG,South Cambridgeshire,England
+E07000039,9,17UK,South Derbyshire,England
+E06000025,9,00HD,South Gloucestershire,England
+E07000044,9,18UG,South Hams,England
+E07000140,9,32UF,South Holland,England
+E07000141,9,32UG,South Kesteven,England
+E07000031,9,16UG,South Lakeland,England
+E07000149,9,33UH,South Norfolk,England
+E07000155,9,34UG,South Northamptonshire,England
+E07000179,9,38UD,South Oxfordshire,England
+E07000126,9,30UN,South Ribble,England
+E07000189,9,40UD,South Somerset,England
+E07000196,9,41UF,South Staffordshire,England
+E08000023,9,00CL,South Tyneside,England
+E06000045,9,00MS,Southampton,England
+E06000033,9,00KF,Southend-on-Sea,England
+E09000028,9,00BE,Southwark,England
+E07000213,9,43UH,Spelthorne,England
+E07000204,9,42UF,St. Edmundsbury,England
+E08000013,9,00BZ,St. Helens,England
+E07000100,9,26UG,St.Albans,England
+E07000197,9,41UG,Stafford,England
+E07000198,9,41UH,Staffordshire Moorlands,England
+E07000101,9,26UH,Stevenage,England
+E08000007,9,00BS,Stockport,England
+E06000004,9,00EF,Stockton-on-Tees,England
+E06000021,9,00GL,Stoke-on-Trent,England
+E07000221,9,44UE,Stratford-on-Avon,England
+E07000082,9,23UF,Stroud,England
+E07000205,9,42UG,Suffolk Coastal,England
+E08000024,9,00CM,Sunderland,England
+E07000214,9,43UJ,Surrey Heath,England
+E09000029,9,00BF,Sutton,England
+E07000113,9,29UM,Swale,England
+E06000030,9,00HX,Swindon,England
+E08000008,9,00BT,Tameside,England
+E07000199,9,41UK,Tamworth,England
+E07000215,9,43UK,Tandridge,England
+E07000190,9,40UE,Taunton Deane,England
+E07000045,9,18UH,Teignbridge,England
+E06000020,9,00GF,Telford and Wrekin,England
+E07000076,9,22UN,Tendring,England
+E07000093,9,24UN,Test Valley,England
+E07000083,9,23UG,Tewkesbury,England
+E07000114,9,29UN,Thanet,England
+E07000102,9,26UJ,Three Rivers,England
+E06000034,9,00KG,Thurrock,England
+E07000115,9,29UP,Tonbridge and Malling,England
+E06000027,9,00HH,Torbay,England
+E07000046,9,18UK,Torridge,England
+E09000030,9,00BG,Tower Hamlets,England
+E08000009,9,00BU,Trafford,England
+E07000116,9,29UQ,Tunbridge Wells,England
+E07000077,9,22UQ,Uttlesford,England
+E07000180,9,38UE,Vale of White Horse,England
+E08000036,9,00DB,Wakefield,England
+E08000030,9,00CU,Walsall,England
+E09000031,9,00BH,Waltham Forest,England
+E09000032,9,00BJ,Wandsworth,England
+E06000007,9,00EU,Warrington,England
+E07000222,9,44UF,Warwick,England
+E07000103,9,26UK,Watford,England
+E07000206,9,42UH,Waveney,England
+E07000216,9,43UL,Waverley,England
+E07000065,9,21UH,Wealden,England
+E07000156,9,34UH,Wellingborough,England
+E07000104,9,26UL,Welwyn Hatfield,England
+E06000037,9,00MB,West Berkshire,England
+E07000047,9,18UL,West Devon,England
+E07000052,9,19UH,West Dorset,England
+E07000127,9,30UP,West Lancashire,England
+E07000142,9,32UH,West Lindsey,England
+E07000181,9,38UF,West Oxfordshire,England
+E07000191,9,40UF,West Somerset,England
+"E09000033, E09000001",20,"00BK, 00AA","Westminster, City of London",England
+E07000053,9,19UJ,Weymouth and Portland,England
+E08000010,9,00BW,Wigan,England
+E06000054,9,00HY,Wiltshire,England
+E07000094,9,24UP,Winchester,England
+E06000040,9,00ME,Windsor and Maidenhead,England
+E08000015,9,00CB,Wirral,England
+E07000217,9,43UM,Woking,England
+E06000041,9,00MF,Wokingham,England
+E08000031,9,00CW,Wolverhampton,England
+E07000237,9,47UE,Worcester,England
+E07000229,9,45UH,Worthing,England
+E07000238,9,47UF,Wychavon,England
+E07000007,9,11UF,Wycombe,England
+E07000128,9,30UQ,Wyre,England
+E07000239,9,47UG,Wyre Forest,England
+E06000014,9,00FF,York,England
+W06000019,9,00PL,Blaenau Gwent,Wales
+W06000013,9,00PB,Bridgend,Wales
+W06000018,9,00PK,Caerphilly,Wales
+W06000015,9,00PT,Cardiff,Wales
+W06000010,9,00NU,Carmarthenshire,Wales
+W06000008,9,00NQ,Ceredigion,Wales
+W06000003,9,00NE,Conwy,Wales
+W06000004,9,00NG,Denbighshire,Wales
+W06000005,9,00NJ,Flintshire,Wales
+W06000002,9,00NC,Gwynedd,Wales
+W06000001,9,00NA,Isle of Anglesey,Wales
+W06000024,9,00PH,Merthyr Tydfil,Wales
+W06000021,9,00PP,Monmouth,Wales
+W06000012,9,00NZ,Neath Port Talbot,Wales
+W06000022,9,00PR,Newport,Wales
+W06000009,9,00NS,Pembrokeshire,Wales
+W06000023,9,00NN,Powys,Wales
+W06000016,9,00PF,Rhondda Cynon Taff,Wales
+W06000011,9,00NX,Swansea,Wales
+W06000020,9,00PM,Torfaen,Wales
+W06000014,9,00PD,Vale of Glamorgan,Wales
+W06000006,9,00NL,Wrexham Maelor,Wales
+S12000033,9,00QA,Aberdeen City,Scotland
+S12000034,9,00QB,Aberdeenshire,Scotland
+S12000041,9,00QC,Angus,Scotland
+S12000035,9,00QD,Argyll & Bute,Scotland
+S12000005,9,00QF,Clackmannanshire,Scotland
+S12000006,9,00QH,Dumfries & Galloway,Scotland
+S12000042,9,00QJ,Dundee City,Scotland
+S12000008,9,00QK,East Ayrshire,Scotland
+S12000009,9,00QL,East Dunbartonshire,Scotland
+S12000010,9,00QM,East Lothian,Scotland
+S12000011,9,00QN,East Renfrewshire,Scotland
+S12000036,9,00QP,"Edinburgh, City of",Scotland
+S12000013,9,00RJ,Eilean Siar,Scotland
+S12000014,9,00QQ,Falkirk,Scotland
+S12000015,9,00QR,Fife,Scotland
+S12000043,9,00QS,Glasgow City,Scotland
+S12000017,9,00QT,Highland,Scotland
+S12000018,9,00QU,Inverclyde,Scotland
+S12000019,9,00QW,Midlothian,Scotland
+S12000020,9,00QX,Moray,Scotland
+S12000021,9,00QY,North Ayrshire,Scotland
+S12000044,9,00QZ,North Lanarkshire,Scotland
+S12000023,9,00RA,Orkney Islands,Scotland
+S12000024,9,00RB,Perth & Kinross,Scotland
+S12000038,9,00RC,Renfrewshire,Scotland
+S12000026,9,00QE,Scottish Borders,Scotland
+S12000027,9,00RD,Shetland Islands,Scotland
+S12000028,9,00RE,South Ayrshire,Scotland
+S12000029,9,00RF,South Lanarkshire,Scotland
+S12000030,9,00RG,Stirling,Scotland
+S12000039,9,00QG,West Dunbartonshire,Scotland
+S12000040,9,00RH,West Lothian,Scotland
+95T,3,,Antrim,Northern Ireland
+95X,3,,Ards,Northern Ireland
+95O,3,,Armagh,Northern Ireland
+95G,3,,Ballymena,Northern Ireland
+95D,3,,Ballymoney,Northern Ireland
+95Q,3,,Banbridge,Northern Ireland
+95Z,3,,Belfast,Northern Ireland
+95V,3,,Carrickfergus,Northern Ireland
+95Y,3,,Castlereagh,Northern Ireland
+95C,3,,Coleraine,Northern Ireland
+95I,3,,Cookstown,Northern Ireland
+95N,3,,Craigavon,Northern Ireland
+95A,3,,Derry,Northern Ireland
+95R,3,,Down,Northern Ireland
+95M,3,,Dungannon,Northern Ireland
+95L,3,,Fermanagh,Northern Ireland
+95F,3,,Larne,Northern Ireland
+95B,3,,Limavady,Northern Ireland
+95S,3,,Lisburn,Northern Ireland
+95H,3,,Magherafelt,Northern Ireland
+95E,3,,Moyle,Northern Ireland
+95P,3,,Newry and Mourne,Northern Ireland
+95U,3,,Newtownabbey,Northern Ireland
+95W,3,,North Down,Northern Ireland
+95K,3,,Omagh,Northern Ireland
+95J,3,,Strabane,Northern Ireland

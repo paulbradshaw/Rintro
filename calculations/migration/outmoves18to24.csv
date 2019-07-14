@@ -1,0 +1,339 @@
+"","x"
+"Birmingham",18348.0008
+"Leeds",18317.9998
+"Nottingham",15672.9983
+"Manchester",14627.9963
+"Sheffield",13453.0014
+"Liverpool",10520.0024
+"Bristol",10152.0009
+"Newcastle upon Tyne",10134.0022
+"Coventry",9297.0017
+"Cardiff",9130.0007
+"Leicester",8711.0009
+"Oxford",7995.9988
+"Southampton",7788.9997
+"Brighton and Hove",7668.0003
+"Bath and North East Somerset",7438.0007
+"County Durham",7415.0021
+"York",7164.9997
+"Canterbury",7032.0012
+"Southwark",6797.0005
+"Camden",6749.0006
+"Plymouth",6370.9994
+"Barnet",6346.0016
+"Charnwood",6135.9991
+"Cambridge",6071.9997
+"Bournemouth",6055.9989
+"Exeter",5959.0011
+"Portsmouth",5885.9999
+"Wiltshire",5545.0009
+"Ealing",5492
+"Islington",5485.0017
+"Lambeth",5441.0005
+"Wandsworth",5428.0007
+"Kirklees",5389.9998
+"East Riding of Yorks",5320.0006
+"Hillingdon",5292.0024
+"Bradford",5262.0023
+"South Gloucestershire",5138.9992
+"Tower Hamlets",5084.0003
+"Cheshire West and Chester",4909.0003
+"Haringey",4895.0006
+"Newham",4872.0015
+"Croydon",4865.0011
+"Brent",4804.9991
+"Enfield",4708.9996
+"Cheshire East",4598.9994
+"Swansea",4500.0016
+"Reading",4457.9998
+"Norwich",4414.9977
+"Lewisham",4406.9996
+"Greenwich",4354.9985
+"Lincoln",4326.9998
+"Derby",4245.9988
+"Lancaster",4192.999
+"Guildford",4155.9985
+"Harrow",4136.9985
+"Northampton",4126.0005
+"Kingston-upon-Thames",4028.0014
+"Redbridge",3968.0006
+"Salford",3785.0005
+"Winchester",3726.9992
+"Bromley",3692.9981
+"Colchester",3663.002
+"Hounslow",3663.0002
+"Kingston upon Hull",3651.9996
+"Warwick",3591
+"Shropshire",3556.0012
+"Preston",3552.001
+"Hammersmith and Fulham",3459.0013
+"Richmond upon Thames",3418.0012
+"Medway Towns",3389.0006
+"Hackney",3305.9986
+"Waltham Forest",3191.9995
+"Luton",3189.9994
+"Wokingham",3178.9994
+"Central Bedfordshire",3074.0012
+"Wolverhampton",3054.0005
+"Newcastle-under-Lyme",3005.9993
+"Wycombe",2996.0013
+"Merton",2951.9998
+"Ceredigion",2943.0002
+"Sandwell",2917.0007
+"Runnymede",2911.9999
+"Milton Keynes",2902.9986
+"Cheltenham",2897.9998
+"Stockport",2887.9998
+"Stoke-on-Trent",2875.0006
+"Rushcliffe",2866.9998
+"Bexley",2823.9996
+"Bolton",2802.0009
+"Trafford",2767.0007
+"Wirral",2688.9985
+"Bedford",2661.0005
+"Telford and Wrekin",2644.0003
+"Wakefield",2606.0005
+"South Cambridgeshire",2588.0001
+"West Lancashire",2577.9992
+"Walsall",2556.9986
+"Gwynedd",2547.9997
+"Doncaster",2520.0009
+"Sefton",2465.9994
+"Aylesbury Vale",2437.0019
+"Sunderland",2437.0003
+"Solihull",2427.001
+"Barking and Dagenham",2427.0006
+"Poole",2422.0006
+"Chichester",2417.0001
+"Dudley",2411.0011
+"Waverley",2407.9998
+"Rhondda Cynon Taff",2333.0012
+"Sutton",2326.0005
+"Chelmsford",2323.9991
+"Middlesbrough",2274.0014
+"Windsor and Maidenhead",2268.001
+"Kensington and Chelsea",2256.9996
+"Worcester",2235.9997
+"North Somerset",2229.0012
+"Broxtowe",2225.0009
+"Stockton-on-Tees",2221.9998
+"Rotherham",2205.0008
+"Harrogate",2205.0005
+"Havering",2168.9985
+"Peterborough",2162.0002
+"West Berkshire",2139.9999
+"Wigan",2112.9998
+"Calderdale",2082.9991
+"South Oxfordshire",2058.0004
+"Warrington",2023.0001
+"Vale of White Horse",1972.9993
+"Basingstoke and Deane",1970.9995
+"Elmbridge",1960.0015
+"Huntingdonshire",1950.0013
+"South Kesteven",1904.0005
+"Southend-on-Sea",1903.0013
+"Stafford",1885.9994
+"Horsham",1869.9988
+"Wealden",1855.9997
+"Bury",1854.9996
+"Barnsley",1852.9998
+"Oldham",1839.9999
+"Carmarthenshire",1829.9997
+"Tunbridge Wells",1813.0004
+"Dacorum",1812.0004
+"Rochdale",1808.9984
+"Mid Sussex",1793
+"Swindon",1767.9997
+"New Forest",1752.9987
+"Stratford-on-Avon",1722.9992
+"East Devon",1714.0013
+"Oadby and Wigston",1713
+"Maidstone",1711.0007
+"County of Herefordshire",1710.9999
+"North Tyneside",1705.0007
+"South Somerset",1691
+"Neath Port Talbot",1684.0003
+"Cherwell",1668.9998
+"Gloucester",1661.999
+"South Norfolk",1655.0003
+"North Hertfordshire",1650.9997
+"Reigate and Banstead",1627.9997
+"Hertsmere",1617.9993
+"Tameside",1605
+"Newport",1600.9997
+"Mendip",1599.9992
+"East Hampshire",1597.0024
+"Tonbridge and Malling",1593.0001
+"Basildon",1586.0019
+"Chiltern",1580.0001
+"Suffolk Coastal",1567.0012
+"Arun",1561.9991
+"East Lindsey",1558.9998
+"Broadland",1526.999
+"West Dorset",1524.0005
+"Cotswold",1523.9996
+"Ipswich",1509.0001
+"Sevenoaks",1499.0001
+"Slough",1495.9983
+"Braintree",1490.9994
+"North Kesteven",1489.0002
+"Thurrock",1488.9991
+"Newark and Sherwood",1475.9993
+"Test Valley",1469.0007
+"North Lincolnshire",1461.001
+"Fareham",1461
+"Powys",1452.9997
+"Bracknell Forest",1441.0003
+"Teignbridge",1437.9999
+"Wyre",1432.0012
+"Blackpool",1427.0005
+"Epping Forest",1425.0002
+"Epsom and Ewell",1419.0004
+"Eastleigh",1415.0001
+"Ashford",1412.0002
+"Three Rivers",1405.0006
+"Eastbourne",1396.9994
+"Forest of Dean",1396.9988
+"Gedling",1384.9997
+"Blackburn",1378.0002
+"Torbay",1370.9995
+"Taunton Deane",1351.9998
+"Wychavon",1350.9992
+"Mole Valley",1347.9981
+"Stroud",1343.0003
+"Kings Lynn and West Norfolk",1329.0011
+"Woking",1320.001
+"North East Lincolnshire",1315.9991
+"Breckland",1307.0008
+"Surrey Heath",1303
+"St. Edmundsbury",1300.0004
+"West Lindsey",1298.0005
+"South Northamptonshire",1294.9995
+"Vale of Glamorgan",1288.9997
+"West Oxfordshire",1288.9986
+"Carlisle",1273.0009
+"Watford",1269.0002
+"Scarborough",1263.0005
+"Flintshire",1262.0008
+"Rugby",1260.999
+"East Staffordshire",1259.0003
+"Hart",1259.0003
+"Conwy",1252.0003
+"Thanet",1243.0007
+"St. Helens",1241.9997
+"Bromsgrove",1233.999
+"North West Leicestershire",1231.0003
+"Sedgemoor",1228.0006
+"South Staffordshire",1221.9999
+"South Lakeland",1211.0007
+"Wrexham Maelor",1209.0002
+"Uttlesford",1200.0004
+"South Derbyshire",1195.999
+"Mid Suffolk",1176
+"Isle of Wight",1172.9995
+"Caerphilly",1169.0003
+"Harborough",1164.9996
+"Rushmoor",1158.0005
+"High Peak",1156.001
+"Tandridge",1156.0001
+"Bridgend",1150.9992
+"Knowsley",1145.0005
+"Erewash",1144.0006
+"Blaby",1143.9998
+"Swale",1138.9977
+"Malvern Hills",1138.0008
+"Worthing",1133
+"Tendring",1132.9995
+"Nuneaton and Bedworth",1126
+"South Hams",1125.0008
+"Chorley",1125.0004
+"Amber Valley",1120.9994
+"East Northamptonshire",1120.9992
+"Ashfield",1119.9998
+"Lewes",1112.0007
+"Pembrokeshire",1105.0003
+"Bassetlaw",1098.9998
+"Shepway",1093.9984
+"Hambleton",1089.0002
+"Havant",1086.9991
+"Daventry",1084.0003
+"Lichfield",1082.9998
+"Babergh",1082.0004
+"Gravesham",1082.0002
+"Monmouth",1075.9986
+"Darlington",1069.0003
+"Redcar and Cleveland",1068.0001
+"Dartford",1059.0001
+"North Devon",1059
+"Mansfield",1051.9986
+"East Dorset",1050.9994
+"Rother",1046.0008
+"South Bucks",1037.9998
+"South Ribble",1033.9996
+"North East Derbyshire",1030.0004
+"Hinckley and Bosworth",1029.9996
+"Kettering",1028.9995
+"Crawley",1022.0001
+"Brentwood",1003.9994
+"Tewkesbury",1003.0002
+"Denbighshire",999
+"Selby",991.001
+"Spelthorne",990.9989
+"Broxbourne",990.0001
+"Fenland",981.9996
+"Waveney",973.0002
+"North Norfolk",972.9996
+"Burnley",971.0014
+"Dover",970.9995
+"North Dorset",964.0002
+"East Cambridgeshire",962.0005
+"Halton",951.9996
+"Mid Devon",936.9996
+"Chesterfield",932.0009
+"South Tyneside",910.9999
+"Hastings",897.9995
+"Wellingborough",893.9996
+"Fylde",885.0004
+"Derbyshire Dales",872.9992
+"South Holland",871.9997
+"Rochford",857.0003
+"Staffordshire Moorlands",850.9993
+"Pendle",850.0006
+"Gosport",845.9997
+"Great Yarmouth",820.9999
+"Cannock Chase",806.0009
+"Wyre Forest",803.0011
+"Ribble Valley",788.0002
+"Allerdale",783
+"Hyndburn",779.0007
+"Bolsover",777
+"Castle Point",774.0003
+"Richmondshire",770.0005
+"Harlow",745.9999
+"Craven",742.9999
+"Weymouth and Portland",720.0013
+"Hartlepool",713.0007
+"Torridge",711.9997
+"Rossendale",710.9999
+"Ryedale",708.9997
+"Rutland",699.0007
+"Maldon",695.9995
+"Adur",693.0001
+"West Devon",687
+"Torfaen",679.9992
+"Redditch",666.0007
+"Melton",661.9998
+"Boston",642.9995
+"Tamworth",628
+"Isle of Anglesey",591.0006
+"North Warwickshire",587.0003
+"Eden",583.9995
+"Christchurch",570.9994
+"Corby",539.0003
+"Forest Heath",535.0003
+"Purbeck",531.9998
+"Copeland",466.0003
+"Barrow-in-Furness",426
+"Blaenau Gwent",418.0008
+"West Somerset",359.9996
+"Merthyr Tydfil",331.0002

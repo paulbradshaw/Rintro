@@ -1,0 +1,132 @@
+---
+title: "Finding destinations"
+author: "Dan Wainwright and Paul Bradshaw"
+date: "8 October 2018"
+output: html_notebook
+---
+
+For this experiment we need data from the ons. download the zipped folders for part one and two and 
+Then copy the csvs into a folder on your computer.
+
+https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/migrationwithintheuk/datasets/internalmigrationbyoriginanddestinationlocalauthoritiessexandsingleyearofagedetailedestimatesdataset
+
+If you don't already have them then uncomment the following two lines ("uncomment" is the term for removing the hashtag, 
+anything "commented out" does not run).
+
+
+```{r}
+#install.packages("tidyverse")
+#install.packages("dplyr")
+```
+
+#Load your libraries
+
+```{r}
+library(tidyverse)
+library(dplyr)
+```
+
+#Import your two datasets
+
+
+
+```{r}
+data1 <- read_csv("Detailed_Estimates_2017_Dataset_1.csv")
+data2 <- read_csv("Detailed_Estimates_2017_Dataset_2.csv")
+```
+
+#Merge your two datasets
+
+```{r}
+fulldata <- rbind(data1, data2)
+#Remove the two parts
+rm(data1, data2)
+```
+
+
+#How to filter
+
+We need to write = twice
+
+
+```{r}
+youngest <- fulldata %>%
+  filter(Age==18)
+head(youngest)
+```
+
+For our other age groups, we need to specify each age we want
+
+```{r}
+youth <-  filter(fulldata, Age == 18 | Age == 19 | Age == 20 | Age == 21 | Age == 22 | Age == 23 | Age == 24)
+older <-  filter(fulldata, Age == 25 | Age == 26 | Age == 27 | Age == 28 | Age == 29 | Age == 30)
+head(youth)
+head(older)
+```
+
+Now we can export our data as three csvs.
+
+```{r}
+write_csv(youngest, "youngest.csv")
+write_csv(youth, "youth.csv")
+write_csv(older, "older.csv")
+```
+#Pivot tables
+
+We also want a unique list of LA codes for lookups in Excel, so we use R's version of a pivot table, group_by
+
+```{r}
+pivot <- fulldata %>%
+  group_by(OutLA) %>%
+  summarise(count=n()) %>% 
+  arrange(desc(count))
+
+write_csv(pivot, "LAs.csv")
+```
+
+Now let's narrow that further:
+
+```{r}
+top10out <- head(pivot, 10)
+top10out
+```
+
+We can use this to generate a list to filter the original data against.
+
+```{r}
+#Note the double [[]] as an index - this forces the results to be a list
+for (i in top10out[[1]]){print(i)}
+```
+
+Then generate the subset using `%in%` to specify we want rows where the value is in our list:
+
+```{r}
+head(fulldata)
+#Note the double [[]] as an index - this forces the results to be a list
+just10out <- subset(fulldata, fulldata$OutLA %in% top10out[[1]])
+#Check the values
+table(just10out$OutName)
+```
+
+Let's try to loop through each of these codes and find the top destination for each:
+
+```{r}
+emptyframe <- data.frame(x = character, y = numeric, z = character)
+#Note the double [[]] as an index - this forces the results to be a list
+for (i in top10out[[1]]){
+  print(i)
+  just1area <- subset(just10out, just10out$OutLA %in% i)
+  #Pivot by target area by total moves 
+  just1pivot <- just1area %>%
+    group_by(InName) %>%
+    summarise(count=n()) %>% 
+    arrange(desc(count))
+  just1pivot$OutCode <- i
+  print(head(just1pivot))
+  #Rename the columns to match what we've just grabbed
+  colnames(emptyframe) <- colnames(just1pivot)
+  #Add the new rows to that empty frame - we only grab the top 11 (top will be NA so it's the top 10 plus the NA)
+  emptyframe <- rbind(emptyframe,head(just1pivot,11))
+}
+
+```

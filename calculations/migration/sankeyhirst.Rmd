@@ -1,0 +1,73 @@
+---
+title: "Sankeys for internal migration"
+author: "Paul Bradshaw (after Tony Hirst)"
+date: "8 October 2018"
+output: html_notebook
+---
+
+Most of this is adapted from [Tony Hirst's notebook](https://psychemedia.github.io/parlihacks/sankeyFlow.html):
+
+The series of steps:
+
+* Create a dataset in the shape needed by Sankey (from, to, label)
+* Generate the Sankey
+
+## Creating a subset for top 10 areas for outward migration
+
+In the 'findingdestingations.Rmd' notebook we generated a data frame for the top 10 authorities when it comes to people leaving:
+
+```{r}
+top10out
+```
+
+We can use this to generate a list to filter the original data against.
+
+```{r}
+#Note the double [[]] as an index - this forces the results to be a list
+for (i in top10out[[1]]){print(i)}
+```
+
+Then generate the subset using `%in%` to specify we want rows where the value is in our list:
+
+```{r}
+head(fulldata)
+#Note the double [[]] as an index - this forces the results to be a list
+just10out <- subset(fulldata, fulldata$OutLA %in% top10out[[1]])
+#Check the values
+table(just10out$OutName)
+```
+## Getting the data in a shape for Sankey
+
+We just need three of the columns - but there are 10:
+
+```{r}
+colnames(just10out)
+```
+
+The 3 we need are columns 5-7, but we need them in a different order: from-to-amount:
+
+```{r}
+head(just10out[c(6,7,5)])
+```
+
+Let's strip it back to those:
+
+```{r}
+just10out <- just10out[c(6,7,5)]
+```
+
+
+## Generate the Sankey
+
+```{r}
+#For use in Rmd/knitr, set the block parameter: results='asis'
+install.packages("googleVis")
+library(googleVis)
+options(gvis.plot.tag='chart')
+
+#Generate the Sankey diagram HTML
+s=gvisSankey(just10out[,c('OutName','InName','Moves')])
+#And render it
+plot(s)
+```
+

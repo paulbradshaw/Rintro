@@ -1,0 +1,116 @@
+---
+title: "Finding destinations"
+author: "Paul Bradshaw"
+date: "9 October 2018"
+output: html_notebook
+---
+
+Below is a function which will return a data frame of the top 10 destination areas for each area in a list:
+
+```{r}
+getmetop10 <- function(listofcodes){
+  emptyframe <- data.frame(x = character, y = numeric, z = character)
+  #Note the double [[]] as an index - this forces the results to be a list
+  for (i in listofcodes){
+    print(i)
+    just1area <- subset(just10out, just10out$OutLA %in% i)
+    #Pivot by target area by total moves 
+    just1pivot <- just1area %>%
+      group_by(InName) %>%
+      summarise(totalmoves=sum(Moves)) %>% #sum because we want to add up totals of Moves
+      arrange(desc(totalmoves))
+    just1pivot$OutCode <- i
+    print(head(just1pivot))
+    #Rename the columns to match what we've just grabbed
+    colnames(emptyframe) <- colnames(just1pivot)
+    #Add the new rows to that empty frame - we only grab the top 11 (top will be NA so it's the top 10 plus the NA)
+    emptyframe <- rbind(emptyframe,head(just1pivot,11))
+  }
+  return(emptyframe)
+}
+```
+
+And you run it like this:
+
+```{r}
+top10out[[1]]
+nameofnewthing <- getmetop10(top10out[[1]])
+```
+
+## Function: find the top 10 in a category
+
+Now we need to get the top 10.
+
+```{r}
+getmetop10out <- function(thedata){
+  #print(head(thedata))
+  pivoted <- thedata %>%
+    group_by(OutName) %>%
+    summarise(count=n()) %>% 
+    arrange(desc(count))
+  #print(head(pivoted,10))
+  return(head(pivoted,10))
+}
+```
+
+And run it:
+
+```{r}
+top10outfor18s <- getmetop10out(migration18)
+```
+
+## Combining the two into one function
+
+This is what we want:
+
+Given a subset of internal migration by a particular category, return a list of the top 11 destinations for people leaving that area, for each of the 10 areas that most people leave.
+
+```{r}
+getmetop11oftop10 <- function(thedata){
+  #first pivot the data to find the top 10
+  pivoted <- thedata %>%
+    group_by(OutName) %>%
+    summarise(count=n()) %>% 
+    arrange(desc(count))
+  #print(head(pivoted,10))
+  top10forthis <- head(pivoted,11)
+  #Now for the second part
+  listofcodes <- top10forthis[[1]]
+  emptyframe <- data.frame(x = character, y = numeric, z = character)
+  #Note the double [[]] as an index - this forces the results to be a list
+  for (i in listofcodes){
+    print(i)
+    #subset to just those moves involving the top 10 names
+    just1area <- subset(thedata, thedata$OutName %in% i)
+    #Pivot by target area by total moves 
+    just1pivot <- just1area %>%
+      group_by(InName) %>%
+      summarise(totalmoves=sum(Moves)) %>% #sum because we want to add up totals of Moves
+      arrange(desc(totalmoves))
+    just1pivot$OutCode <- i
+    #print(head(just1pivot))
+    #Rename the columns to match what we've just grabbed
+    colnames(emptyframe) <- colnames(just1pivot)
+    #Add the new rows to that empty frame - we only grab the top 11 (top will be NA so it's the top 10 plus the NA)
+    emptyframe <- rbind(emptyframe,head(just1pivot,11))
+  }
+  return(emptyframe)
+}
+```
+
+Now to test:
+
+```{r}
+migration18.top110 <- getmetop11oftop10(migration18)
+migration18to24.top110 <- getmetop11oftop10(migration18to24)
+migration23to30.top110 <- getmetop11oftop10(migration23to30)
+```
+
+May as well export the results...
+
+```{r}
+write.csv(migration18.top110, "migration18dest.csv")
+write.csv(migration18to24.top110, "migration1824dest.csv")
+write.csv(migration23to30.top110, "migration2330dest.csv")
+```
+
