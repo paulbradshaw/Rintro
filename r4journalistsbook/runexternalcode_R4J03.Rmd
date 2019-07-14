@@ -1,0 +1,75 @@
+---
+title: "R4journalists: running external code"
+output: html_notebook
+---
+
+# Running external code
+
+This code is based on [part of chapter 3](http://www.machlis.com/R4Journalists/run-a-remote-script-to-make-an-interactive-map.html) in Sharon Machlis's book R for Journalists.
+
+In 3.8 she details how to fetch external code. Here's the script:
+
+```{r fetch external code and run function}
+#Run the R script at the destination
+source("https://raw.githubusercontent.com/smach/R4JournalismBook/master/03_map.R")
+#That R script creates a function variable in our environment. We run it.
+make_mymap()
+```
+
+And here is the R script at the URL specified:
+
+```{r destination R script}
+if(!require("pacman")){
+  install.packages("pacman")
+}
+pacman::p_load("leaflet") 
+
+make_mymap <- function(){
+  
+  starbucks <- read.csv("https://raw.githubusercontent.com/smach/R4JournalismBook/master/data/starbucks.csv") 
+
+  mymap <- leaflet(starbucks) %>% 
+  addTiles() %>% 
+  setView(-84.3847, 33.7613, zoom = 16) %>%
+  addMarkers(data = starbucks, lat = ~ Latitude, lng = ~ Longitude, popup = starbucks$Name)
+
+  return(mymap)
+}
+```
+
+When the line `source("https://raw.githubusercontent.com/smach/R4JournalismBook/master/03_map.R")` runs, it runs that script. The script checks whether it needs to install the `pacman` package, and installs it if needed. Then it runs the `p_load` function from that package, and then creates a new function called `make_mymap`.
+
+## A second R script
+
+In 3.9 she loads another script:
+
+```{r load another R sript}
+source("https://raw.githubusercontent.com/smach/R4JournalismBook/master/03_manhattan_income_map.R")
+get_household_income_in_county()
+```
+
+Look at the code at that URL.
+
+```{r code at URL}
+pacman::p_load("tmap")
+pacman::p_load("tmaptools")
+pacman::p_load("sf")
+
+
+source("https://raw.githubusercontent.com/smach/R4JournalismBook/master/Manhattan.R")
+
+
+get_household_income_in_county <- function(countydata = Manhattan){
+  tmap_mode("view")
+  
+  mymap <- tm_shape(Manhattan) +
+    tm_polygons("MedianIncome", palette="Greens", contrast=.9, id="Tract", title="Household Income") 
+  return(mymap)
+}
+```
+
+
+Note that this in turn loads *another* R script at another URL: [https://raw.githubusercontent.com/smach/R4JournalismBook/master/Manhattan.R](https://raw.githubusercontent.com/smach/R4JournalismBook/master/Manhattan.R) - this is quite lengthy because it contains a lot of data, so I won't reproduce it here.
+
+Note also that it doesn't check whether you have `pacman` installed, so it might throw an error if you haven't run the other one first.
+

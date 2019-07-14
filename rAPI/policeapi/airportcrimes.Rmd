@@ -1,0 +1,202 @@
+---
+title: "Fetching data for crimes near airports"
+author: "Paul Bradshaw"
+date: "24/7/2018"
+output: html_document
+---
+
+# Fetching data for crimes near airports
+
+For this project we need to break down the challenge first:
+
+1. Get crimes for one airport and one month
+2. Repeat for all months over a period (3 years, for example)
+3. Collate locations of multiple airport car parks
+4. Repeat for those locations
+
+## Using the Data.police.uk API in R
+
+The [data.police.uk API](https://data.police.uk/docs/) provide a range of data related to police forces, crimes and stop and search in the UK. Data begins in 2010 and the most recent data tends to be about 3 months old.
+
+## Grabbing data on crimes at a location
+
+[The documentation for the 'method' to grab data on crimes at a particular location is here](https://data.police.uk/docs/method/crime-street/).
+
+Data is fetched by forming a URL that contains your question. For example, the example given of an API call is [https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2013-01](https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2013-01)
+
+This includes:
+
+* A type of crime: `all-crime?`
+* A latitude: `lat=`
+* A longitude: `lng=`
+* And a month: `date=`
+
+Note that you cannot ask for a year: the date has to be a year *and* month. If you don't specify a date, then it appears to provide the most recent month for which it holds data.
+
+Note also that **locations are anonymised to the nearest location from a list**. In other words, the data does not mean that crimes took place at this particular location, but somewhere in this vicinity. 
+
+### Crimes near Manchester Airport
+
+A search for Manchester Airport on Google Maps brings up a lat-long of 53.3588026, -2.2727303. This is approximate for now - we'll look for more specific locations later but just need an address to test.
+
+This can be added to the data.police.uk query URL for 'crimes as a particular location', along with the latest month for which data is available (May 2018) like so:
+
+`https://data.police.uk/api/crimes-at-location?date=2018-05&lat=53.3588026&lng=-2.2727303`
+
+```{r}
+manurl <- "https://data.police.uk/api/crimes-at-location?date=2018-05&lat=53.3588026&lng=-2.2727303"
+```
+
+
+Now we need to fetch data from that.
+
+## Working with the JSON
+
+To convert JSON data into a data variable that R can work with, we use the `jsonlite` library ([documentation here](https://cran.r-project.org/web/packages/jsonlite/jsonlite.pdf)). This should already be installed in RStudio (if not, type `install.packages('jsonlite')`), so you just need to activate it.
+
+```{r}
+library('jsonlite')
+```
+
+Once added to your library, we use the `fromJSON` function to import JSON data from a URL into a new variable like so:
+
+```{r}
+mancrimes <-fromJSON(manurl)
+#And summarise the category column
+table(mancrimes$category)
+```
+
+It's a good idea to have the URL open in a browser at the same time so you can see the structure and work out how to access the bit you're after. You should use Chrome or Firefox with the extension [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) installed, as this makes it a lot easier to understand.
+
+Because the JSON is a list of pairs, the result is created as a table (other APIs may generate different types of results)
+
+## Generate URLs for other dates
+
+Let's try to grab the data for the same month in previous years. The police recently decided to only provide 3 years' worth of data, so there's no results for May 2015 or earlier years (the last month available is June 2015).
+
+```{r}
+#create a sequence from 2016 to 2018 and store in variable 'years'
+years <- seq(2016,2018)
+years
+```
+
+Once created, we can generate URLs by looping through those numbers and adding them to a base url, using a `for` loop:
+
+```{r}
+#create an empty vector (list) to store the URLs generated
+airportyearurls <- c()
+#To make things easier we can move the date= parameter to the end, but leave it empty:
+parturl <- "https://data.police.uk/api/crimes-at-location?lat=53.3588026&lng=-2.2727303&date="
+#create a series of URLs using those numbers
+for(year in years){
+  #test loop is working
+  #use paste to concatenate the year number with the base url, and no separator - store in 'airportyearurl' variable
+  airportyearurl <- paste(parturl,year,"-05",sep="")
+  #print that variable
+  print(airportyearurl)
+  #combine this monthurl with the list of all monthurls so far
+  airportyearurls <- c(airportyearurls,airportyearurl)
+}
+airportyearurls
+```
+
+## Grab the data from the URLs
+
+Now to loop through each of those URLs and grab the data...
+
+```{r}
+#We need to activate the dplyr library to use bind_rows below
+library(dplyr)
+#Use our test dataset to create the empty data frame (empty because we specify 0 rows)
+#This is needed because we need to have the same number of columns as the data we will add next
+airportdatafull <- head(mancrimes,0, row.names=NULL)
+#loop through each url and store it in 'i' variable
+#use [1:1] to limit it to first item
+for(i in airportyearurls){
+  print(i)
+  airport1yr <- fromJSON(i, flatten=TRUE) #flatten = TRUE ensures no problems with nested branches
+  #bind_rows is the dplyr way of combining the data, best when columns might not match
+  #airportallyr.bindrows <- bind_rows(airport1yr,airportdatafull)
+  #rbind is another way of doing the same, but columns must match
+  airportdatafull <- rbind(airportdatafull, airport1yr)
+}
+#delete the temporary variable
+rm(airport1yr)
+#remove mancrimes which is was only 1 month and is now superceded by the new data
+rm(mancrimes)
+#Check all years have been grabbed
+table(airportdatafull$month)
+```
+
+There is an increase here - it doesn't look big but it's still 10% since 2017 and 5% since 2016. We need more months and locations to get a better picture, but we're getting closer.
+
+Given that we know only the last 3 years - or 36 months - of data is available, we can extend our loop to factor that in.
+
+```{r}
+#Set our start and end points
+latestyr <- 2018
+latestmonth <- 5
+earliestyr <- latestyr-3
+earliestmonth <- latestmonth+1
+#create an empty vector (list) to store the URLs generated
+airportmonthurls <- c()
+#To make things easier we can move the date= parameter to the end, but leave it empty:
+parturl <- "https://data.police.uk/api/crimes-at-location?lat=53.3588026&lng=-2.2727303&date="
+#create a series of URLs using those numbers
+for(year in seq(earliestyr,latestyr)){
+  #test loop is working
+  #use paste to concatenate the year number with the base url, and no separator 
+  #store in airportyearurl variable
+  for (month in months){
+    if(year == earliestyr & month < earliestmonth){
+      print("too early to provide data")
+    }
+    else if(year == latestyr & month > latestmonth){
+      print("too late to provide data")
+    }
+    else
+    {
+      airportmonthurl <- paste(parturl,year,"-",month,sep="")
+      #print that variable
+      print(airportmonthurl)
+      #combine this monthurl with the list of all monthurls so far
+      airportmonthurls <- c(airportmonthurls,airportmonthurl)
+    }
+  }
+}
+```
+
+
+
+We should at the end have 36 URLs for the latest 36 months. Note that you will need to update the `latestyear` and `latestmonth` variables if you run this again after new data has been added.
+
+Now to grab the data from those URLs:
+
+```{r}
+#reset the dataframe so it only contains the headers
+airportdatafull <- head(airportdatafull,0, row.names=NULL)
+#loop through each url and store it in 'i' variable
+#use [1:1] to limit it to first item
+for(i in airportmonthurls){
+  #print(i)
+  airport1month <- fromJSON(i, flatten=TRUE) #flatten = TRUE ensures no problems with nested branches
+  #bind_rows is the dplyr way of combining the data, best when columns might not match
+  #airportallyr.bindrows <- bind_rows(airport1yr,airportdatafull)
+  #rbind is another way of doing the same, but columns must match
+  airportdatafull <- rbind(airportdatafull, airport1month)
+}
+#Check all years have been grabbed
+table(airportdatafull$month)
+```
+
+Now let's store those results in a data frame:
+
+```{r}
+crimeslast3yrs <- data.frame(table(airportdatafull$month))
+write.csv(crimeslast3yrs,"crimes3yrs.csv")
+write.csv(airportdatafull,"fullcrimedata.csv")
+```
+
+We can filter it a little too:
+
+

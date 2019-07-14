@@ -13,12 +13,25 @@ This is saved as a CSV, and imported into R using the code below:
 
 ```{r}
 gppostcodes <- read.csv("gppostcodes.csv")
+#Summarise
+summary(gppostcodes)
 ```
+
+We only need one of each postcode, so let's use the `dplyr` function `distinct`
+
+```{r}
+#Uncomment this line if you do not have dplyr in the Packages menu
+#install.packages('dplyr')
+library(dplyr)
+gppostcodes <- distinct(gppostcodes)
+summary(gppostcodes)
+```
+
 
 The postcodes have spaces in them, so we need to remove those before we use them in any URL:
 
 ```{r}
-gppostcodes$nospaces <- gsub(" ","",gppostcodes$GP_postcodes)
+gppostcodes$nospaces <- gsub(" ","",gppostcodes$Postcode)
 ```
 
 
@@ -27,7 +40,8 @@ gppostcodes$nospaces <- gsub(" ","",gppostcodes$GP_postcodes)
 To import JSON from the API we need to activate a **package** called `jsonlite`. 
 
 ```{r}
-install.packages('jsonlite')
+#Uncomment this line if you do not have jsonlite in the Packages menu
+#install.packages('jsonlite')
 library('jsonlite')
 ```
 
@@ -55,9 +69,9 @@ for (i in gppostcodes$nospaces){
 }
 ```
 
-This works for 208 postcodes - and then hits a 404 error. 
+This works for some postcodes - and then hits a 404 error. 
 
-(We could add an extra `print` command to show us the postcode and help us debug, but we can also just look at the 209th postcode in our data, and test that. It is B44 9SG, and a [check confirms](http://api.postcodes.io/postcodes/B449SG) that postcode doesn't have any result on Postcodes.io.)
+(We could add an extra `print` command to show us the postcode and help us debug, but we can also just look at the problematic postcode in our data, and test that. A check on B44 9SG, for example, [confirms](http://api.postcodes.io/postcodes/B449SG) that postcode doesn't have any result on Postcodes.io.)
 
 To prevent this causing problems in our loop we add some extra lines to handle the possibility of an error, and store warning data against those problematic postcodes.
 
@@ -84,7 +98,9 @@ for (i in gppostcodes$nospaces){
 }
 ```
 
-That now works without throwing an error. The resulting vector is 8142 items long, compared to the postcodes data frame which had 8160 objects. This is a problem as we can't match them exactly. So we need to adapt the code to store the postcodes too.
+That now works without throwing an error. The resulting vector, however, will not be the same length as the one we want to match it against (because some postcodes will not have worked). 
+
+This is a problem as we can't match them exactly. So we need to adapt the code to store the postcodes too.
 
 ```{r}
 

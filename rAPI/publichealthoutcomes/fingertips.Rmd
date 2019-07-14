@@ -1,0 +1,15 @@
+---
+title: "fingertipsR"
+output: html_notebook
+---
+
+# Using the fingertipsR package to fetch and analyse public health outcomes data
+
+This notebook documents use of the [fingertipsR package](https://cran.r-project.org/web/packages/fingertipsR/README.html). First we need to import it:
+
+```{r}
+source <- devtools:::source_pkg("C:/path/to/fingertips-master")
+install(source)
+```
+
+

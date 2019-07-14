@@ -1,5 +1,5 @@
 ---
-title: "book notes"
+title: "Cleaning data with tidyverse"
 author: "Paul Bradshaw"
 date: "5 March 2017"
 output: html_document

@@ -1,0 +1,47 @@
+---
+title: "R4journalists Notebook"
+output: html_notebook
+---
+
+# A list of learning outcomes from R for Journalists
+
+[Chapter 2 outcomes](http://www.machlis.com/R4Journalists/wrap-up.html)
+
+* Install packages with `install.packages()`
+
+[Chapter 3 outcomes](http://www.machlis.com/R4Journalists/wrap-up-1.html):
+
+* Using `library()` to activate a package
+* Using a function without loading the package by adding the function and two colons before the function name, e.g. `mypackage::myfunction()`
+* Run R code from an external file with `source("locationofscript.R")`
+* Combining columns with `cbind()` and rows with `rbind()`
+* Showing (or changing) the names of an object with `names()`
+
+Chapter 4:
+
+* Importing data using the `rio` package. The `rio::import()` function detects file type, avoiding the need for format-specific packages or functions like `readxl`
+* Using the `skip = ` parameter to skip unnecessary rows before the table headings
+* Using the `col_names = F` parameter to indicate there are no headings
+* Using the `which =` parameter to indicate the sheet you want to import (if a workbook)
+* Using the `colClasses = c()` parameter to specify when you wish columns to be treated as a particular type of data (e.g. `c("character", "character")`) - especially useful for company numbers, phone numbers or other data which needs to be treated as a character (to prevent leading zeroes being removed)
+* Using the `rep()` function to repeat a value a specified number of times, e.g `rep("character", 5)` or `colClasses = c(rep(“character”, 14), rep(“numeric”, 2))`
+* Downloading data using `download.file()` (specify the URL, then the name you want to save it as)
+* Scraping nicely formatted HTML tables using `rio::import("url goes here", format = "html", which = 1)`
+* Scraping other HTML tables using the `htmltab` package
+* Installing packages from GitHub using the `pacman` package (and alternatives)
+* Converting data types using `readr` and functions such as `parse_number()`
+* Cleaning column headings using `janitor` and the `clean_names()` function 
+* Using `class()` to find out the type of object you have created (e.g. data frame)
+* Using `str()` to see the type of object and the types of data within it (e.g. string, number, etc.)
+* Data frames consist of vectors (columns) which have to be the same type. For that reason, if there are non-numbers in a column, the values will be **coerced** to text so that all values are the same type.
+* Using `nrow()` and `ncol()` to fetch out the numbers of rows or columns (useful if looping)
+* Accessing columns by $ and the column name
+* Creating new columns by perfoming a calculation on the values in an existing column
+* Creating data frames manually by creating each column as a vector with `c()` and combining them with `data.frame()`
+* By default data frames convert character vectors into factor columns, so use `stringsAsFactors = FALSE` when creating the data frame to avoid this.
+
+
+* Exporting data
+
+
+

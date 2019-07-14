@@ -1,0 +1,120 @@
+---
+title: "shiny"
+author: "Paul Bradshaw"
+date: "18/05/2019"
+output: html_document
+---
+
+# Starting with Shiny
+
+Shiny is an R package for creating interactive web apps. First, you need to install/activate it:
+
+```{r}
+#Shiny comes pre-installed on modern versions of RStudio, so this line is commented out
+#install.packages("shiny")
+#Activate the Shiny package
+library("shiny")
+```
+
+There are some built-in examples that you can run with `runExample`:
+
+```{r}
+#Show what examples we can run by leaving the parentheses empty:
+shiny::runExample()
+```
+
+```{r}
+#Try it with the first example
+shiny::runExample("01_hello")
+```
+
+These will open in RStudio's built-in browser. Note that when you stop it, you will get a message about "Listening on http://127.0.0.1:7914". If you click on the 'open in browser' button you will see it open at 127.0.0.1:7914 too.
+
+To run any more lines you must stop the code running above.
+
+```{r}
+find.package("shiny")
+```
+
+## Create an app
+
+The code below shows 3 lines to create a minimal app. If you: 
+
+* Create a new R file by selecting **File > New File > R Script** 
+* Paste this code into that R file
+* Save into its own directory
+* Give it the name `app.R`
+
+Then when you open it (or after it has saved) there should be a button to 'Run App' indicating that it has recognised that this is an app.
+
+```{r, eval=FALSE, include=FALSE}
+#Define the UI object
+ui <- shiny::fluidPage()
+#Create a function called 'server' that takes two parameters it calls input and output
+server <- function(input, output) {}
+#use those two as parameters for the shinyApp function
+shiny::shinyApp(ui = ui, server = server)
+```
+
+You can also run this file with `runApp()` like so:
+
+```{r}
+#You only need to name the folder - because there should not be more than one app.R file in any directory
+shiny::runApp("Minimal_App", launch.browser = T)
+```
+
+## Adding input/output to the app
+
+Now we expand the minimal skeleton of the Shiny app to include some input and output:
+
+```{r, eval=FALSE, include=FALSE}
+#Define the UI object
+ui <- shiny::fluidPage(
+  #Add a slider to our UI, specifying various parameters
+  sliderInput(inputId = "bins",
+              label = "Number of bins:",
+              min = 1,
+              max = 50,
+              value = 30), #default value
+  #Add an output
+  plotOutput(outputId = "hist")
+)
+#Create a function called 'server' that takes two parameters it calls input and output
+server <- function(input, output) {}
+#use those two as parameters for the shinyApp function
+shiny::shinyApp(ui = ui, server = server)
+```
+
+If that's saved as a separate 'app.R' file in a directory called 'histo_app' then we can run it as follows:
+
+```{r}
+#You only need to name the folder - because there should not be more than one app.R file in any directory
+shiny::runApp("histo_app", launch.browser = T)
+```
+
+```{r}
+goals <- read.csv("Goals-Grid view.csv")
+games <- read.csv("Games-Main View.csv")
+games$na <- is.na(games$Goals.for)
+games <- subset(games, games$na == FALSE)
+```
+
+## Creating an interactive table
+
+You can use different output functions - like `dataTableOutput` - to generate other types of dashboards, including tables. The code below, saved in the 'table_app' folder, creates an interactive table to display the 'goals' data frame.
+
+```{r}
+#Define the UI object
+ui <- shiny::fluidPage(
+  #Add a table to our UI, specifying various parameters
+  h4("Goals by the Bears"), #Set a heading
+  shiny::dataTableOutput("dfHead") #this naming means it can be called as output$dfHead below
+)
+#Create a function called 'server' that takes two parameters it calls input and output
+server <- function(input, output) {
+  output$dfHead <- shiny::renderDataTable(goals) #render the goals data frame
+}
+#use those two as parameters for the shinyApp function
+shiny::shinyApp(ui = ui, server = server)
+```
+

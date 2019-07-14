@@ -1,0 +1,220 @@
+---
+title: "Working with strings with tidyverse and stringr"
+author: "Paul Bradshaw"
+date: "5 March 2017"
+output: html_document
+---
+
+These are notes from the book [R for Data Science](http://r4ds.had.co.nz/) - specifically the [section on strings](http://r4ds.had.co.nz/strings.html).
+
+# Working with strings with tidyverse and stringr
+
+Let's start by installing the tidyverse collection of packages, and activating it in our library, along with `stringr`.
+
+```{r}
+install.packages("tidyverse")
+library(tidyverse)
+library(stringr)
+```
+
+Strings are created with single or double quotation marks. Typically if your string contains a quote (double quotation marks) or apostrophe (single), you use the other type to mark the start and end of the string. And if it has both, you can 'escape' the problematic characters using the backslash `\`:
+
+```{r}
+somestring <- "This string's got an apostrophe"
+somestring <- 'This string has got "a quote"'
+somestring <- "This string's got both an apostrophe and \"a quote\""
+somestring #this will show the escape characters
+writeLines(somestring) #this will show the string as it will be printed
+```
+
+Most string functions in `stringr` begin with `str_`...
+
+## Measuring length: `str_length`
+
+The `str_length` function from `stringr` gives you the length of a string - it can also be used to give a length for *each* string in a vector.
+
+```{r}
+str_length(somestring)
+stringvec <- c("hello","goodbye")
+str_length(stringvec)
+```
+
+## Trimming white space: `str_trim`
+
+The `str_trim` function is analogous to the spreadsheet function `TRIM`: it gets rid of empty space at the start and end of a string:
+
+```{r}
+annoyingdoublespace <- " This string has.  A double space. "
+str_trim(annoyingdoublespace)
+```
+
+Note that it *doesn't* get rid of double spaces within the text. Doing that requires some regex and `gsub`:
+
+```{r}
+#The regex symbol for white space is \s - this has to be escaped with an extra \
+#The + symbol indicates 'one or more'
+gsub("\\s+"," ",annoyingdoublespace) 
+```
+
+
+## Concatenate (combine) strings: `str_c`
+
+The `str_c` function, like `paste`, concatenates strings together. It can take extra arguments for separators:
+
+```{r}
+str_c("hello","goodbye")
+str_c("hello","goodbye",sep=" ")
+```
+
+If you use any vectors as ingredients, they need to be the same length or divisible. When used, each item will be combined with its parallel item in the other vector:
+
+```{r}
+#A vector on its own won't be combined with anything
+str_c(stringvec, sep=":")
+#A vector with a string will combine each item in the vector with that one string
+str_c(stringvec,"sailor", sep=":")
+str_c("sailor", stringvec,sep=":")
+#Create another vector which can be combined with the first
+anothervec <- c("me","you","him","her")
+#The 2-item vector is combined twice with each item in the 4-item vector
+str_c(stringvec,anothervec, sep=":")
+
+```
+
+### Concatenating items from a vector
+
+You can add the `collapse=` parameter to collapse and concatenate items together *within* a vector:
+
+```{r}
+str_c(stringvec)
+str_c(stringvec,collapse=":")
+```
+
+
+## Replacing strings and `NA`: `str_replace`, `str_replace_all`, `str_replace_na`
+
+The `str_replace_na` function replaces `NA` values with whatever value you specify as the second parameter:
+
+```{r}
+stringvecna <- c("hello",NA,"yo")
+str_replace_na(stringvecna,"-")
+```
+
+The `str_replace_all` function performs a 'find and replace': it replaces all instances of a particular pattern (specified as the second parameter) with whatever you specify as the third parameter. The first parameter specifies a vector or string which contains the text you want to perform this on:
+
+If you only want to replace the *first* match, then use `str_replace`:
+
+```{r}
+str_replace_all(stringvec,"o","i")
+str_replace(stringvec,"o","i")
+str_replace_all("hellooo","o","i")
+str_replace("hellooo","o","i")
+```
+
+## Formatting strings: `str_to_lower`, `str_to_upper`, `str_to_title`
+
+The 3 functions `str_to_lower`, `str_to_upper`, `str_to_title` convert strings to upper, lower or title case
+
+```{r}
+str_to_upper(stringvec)
+str_to_title(stringvec)
+str_to_lower(stringvec)
+```
+
+You can also specify the `locale` of this process, for countries where titlecase has different conventions.
+
+## Subsets of strings (like LEFT, RIGHT and MID): `str_sub`
+
+To replicate the spreadsheet functions `LEFT`, `RIGHT` and `MID` which grab parts of strings, use `str_sub`. This takes 3 parameters: the string; a starting index; and an ending index:
+
+```{r}
+#The character at position 3 is the space - from 3 to 7 is five characters because that 3rd character is also included
+str_sub("My sore foot",3,7)
+#When used on a vector it is repeated for each item
+str_sub(stringvec,1,4)
+```
+
+You can also use the same function to *reformat* individual parts of words like so:
+
+```{r}
+x <- c("Apple", "Banana", "Pear")
+#substitute the first characters in x with the results of converting those same characters to lower case
+str_sub(x, 1, 1) <- str_to_lower(str_sub(x, 1, 1))
+x
+```
+
+On the right of the `<-` the `str_sub` function is used to *fetch* the substring; on the left it is used to *assign* to the substring. 
+
+## Using regex
+
+There are a number of functions which can use regex to view matching strings, count them, extract, and so on.
+
+* View matches: `str_view` and `str_view_all`
+* Return TRUE or FALSE for matches: `str_detect`
+* Create a subset of strings matching regex: `str_subset`
+* Counting character/string occurrences: `str_count`
+* Extracting the specific regex: `str_extract()`
+
+### View matches: with `str_view` and `str_view_all`
+
+The `str_view` and `str_view_all` functions will show matches for regular expressions (regex)
+
+```{r}
+telnums <- c("Tel 0121 3315367","Telephone 0207 2223333")
+str_view(telnums,"Tel")
+str_view(telnums,"\\d")
+str_view_all(telnums,"\\d")
+str_view(telnums,"3+")
+str_view(telnums,"3{2}")
+str_view(telnums,"\\d+\\s")
+```
+
+The `str_view` returns just the first match while `str_view_all` returns all matches.
+
+The data generated by this is a list with a HTML span to highlight the matches, so it's not great to deal with aside from visually.
+
+### Using regex to return TRUE or FALSE with `str_detect`
+
+Instead of highlighting, you can return TRUE or FALSE values depending on whether a match is found or not:
+
+```{r}
+telnums <- c("Tel 0121 3315367","Telephone 0207 2223333","Telephone 0207 3333222")
+str_detect(telnums,"Tel")
+str_detect(telnums,"3{3}")
+#This can then be used to filter the data to show just those that match
+triple3nums <- telnums[str_detect(telnums,"3{3}")]
+triple3nums
+```
+
+
+### Creating a subset with regex: `str_subset` and `str_detect`
+
+The same effect can be created by using `str_subset` or `str_detect`
+
+```{r}
+str_subset(telnums,"3{3}")
+str_detect(telnums,"3{3}")
+```
+
+### Counting character/string occurrences: `str_count`
+
+The `str_count` returns a count of matches for a particular character or string:
+
+```{r}
+str_count(stringvec,"o")
+str_count(stringvec,"l")
+str_count(stringvec,"bye")
+```
+
+### Extracting the specific regex: `str_extract()`
+
+If you *just* want the part of the string that matches the regex you can use `str_extract()`:
+
+```{r}
+sentences <- c("my head hurts","my leg hurts","my leg is injured","my arm is sore")
+headorleg <- str_extract(sentences,"my|head|leg")
+headorleg
+```
+
+This is best used in a more complex fashion in conjunction with other functions. See [the section of R for Data Science on extract matches for more](http://r4ds.had.co.nz/strings.html#extract-matches).
+

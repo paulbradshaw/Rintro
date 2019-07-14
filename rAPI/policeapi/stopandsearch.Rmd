@@ -1,0 +1,261 @@
+---
+title: "Analysing stop and search data"
+output: html_notebook
+---
+
+# Analysing stop and search data
+
+First we need to plan the steps in the project. These are:
+
+1. Grab data from the API
+2. Loop through each force
+3. Loop through each month
+4. Combine datasets into one
+5. Analysis: change over time
+6. Analysis: 
+
+## Grab data from the API
+
+The Police API [provides data on stop and search](https://data.police.uk/docs/method/stops-force/). An example URL for data is [https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2017-01](https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2017-01).
+
+We need to grab the data from that URL and convert to a data frame.
+
+```{r}
+#store test url in a variable 'testurl'
+testurl <- "https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2017-01"
+
+#to deal with JSON we need the jsonlite package
+library(jsonlite)
+
+#to convert from JSON to a data frame we use the function fromJSON
+#here we store the results in a variable called 'testdata'
+testdata <- fromJSON(testurl, flatten=TRUE) #some parts have further branches, so flatten=TRUE ensures these are flattened to the same level - this results in 20 variables rather than 16
+```
+
+## Looping through multiple months
+
+First we need to create a list of months.
+
+To create a range of numbers in R you can [use the `seq` (sequence)](http://stat.ethz.ch/R-manual/R-devel/library/base/html/seq.html) function. This needs two parameters - a start and end point - and can also take a third parameter specifying interval (e.g. every third number).
+
+```{r}
+#create a sequence from 1 to 12 and store in variable 'months'
+months <- seq(1,12)
+```
+
+Once created, we can generate URLs by looping through those numbers and adding them to a base url, using a `for` loop:
+
+```{r}
+#create an empty vector (list) to store the URLs generated
+monthurls <- c()
+#create a series of URLs using those numbers
+for(month in months){
+  #test loop is working
+  #print(month)
+  #use paste to concatenate the month number with the base url, and no separator - store in 'monthurl' variable
+  monthurl <- paste("https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2017-",month,sep="")
+  #print that variable
+  print(monthurl)
+  #combine this monthurl with the list of all monthurls so far
+  monthurls <- c(monthurls,monthurl)
+}
+monthurls
+```
+
+## Expand to include multiple years
+
+The earliest data from the API comes from [July 2015](https://data.police.uk/api/stops-force?force=avon-and-somerset&date=2015-07) - queries before come back empty or dead.
+
+We need to generate a list of years from 2015 to 2018, then add months to those.
+
+```{r}
+#create empty list to store year urls
+yearurls <- c()
+#create empty list to store full urls
+fullurls <- c()
+#create vector of years from 2015-2018
+years <- seq(2015,2018)
+for(year in years){
+  #test loop is working
+  print(year)
+  #use paste to concatenate the month number with the base url, and no separator - store in 'monthurl' variable
+  yearurl <- paste("https://data.police.uk/api/stops-force?force=avon-and-somerset&date=",year,sep="")
+  #print that variable
+  print(yearurl)
+  for(month in months){
+    fullurl <- paste(yearurl,month,sep="-")
+    print(fullurl)
+    fullurls <- c(fullurls,fullurl)
+  }
+  #combine this monthurl with the list of all monthurls so far
+  yearurls <- c(yearurls,yearurl)
+}
+```
+
+
+
+## Grab data from all URLs
+
+Now to loop through each of the URLs in the list we've just made, and fetch the JSON as we did with the test url at the start.
+
+First, we know the first 6 URLs are dead or empty, so we need to remove those from the list
+
+```{r}
+#replace fullurls with the items in fullurls from the 7th position onwards, to remove dead links for first 6 months of 2015
+fullurls <- fullurls[7:length(fullurls)]
+```
+
+Now to start the loop...
+
+```{r}
+fulldata <- data.frame()
+#loop through each url and store it in 'i' variable
+#use [1:1] to limit it to first item
+for(i in fullurls){
+  print(i)
+  fulldata <- fromJSON(i, flatten=TRUE)
+}
+```
+
+At the moment that loop creates a data frame and then *overwrites* it each time it loops again. Instead, we want it to *add to* the data frame.
+
+One way to add to a data frame is to use `rbind`:
+
+```{r}
+#We need to activate the dplyr library to use bind_rows below
+library(dplyr)
+#Use our test dataset to create the empty data frame (empty because we specify 0 rows)
+#This is needed because we need to have the same number of columns as the data we will add next
+fulldata <- head(testdata,0, row.names=NULL)
+#use [1:1] to limit it to first item
+for(i in fullurls[5:10]){
+  print(i)
+  #convert from JSON
+  thismonth <- fromJSON(i, flatten=TRUE) #flatten = TRUE ensures no problems with nested branches
+  #bind_rows is the dplyr way of combining the data, best when columns might not match
+  allmonths.bindrows <- bind_rows(thismonth,fulldata)
+  #rbind is another way of doing the same, but columns must match
+  allmonths.rbind <- rbind(fulldata, thismonth)
+}
+
+
+```
+
+At this point we have over 13000 records of stops and searches. It's worth generating a pivot [table](https://www.r-bloggers.com/r-function-of-the-day-table/):
+
+```{r}
+table(allmonths.bindrows$age_range)
+sort(table(allmonths.bindrows$self_defined_ethnicity), decreasing = T)
+```
+
+This gives us an idea of the analysis that can be done - but remember we still only have one police force. Next, we need to grab all the others...
+
+## Creating a vector (list) of police forces
+
+Looping through all the police forces will be a similar process to looping through months and years. However, this time we can't simply generate a range of numbers - instead we need to find a definitive list of the police force names (strings) used in the police API.
+
+As it happens, [one of the API *methods* returns just such a list](https://data.police.uk/docs/method/forces/.
+
+```{r}
+#store the URL that has force names and ids
+forcesjson <- "https://data.police.uk/api/forces"
+#convert to dataframe
+forcesdf <- fromJSON(forcesjson)
+#extract ids only - because this is one column it is now a vector (list)
+forceslist <- forcesdf$id
+```
+
+### Looping through each police force and adding it to a URL
+
+Now we have a list we can loop through it in the same way. By now we are going to have 3 loops in total, each one nested within the other:
+
+* Loop through each force to create a partial URL. For each...
+* ...loop through each year to add that to the URL too. For each year...
+* ...loop through each month to add that to the URL, completing it.
+
+Only within that last loop does the JSON get grabbed and combined as before.
+
+First, then, here's the code to loop through each force in that list and insert it into the URL. This time we need to add the `&date=` *after* that, as well.
+
+```{r}
+#create empty list to store year urls
+yearurls <- c()
+#create empty list to store full urls
+fullurls <- c()
+#create vector of years from 2015-2018
+years <- seq(2015,2018)
+#loop through forces
+for (force in forceslist){
+  #concatenate url inserting the force name along with other elements
+  forceurl <- paste("https://data.police.uk/api/stops-force?force=",force,"&date=",sep="")
+  print (forceurl)
+}
+```
+
+Now we can take the code from before and place that *within* our new loop:
+
+```{r}
+#create empty list to store year urls
+yearurls <- c()
+#create empty list to store full urls
+fullurls <- c()
+#create vector of years from 2015-2018
+years <- seq(2015,2018)
+#loop through forces
+for (force in forceslist){
+  #concatenate url inserting the force name along with other elements
+  forceurl <- paste("https://data.police.uk/api/stops-force?force=",force,"&date=",sep="")
+  print (forceurl)
+  #now the code from earlier sits inside this for loop, so it runs for each force
+  for(year in years){
+    #test loop is working
+    print(year)
+    #note this now uses the new forceurl variable
+    yearurl <- paste(forceurl,year,sep="")
+    #print that variable
+    print(yearurl)
+    for(month in months){
+      fullurl <- paste(yearurl,month,sep="-")
+      print(fullurl)
+      fullurls <- c(fullurls,fullurl)
+    }
+    #combine this monthurl with the list of all monthurls so far
+    yearurls <- c(yearurls,yearurl)
+  
+  }
+}
+print(length(fullurls))
+```
+
+
+At this point we have 2112 URLs: 44 forces times 4 years (176) times 12 months.
+
+Remember that we've re-created the problem with the dead URLs and will need to strip those out again. This time it's not as simple as removing the first 6 - we'll need to remove the first 6 in every set of 48.
+
+
+## Don't forget the stops with no location data
+
+https://data.police.uk/api/stops-no-location?force=cleveland&date=2017-01
+
+
+## TBC: Adapt the previous loop for our new list of 2112 URLs
+
+```{r}
+#We need to activate the dplyr library to use bind_rows below
+library(dplyr)
+#Use our test dataset to create the empty data frame (empty because we specify 0 rows)
+#This is needed because we need to have the same number of columns as the data we will add next
+fulldata <- head(testdata,0, row.names=NULL)
+#use [1:1] to limit it to first item
+for(i in fullurls[5:10]){
+  print(i)
+  #convert from JSON
+  thismonth <- fromJSON(i, flatten=TRUE) #flatten = TRUE ensures no problems with nested branches
+  #bind_rows is the dplyr way of combining the data, best when columns might not match
+  allmonths.bindrows <- bind_rows(thismonth,fulldata)
+  #rbind is another way of doing the same, but columns must match
+  allmonths.rbind <- rbind(fulldata, thismonth)
+}
+
+
+```
