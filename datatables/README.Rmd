@@ -47,7 +47,7 @@ gpsubset <- gpdata[c(8:16)]
 
 ## Draw a datatable
 
-Now let's create a datatables interface to look at that. To do that we use the `DT` package:
+Now let's create a datatables interface to look at that. To do that we [use the `DT` package](https://rstudio.github.io/DT/):
 
 ```{r}
 #This line is commented out because DT is already installed
