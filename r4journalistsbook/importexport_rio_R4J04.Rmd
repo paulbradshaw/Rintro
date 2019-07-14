@@ -193,5 +193,82 @@ head(biopics)
 #And data types
 str(biopics)
 ```
+## Exporting using `rio` and base functions
 
+To save data out of R as a spreadsheet, etc. use `export()`. The file extension used in your string will determine the format:
+
+```{r export as csv and json}
+#Save as a CSV
+rio::export(biopics, "biopics.csv")
+#Save as JSON
+rio::export(biopics, "biopics.json")
+```
+
+You can also save as an R binary object (specifying the `.RData` file extension):
+
+> "Generic save() will save one or more objects into a file, such as save(objectName1, objectName2, file="myfilename.RData"). To read this data back into R, you just use the command load("myfilename.RData") and all the objects return with the same names in the same state they had before."
+
+```{r save objects as RData}
+#Save two objects from the environment
+save(biopics, dylanscrape, file="generateddata.RData")
+```
+
+To load this back in, in future, you would name that file (now in this directory) inside a `load()` command:
+
+```{r load RData}
+load("generateddata.RData")
+```
+
+Try this out by running that line first, before any of the other lines in this notebook, while the environment is empty.
+
+Likewise individual objects can be saved and loaded back in (naming the object) like so:
+
+```{r save as RDS}
+saveRDS(snowdata, "snowdata.rds")
+lastsnowdata <- readRDS("snowdata.rds")
+#Test they're the same
+snowdata == lastsnowdata
+```
+
+## Exporting an object as an R script
+
+You can also export an object as a script which reconstructs it. In this case you specify an `.R` extension, like so:
+
+```{r export object as R script}
+rio::export(dylanscrape,file="dylanscrapeprocess.R")
+```
+
+You can also do this with `dput()` or `dump()`.
+
+The resulting file looks like this:
+
+```{r example of saved R script to create data frame}
+structure(list(type = c("Studio albums", "Live albums", "Compilation albums", 
+"Video albums", "Music videos", "EPs", "Singles", "Soundtrack albums", 
+"Tribute albums", "Box sets", "Bootleg Series"), number = c("38", 
+"13", "19", "11", "40", "26", "91", "7", "29", "13", "14"), numberclean = c(38, 
+13, 19, 11, 40, 26, 91, 7, 29, 13, 14), numberclean2 = c(38, 
+13, 19, 11, 40, 26, 91, 7, 29, 13, 14)), .Names = c("type", "number", 
+"numberclean", "numberclean2"), row.names = 3:13, class = "data.frame")
+```
+
+Running that code creates the structure described. It can be assigned to an object in the usual manner, by adding something like `dylanrecreation <-` at the start like so:
+
+```{r assign data frame to new object}
+dylanrecreation <- structure(list(type = c("Studio albums", "Live albums", "Compilation albums", 
+"Video albums", "Music videos", "EPs", "Singles", "Soundtrack albums", 
+"Tribute albums", "Box sets", "Bootleg Series"), number = c("38", 
+"13", "19", "11", "40", "26", "91", "7", "29", "13", "14"), numberclean = c(38, 
+13, 19, 11, 40, 26, 91, 7, 29, 13, 14), numberclean2 = c(38, 
+13, 19, 11, 40, 26, 91, 7, 29, 13, 14)), .Names = c("type", "number", 
+"numberclean", "numberclean2"), row.names = 3:13, class = "data.frame")
+```
+
+## Converting an external file from one format to another: `rio::convert()`
+
+`rio::convert()` will convert a file to another format, like so:
+
+```{r}
+rio::convert("biopics.csv", "biopics.xlsx")
+```
 

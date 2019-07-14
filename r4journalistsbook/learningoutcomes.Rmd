@@ -5,11 +5,11 @@ output: html_notebook
 
 # A list of learning outcomes from R for Journalists
 
-[Chapter 2 outcomes](http://www.machlis.com/R4Journalists/wrap-up.html)
+## [Chapter 2 outcomes](http://www.machlis.com/R4Journalists/wrap-up.html)
 
 * Install packages with `install.packages()`
 
-[Chapter 3 outcomes](http://www.machlis.com/R4Journalists/wrap-up-1.html):
+## [Chapter 3 outcomes](http://www.machlis.com/R4Journalists/wrap-up-1.html):
 
 * Using `library()` to activate a package
 * Using a function without loading the package by adding the function and two colons before the function name, e.g. `mypackage::myfunction()`
@@ -17,7 +17,7 @@ output: html_notebook
 * Combining columns with `cbind()` and rows with `rbind()`
 * Showing (or changing) the names of an object with `names()`
 
-Chapter 4:
+## Chapter 4 outcomes:
 
 * Importing data using the `rio` package. The `rio::import()` function detects file type, avoiding the need for format-specific packages or functions like `readxl`
 * Using the `skip = ` parameter to skip unnecessary rows before the table headings
@@ -39,9 +39,17 @@ Chapter 4:
 * Creating new columns by perfoming a calculation on the values in an existing column
 * Creating data frames manually by creating each column as a vector with `c()` and combining them with `data.frame()`
 * By default data frames convert character vectors into factor columns, so use `stringsAsFactors = FALSE` when creating the data frame to avoid this.
+* "If one column is shorter than the other(s), R will sometimes repeat data from the shorter column - whether or not you want that to happen."
+* Using the `tibble` package and `tibble()` function as an alternative to `data.frame()` - e.g. `theobject <- tibble::tibble(vector1, vector2, vector3)` this will throw an error if there are unequal columns and also doesn't default to factors. "it is a data frame, but with some special behaviors, such as how it prints. You’ll also notice that the candidates column is character strings, not factors."
+* Exporting data using `rio::export()` specifying the name of the object, and a string for the filename to be created (including extension)
+* Specifying an `.R` filetype will save a script that generates the object
+* Saving objects using `save()` and the `.RData` file extension; loading those into the environment using `load()`
+* Saving objects individually using `saveRDS()` and the `.rds` extension; loading those using `readRDS()`, making sure to assign to a named object
+* Converting files from one format to another without having to import them, using `rio::convert()`
+* Base R alternatives such as `read.csv()` and `read.table()`, and `write.csv()`; the `openxlsx` package for writing XLS files and `readr` for handling files; the [`googlesheets` package](https://github.com/jennybc/googlesheets) for reading from Google Sheets.
+* Directions to the `rvest` package for scraping
 
-
-* Exporting data
+## Chapter 5 outcomes
 
 
 
