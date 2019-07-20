@@ -5,12 +5,17 @@ date: "5 March 2017"
 output: html_document
 ---
 
+# Cleaning data with the tidyverse
+
 These are notes from the book [R for Data Science](http://r4ds.had.co.nz/) - specifically the [tidy data section](http://r4ds.had.co.nz/tidy-data.html).
 
 Let's start by installing the tidyverse collection of packages, and activating it in our library.
 
 ```{r}
-install.packages("tidyverse")
+#If it's not installed...
+if(!require("tidyverse")){
+  install.packages("tidyverse")
+  }
 library(tidyverse)
 ```
 
@@ -21,27 +26,6 @@ install.packages(c("nycflights13", "gapminder", "Lahman"))
 ```
 
 
-## Story based inquiry, or hypothesis generation?
-
-Hadley Wickham conveniently mirrors the division within journalism between hypothesis-driven investigation, and using data to generate leads:
-
-> "It’s possible to divide data analysis into two camps: hypothesis generation and hypothesis confirmation (sometimes called confirmatory analysis)."
-
-## Importing data
-
-The tidyverse uses `read_csv` and `write_csv` as alternatives to R's own `read.csv` etc. However: "Note that the type information is lost when you save to csv ... you need to recreate the column specification every time you load in."
-
-Alternatives include writing as RDS or feather (using the `feather` package).
-
-[Other useful packages](http://r4ds.had.co.nz/data-import.html#other-types-of-data) include:
-
-* `haven` (SPSS, Stata, and SAS)
-* `readxl` (.xls and .xlsx).
-* `DBI` "along with a database specific backend (e.g. RMySQL, RSQLite, RPostgreSQL etc) allows you to run SQL queries against a database and return a data frame."
-* `jsonlite` for json
-* `xml2` for XML. See: https://jennybc.github.io/purrr-tutorial/.
-* `rio`
-
 ## Cleaning data: `parse_` functions
 
 The various functions beginning `parse_` such as `parse_logical()`, etc. will ensure that a vector is imported and encoded correctly, with non-conforming values encoded as `NA`. 
@@ -49,12 +33,14 @@ The various functions beginning `parse_` such as `parse_logical()`, etc. will en
 You can use `guess_parser()` to guess what type of data is in a vector (or column):
 
 ```{r}
-#Create vector with 1 integer and 2 doubles (floats)
-myvec <- c(1, 3.1, 5.6)
+#Create vector with 1 integer,1 double (floats) and 1 string
+myvec <- c(1, 3.1, "5.6")
+#Show the vector type - str
+str(myvec)
 #Guess what data is in that
-guess_parser(myvec)
+readr::guess_parser(myvec)
 #Now parse it as that type of data
-myvec <- parse_double(myvec)
+myvec <- readr::parse_double(myvec)
 #And see the results - note the integer has been converted to a double to make it consistent
 myvec
 #Remove the vector
