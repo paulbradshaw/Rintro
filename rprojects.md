@@ -38,11 +38,19 @@ To create a notebook in RStudio, select **File > New file > R Markdown...**. The
 
 When you create a notebook it will be generated with some template code that explains how they work. This includes **chunks** of working code. Each chunk of code starts and ends with ```. The language of the code is also specified, like so: 
 
-````{r}`
+```
+```{r}
+```
 
 Each chunk of code is then coloured grey. In the upper right corner of that grey chunk you should see a settings button, a downward arrow and a 'play' button. The settings button allows you to specify whether each piece of code runs or not, is visible or not, and whether the output is shown or not. The other two buttons allow you to run just that piece of code or all previous chunks.
 
-Notably, you can also run other languages within an R notebook, as long as they are installed on your computer. For example to run Python just use ````{python}` at the start of the chunk of code.
+Notably, you can also run other languages within an R notebook, as long as they are installed on your computer. For example to run Python just use: 
+
+```
+```{python}
+```
+
+...at the start of the chunk of code.
 
 A [cheatsheet for R markdown is available here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
 
