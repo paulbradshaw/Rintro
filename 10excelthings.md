@@ -170,6 +170,8 @@ And here's one which adds a new column:
 
 ## Try some more advanced exercises
 
+[Spreadsheet workflows in R](https://education.rstudio.com/blog/2020/08/spreadsheets-using-r/) explains a number of ways to replicate spreadsheet processes in R.
+
 [This series of tutorials](https://www.mathsisfun.com/data/standard-deviation.html) extends the techniques outlined above, and brings in other useful tips such as filtering with `subset`, creating percentages, and turning a table into a data frame.
 
 It also introduces [the gender package](https://github.com/ropensci/gender) that "predicts gender based an algorithm using historical data"
