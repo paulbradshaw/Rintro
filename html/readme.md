@@ -39,7 +39,7 @@ The 'Preview' button will now change to a 'Knit' button. Whenever you want to up
 
 Rather than clicking on the 'Knit' button, you may need to automate the process by using R code. 
 
-[The `rmarkdown` package](https://rmarkdown.rstudio.com/docs/) is a good place to start: this can be used to convert your R notebook into a HTML webpage. 
+[The `rmarkdown` package](https://rmarkdown.rstudio.com/docs/) is a good place to start: this can be used to convert your R notebook into a HTML webpage, by using its `render()` function.
 
 Here's an example of some code with uses the `render()` function from that package to create a HTML webpage from a specified R Markdown (.Rmd) file:
 
@@ -49,22 +49,37 @@ There are two parameters being used here. The first is the name of the R Markdow
 
 This file needs to be in the same folder as the project where you are writing the code (if it's not, you'll have to specify a path to it).
 
-The second parameter specifies what format you want to render the notebook in. 
+The second parameter specifies what format you want to render the notebook in. This is taken from the `output:` metadata in the notebook you've named. So if it says `output: html_document` then it will create a HTML document (regardless of extra elements like `df_print: paged`). 
 
 *Note: If you try to render a notebook from within itself it will generate an error. Instead create two notebooks: one with the material you want to publish as a HTML page, and another which will 'render' the first notebook.*
 
-The second notebook will need the following at the top
+You can find details on other options when using `render()` in [the documentation](https://rmarkdown.rstudio.com/docs/reference/render.html). It mentions another function - `knit()` which comes from [the `knitr` package](https://yihui.org/knitr/) which can also be used to generate documents from R notebooks. 
 
-```
----
-title: 'ENTER TITLE HERE'
-output:
-  html_document:
-    df_print: paged
----
-```
+## Using the DT (datatables) package to generate interactive tables 
 
+[The `DT` - datatables - package](https://rstudio.github.io/DT/) is a particularly useful package if you want your HTML page - or notebook - to include an interactive table.
 
-## Using the DT (datatables) package to generate interactive tables
+First you will need to make sure `DT` is installed by running this line of code:
 
-[The `DT` - datatables - package](https://rstudio.github.io/DT/) is a particularly useful one. This will generate interactive tables.
+`install.packages("DT")`
+
+And in a separate code block, activate `DT` in the library:
+
+`library(DT)`
+
+A default interactive table can be generated for any dataframe using code like this:
+
+`DT::datatable(NAMEOFDF)`
+
+Replace `NAMEOFDF` with the name of the dataframe you want to use for your table.
+
+The default table will show the first 10 rows, with headings that include sort buttons, and a search box which will search all fields. 
+
+But you can add extra parameters to customise your table further. 
+
+[The documentation for the package](https://rstudio.github.io/DT/) provides lots of examples of the customisations that can be added. They include:
+
+* Style, e.g. `style = 'bootstrap'`
+* Caption, e.g. `caption = 'Something you need to know'`
+* Adding filters to the top of each column: `filter = 'top'`
+* The `options` parameter can be fed a list of further specifications, e.g. `options = list(pageLength = 30, autoWidth = TRUE)`
