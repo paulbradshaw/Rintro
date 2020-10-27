@@ -83,3 +83,16 @@ But you can add extra parameters to customise your table further.
 * Caption, e.g. `caption = 'Something you need to know'`
 * Adding filters to the top of each column: `filter = 'top'`
 * The `options` parameter can be fed a list of further specifications, e.g. `options = list(pageLength = 30, autoWidth = TRUE)`
+
+When put together the code might look like this:
+
+```{r}
+DT::datatable(analysisdf, 
+              style = 'bootstrap', 
+              caption = 'Analysis by the BBC England Data Unit', 
+              filter = 'top', 
+              options = list(pageLength = 30, autoWidth = TRUE)
+              )
+```
+
+Note that the code has been split across lines and indented for easier reading, but this isn't essential.
