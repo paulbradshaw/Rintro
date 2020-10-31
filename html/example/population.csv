@@ -1,0 +1,439 @@
+areaCode,areaName,Geography1,population,county,govt_region,bbc_radio_station,bbc_region,bbc_online,bbc_region_old
+K02000001,UNITED KINGDOM,Country,66796807,NA,NA,NA,NA,NA,NA
+K03000001,GREAT BRITAIN,Country,64903140,NA,NA,NA,NA,NA,NA
+K04000001,ENGLAND AND WALES,Country,59439840,NA,NA,NA,NA,NA,NA
+E92000001,ENGLAND,Country,56286961,NA,NA,NA,NA,NA,NA
+N92000002,NORTHERN IRELAND,Country,1893667,NA,NA,NA,NA,NA,NA
+S92000003,SCOTLAND,Country,5463300,NA,NA,NA,NA,NA,NA
+W92000004,WALES,Country,3152879,NA,NA,NA,NA,NA,NA
+E12000001,NORTH EAST,Region,2669941,NA,NA,NA,NA,NA,NA
+E06000047,County Durham,Unitary Authority,530094,County Durham,North East,BBC Newcastle,North East,Tyne and Wear,North East
+E06000005,Darlington,Unitary Authority,106803,Tees Valley,North East,BBC Tees,North East,Tees,North East
+E06000001,Hartlepool,Unitary Authority,93663,Tees Valley,North East,BBC Tees,North East,Tees,North East
+E06000002,Middlesbrough,Unitary Authority,140980,Tees Valley,North East,BBC Tees,North East,Tees,North East
+E06000057,Northumberland,Unitary Authority,322434,Northumberland,North East,BBC Newcastle,North East,Tyne and Wear,North East
+E06000003,Redcar and Cleveland,Unitary Authority,137150,Tees Valley,North East,BBC Tees,North East,Tees,North East
+E06000004,Stockton-on-Tees,Unitary Authority,197348,Tees Valley,North East,BBC Tees,North East,Tees,North East
+E11000007,Tyne and Wear (Met County),Metropolitan County,1141469,NA,NA,NA,NA,NA,NA
+E08000037,Gateshead,Metropolitan District,202055,Tyne and Wear,North East,BBC Newcastle,North East,Tyne and Wear,North East
+E08000021,Newcastle upon Tyne,Metropolitan District,302820,Tyne and Wear,North East,BBC Newcastle,North East,Tyne and Wear,North East
+E08000022,North Tyneside,Metropolitan District,207913,Tyne and Wear,North East,BBC Newcastle,North East,Tyne and Wear,North East
+E08000023,South Tyneside,Metropolitan District,150976,Tyne and Wear,North East,BBC Newcastle,North East,Tyne and Wear,North East
+E08000024,Sunderland,Metropolitan District,277705,Tyne and Wear,North East,BBC Newcastle,North East,Tyne and Wear,North East
+E12000002,NORTH WEST,Region,7341196,NA,NA,NA,NA,NA,NA
+E06000008,Blackburn with Darwen,Unitary Authority,149696,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E06000009,Blackpool,Unitary Authority,139446,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E06000049,Cheshire East,Unitary Authority,384152,Cheshire,North West,BBC Radio Stoke,North West,Liverpool,North West
+E06000050,Cheshire West and Chester,Unitary Authority,343071,Cheshire,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E06000006,Halton,Unitary Authority,129410,Liverpool City Region,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E06000007,Warrington,Unitary Authority,210014,Cheshire,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E07000004,Aylesbury Vale,Non-metropolitan District,203219,Buckinghamshire,South East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000005,Chiltern,Non-metropolitan District,96046,Buckinghamshire,South East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000006,South Bucks,Non-metropolitan District,70440,Buckinghamshire,South East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000007,Wycombe,Non-metropolitan District,174268,Buckinghamshire,South East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000008,Cambridge,Non-metropolitan District,124798,Cambridgeshire,East,BBC Radio Cambridgeshire,BBC East,Cambridgeshire,East
+E07000009,East Cambridgeshire,Non-metropolitan District,89840,Cambridgeshire,East,BBC Radio Cambridgeshire,BBC East,Cambridgeshire,East
+E07000010,Fenland,Non-metropolitan District,101850,Cambridgeshire,East,BBC Radio Cambridgeshire,BBC East,Cambridgeshire,East
+E11000001,Greater Manchester (Met County),Metropolitan County,2835686,NA,NA,NA,NA,NA,NA
+E08000001,Bolton,Metropolitan District,287550,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000002,Bury,Metropolitan District,190990,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000003,Manchester,Metropolitan District,552858,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000004,Oldham,Metropolitan District,237110,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000005,Rochdale,Metropolitan District,222412,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000006,Salford,Metropolitan District,258834,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000007,Stockport,Metropolitan District,293423,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000008,Tameside,Metropolitan District,226493,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000009,Trafford,Metropolitan District,237354,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E08000010,Wigan,Metropolitan District,328662,Greater Manchester,North West,BBC Radio Manchester,North West,Manchester,North West
+E07000011,Huntingdonshire,Non-metropolitan District,177963,Cambridgeshire,East,BBC Radio Cambridgeshire,BBC East,Cambridgeshire,East
+E07000012,South Cambridgeshire,Non-metropolitan District,159086,Cambridgeshire,East,BBC Radio Cambridgeshire,BBC East,Cambridgeshire,East
+E07000026,Allerdale,Non-metropolitan District,97761,Cumbria,North West,BBC Radio Cumbria,North East,Cumbria,North West
+E07000027,Barrow-in-Furness,Non-metropolitan District,67049,Cumbria,North West,BBC Radio Cumbria,North West,Cumbria,North West
+E07000028,Carlisle,Non-metropolitan District,108678,Cumbria,North West,BBC Radio Cumbria,North East,Cumbria,North West
+E07000029,Copeland,Non-metropolitan District,68183,Cumbria,North West,BBC Radio Cumbria,North East,Cumbria,North West
+E07000030,Eden,Non-metropolitan District,53253,Cumbria,North West,BBC Radio Cumbria,North West,Cumbria,North West
+E07000031,South Lakeland,Non-metropolitan District,105088,Cumbria,North West,BBC Radio Cumbria,North West,Cumbria,North West
+E07000032,Amber Valley,Non-metropolitan District,128147,Derbyshire,East Midlands,BBC Radio Derby,East Midlands,Derby,East Midlands
+E07000033,Bolsover,Non-metropolitan District,80562,Derbyshire,East Midlands,BBC Radio Derby,BBC Yorkshire,Derby,East Midlands
+E07000034,Chesterfield,Non-metropolitan District,104900,Derbyshire,East Midlands,BBC Radio Sheffield,BBC Yorkshire,Derby,East Midlands
+E07000035,Derbyshire Dales,Non-metropolitan District,72325,Derbyshire,East Midlands,BBC Radio Derby,East Midlands,Derby,East Midlands
+E07000036,Erewash,Non-metropolitan District,115371,Derbyshire,East Midlands,BBC Radio Derby,East Midlands,Derby,East Midlands
+E11000002,Merseyside (Met County),Metropolitan County,1429910,NA,NA,NA,NA,NA,NA
+E08000011,Knowsley,Metropolitan District,150862,Liverpool City Region,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E08000012,Liverpool,Metropolitan District,498042,Liverpool City Region,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E08000014,Sefton,Metropolitan District,276410,Liverpool City Region,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E08000013,St. Helens,Metropolitan District,180585,Liverpool City Region,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E08000015,Wirral,Metropolitan District,324011,Liverpool City Region,North West,BBC Radio Merseyside,North West,Liverpool,North West
+E12000003,YORKSHIRE AND THE HUMBER,Region,5502967,NA,NA,NA,NA,NA,NA
+E06000011,East Riding of Yorkshire,Unitary Authority,341173,East Riding of Yorkshire,Yorkshire and the Humber,BBC Radio Humberside,East Yorkshire and Lincolnshire,Humberside,East Yorkshire and Lincolnshire
+E06000010,"Kingston upon Hull, City of",Unitary Authority,259778,East Riding of Yorkshire,Yorkshire and the Humber,BBC Radio Humberside,East Yorkshire and Lincolnshire,Humberside,East Yorkshire and Lincolnshire
+E06000012,North East Lincolnshire,Unitary Authority,159563,Lincolnshire,Yorkshire and the Humber,BBC Radio Humberside,East Yorkshire and Lincolnshire,Humberside,East Yorkshire and Lincolnshire
+E06000013,North Lincolnshire,Unitary Authority,172292,Lincolnshire,Yorkshire and the Humber,BBC Radio Humberside,East Yorkshire and Lincolnshire,Humberside,East Yorkshire and Lincolnshire
+E06000014,York,Unitary Authority,210618,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000037,High Peak,Non-metropolitan District,92666,Derbyshire,East Midlands,BBC Radio Derby,East Midlands,Derby,East Midlands
+E07000038,North East Derbyshire,Non-metropolitan District,101462,Derbyshire,East Midlands,BBC Radio Sheffield,BBC Yorkshire,Derby,East Midlands
+E07000039,South Derbyshire,Non-metropolitan District,107261,Derbyshire,East Midlands,BBC Radio Derby,East Midlands,Derby,East Midlands
+E07000040,East Devon,Non-metropolitan District,146284,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E07000041,Exeter,Non-metropolitan District,131405,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E07000042,Mid Devon,Non-metropolitan District,82311,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E07000043,North Devon,Non-metropolitan District,97145,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E07000044,South Hams,Non-metropolitan District,87004,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E11000003,South Yorkshire (Met County),Metropolitan County,1409020,NA,NA,NA,NA,NA,NA
+E08000016,Barnsley,Metropolitan District,246866,South Yorkshire,Yorkshire and the Humber,BBC Radio Sheffield,BBC Yorkshire,Sheffield and South Yorkshire,Yorkshire
+E08000017,Doncaster,Metropolitan District,311890,South Yorkshire,Yorkshire and the Humber,BBC Radio Sheffield,BBC Yorkshire,Sheffield and South Yorkshire,Yorkshire
+E08000018,Rotherham,Metropolitan District,265411,South Yorkshire,Yorkshire and the Humber,BBC Radio Sheffield,BBC Yorkshire,Sheffield and South Yorkshire,Yorkshire
+E08000019,Sheffield,Metropolitan District,584853,South Yorkshire,Yorkshire and the Humber,BBC Radio Sheffield,BBC Yorkshire,Sheffield and South Yorkshire,Yorkshire
+E11000006,West Yorkshire (Met County),Metropolitan County,2332469,NA,NA,NA,NA,NA,NA
+E08000032,Bradford,Metropolitan District,539776,West Yorkshire,Yorkshire and the Humber,BBC Radio Leeds,BBC Yorkshire,Leeds and West Yorkshire,Yorkshire
+E08000033,Calderdale,Metropolitan District,211455,West Yorkshire,Yorkshire and the Humber,BBC Radio Leeds,BBC Yorkshire,Leeds and West Yorkshire,Yorkshire
+E08000034,Kirklees,Metropolitan District,439787,West Yorkshire,Yorkshire and the Humber,BBC Radio Leeds,BBC Yorkshire,Leeds and West Yorkshire,Yorkshire
+E08000035,Leeds,Metropolitan District,793139,West Yorkshire,Yorkshire and the Humber,BBC Radio Leeds,BBC Yorkshire,Leeds and West Yorkshire,Yorkshire
+E08000036,Wakefield,Metropolitan District,348312,West Yorkshire,Yorkshire and the Humber,BBC Radio Leeds,BBC Yorkshire,Leeds and West Yorkshire,Yorkshire
+E12000004,EAST MIDLANDS,Region,4835928,NA,NA,NA,NA,NA,NA
+E06000015,Derby,Unitary Authority,257302,Derbyshire,East Midlands,BBC Radio Derby,East Midlands,Derby,East Midlands
+E06000016,Leicester,Unitary Authority,354224,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E06000018,Nottingham,Unitary Authority,332900,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E06000017,Rutland,Unitary Authority,39927,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000045,Teignbridge,Non-metropolitan District,134163,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E07000046,Torridge,Non-metropolitan District,68267,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E07000047,West Devon,Non-metropolitan District,55796,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E07000061,Eastbourne,Non-metropolitan District,103745,East Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000062,Hastings,Non-metropolitan District,92661,East Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000063,Lewes,Non-metropolitan District,103268,East Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000064,Rother,Non-metropolitan District,96080,East Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000065,Wealden,Non-metropolitan District,161475,East Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000066,Basildon,Non-metropolitan District,187199,Essex,East,BBC Essex,BBC East,Essex,East
+E07000067,Braintree,Non-metropolitan District,152604,Essex,East,BBC Essex,BBC East,Essex,East
+E07000068,Brentwood,Non-metropolitan District,77021,Essex,East,BBC Essex,BBC East,Essex,East
+E07000069,Castle Point,Non-metropolitan District,90376,Essex,East,BBC Essex,BBC East,Essex,East
+E07000070,Chelmsford,Non-metropolitan District,178388,Essex,East,BBC Essex,BBC East,Essex,East
+E07000071,Colchester,Non-metropolitan District,194706,Essex,East,BBC Essex,BBC East,Essex,East
+E07000072,Epping Forest,Non-metropolitan District,131689,Essex,East,BBC Essex,BBC East,Essex,East
+E07000073,Harlow,Non-metropolitan District,87067,Essex,East,BBC Essex,BBC East,Essex,East
+E07000074,Maldon,Non-metropolitan District,64926,Essex,East,BBC Essex,BBC East,Essex,East
+E07000075,Rochford,Non-metropolitan District,87368,Essex,East,BBC Essex,BBC East,Essex,East
+E07000076,Tendring,Non-metropolitan District,146561,Essex,East,BBC Essex,BBC East,Essex,East
+E07000077,Uttlesford,Non-metropolitan District,91284,Essex,East,BBC Essex,BBC East,Essex,East
+E07000078,Cheltenham,Non-metropolitan District,116306,Gloucestershire,South West,BBC Radio Gloucestershire,BBC West,Gloucestershire,West
+E07000079,Cotswold,Non-metropolitan District,89862,Gloucestershire,South West,BBC Radio Gloucestershire,BBC West,Gloucestershire,West
+E07000080,Forest of Dean,Non-metropolitan District,86791,Gloucestershire,South West,BBC Radio Gloucestershire,BBC West,Gloucestershire,West
+E07000081,Gloucester,Non-metropolitan District,129128,Gloucestershire,South West,BBC Radio Gloucestershire,BBC West,Gloucestershire,West
+E07000082,Stroud,Non-metropolitan District,119964,Gloucestershire,South West,BBC Radio Gloucestershire,BBC West,Gloucestershire,West
+E07000083,Tewkesbury,Non-metropolitan District,95019,Gloucestershire,South West,BBC Radio Gloucestershire,BBC West,Gloucestershire,West
+E07000084,Basingstoke and Deane,Non-metropolitan District,176582,Hampshire,South East,BBC Radio Berkshire,BBC South,Berkshire,South
+E07000085,East Hampshire,Non-metropolitan District,122308,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000086,Eastleigh,Non-metropolitan District,133584,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000087,Fareham,Non-metropolitan District,116233,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000088,Gosport,Non-metropolitan District,84838,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000089,Hart,Non-metropolitan District,97073,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000090,Havant,Non-metropolitan District,126220,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000091,New Forest,Non-metropolitan District,180086,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000092,Rushmoor,Non-metropolitan District,94599,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000093,Test Valley,Non-metropolitan District,126160,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000094,Winchester,Non-metropolitan District,124859,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E07000095,Broxbourne,Non-metropolitan District,97279,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000096,Dacorum,Non-metropolitan District,154763,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000098,Hertsmere,Non-metropolitan District,104919,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000099,North Hertfordshire,Non-metropolitan District,133570,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E12000005,WEST MIDLANDS,Region,5934037,NA,NA,NA,NA,NA,NA
+E06000019,"Herefordshire, County of",Unitary Authority,192801,Herefordshire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+E06000051,Shropshire,Unitary Authority,323136,Shropshire,West Midlands,BBC Radio Shropshire,West Midlands,Shropshire,West Midlands
+E06000021,Stoke-on-Trent,Unitary Authority,256375,Staffordshire,West Midlands,BBC Radio Stoke,West Midlands,Stoke and Staffordshire,West Midlands
+E06000020,Telford and Wrekin,Unitary Authority,179854,Shropshire,West Midlands,BBC Radio Shropshire,West Midlands,Shropshire,West Midlands
+E07000102,Three Rivers,Non-metropolitan District,93323,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000103,Watford,Non-metropolitan District,96577,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000105,Ashford,Non-metropolitan District,130032,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000106,Canterbury,Non-metropolitan District,165394,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000107,Dartford,Non-metropolitan District,112606,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000108,Dover,Non-metropolitan District,118131,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000109,Gravesham,Non-metropolitan District,106939,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000110,Maidstone,Non-metropolitan District,171826,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000111,Sevenoaks,Non-metropolitan District,120750,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000112,Folkestone and Hythe,Non-metropolitan District,112996,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000113,Swale,Non-metropolitan District,150082,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000114,Thanet,Non-metropolitan District,141922,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000115,Tonbridge and Malling,Non-metropolitan District,132153,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000116,Tunbridge Wells,Non-metropolitan District,118724,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E07000117,Burnley,Non-metropolitan District,88920,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E11000005,West Midlands (Met County),Metropolitan County,2928592,NA,NA,NA,NA,NA,NA
+E08000025,Birmingham,Metropolitan District,1141816,West Midlands,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E08000026,Coventry,Metropolitan District,371521,West Midlands,West Midlands,BBC Coventry and Warwickshire,West Midlands,Coventry and Warwickshire,West Midlands
+E08000027,Dudley,Metropolitan District,321596,West Midlands,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E08000028,Sandwell,Metropolitan District,328450,West Midlands,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E08000029,Solihull,Metropolitan District,216374,West Midlands,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E08000030,Walsall,Metropolitan District,285478,West Midlands,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E08000031,Wolverhampton,Metropolitan District,263357,West Midlands,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E07000118,Chorley,Non-metropolitan District,118216,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000119,Fylde,Non-metropolitan District,80780,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000120,Hyndburn,Non-metropolitan District,81043,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000121,Lancaster,Non-metropolitan District,146038,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000122,Pendle,Non-metropolitan District,92112,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000123,Preston,Non-metropolitan District,143135,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000124,Ribble Valley,Non-metropolitan District,60888,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E12000006,EAST,Region,6236072,NA,NA,NA,NA,NA,NA
+E06000055,Bedford,Unitary Authority,173292,Bedfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E06000056,Central Bedfordshire,Unitary Authority,288648,Bedfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E06000032,Luton,Unitary Authority,213052,Bedfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E06000031,Peterborough,Unitary Authority,202259,Cambridgeshire,East,BBC Radio Cambridgeshire,BBC East,Cambridgeshire,East
+E06000033,Southend-on-Sea,Unitary Authority,183125,Essex,East,BBC Essex,BBC East,Essex,East
+E06000034,Thurrock,Unitary Authority,174341,Essex,East,BBC Essex,BBC East,Essex,East
+E07000125,Rossendale,Non-metropolitan District,71482,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000126,South Ribble,Non-metropolitan District,110788,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000127,West Lancashire,Non-metropolitan District,114306,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000128,Wyre,Non-metropolitan District,112091,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E07000129,Blaby,Non-metropolitan District,101526,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000130,Charnwood,Non-metropolitan District,185851,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000131,Harborough,Non-metropolitan District,93807,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000132,Hinckley and Bosworth,Non-metropolitan District,113136,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000133,Melton,Non-metropolitan District,51209,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000134,North West Leicestershire,Non-metropolitan District,103611,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000135,Oadby and Wigston,Non-metropolitan District,57015,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E07000136,Boston,Non-metropolitan District,70173,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E07000137,East Lindsey,Non-metropolitan District,141727,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E07000138,Lincoln,Non-metropolitan District,99299,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E07000139,North Kesteven,Non-metropolitan District,116915,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E07000140,South Holland,Non-metropolitan District,95019,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E07000141,South Kesteven,Non-metropolitan District,142424,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E07000142,West Lindsey,Non-metropolitan District,95667,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E07000143,Breckland,Non-metropolitan District,139968,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E07000144,Broadland,Non-metropolitan District,130783,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E07000145,Great Yarmouth,Non-metropolitan District,99336,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E07000146,King's Lynn and West Norfolk,Non-metropolitan District,151383,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E07000147,North Norfolk,Non-metropolitan District,104837,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E07000148,Norwich,Non-metropolitan District,140573,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E07000149,South Norfolk,Non-metropolitan District,140880,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E07000150,Corby,Non-metropolitan District,72218,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E07000151,Daventry,Non-metropolitan District,85950,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E07000152,East Northamptonshire,Non-metropolitan District,94527,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E07000153,Kettering,Non-metropolitan District,101776,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E07000154,Northampton,Non-metropolitan District,224610,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E07000155,South Northamptonshire,Non-metropolitan District,94490,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E07000156,Wellingborough,Non-metropolitan District,79707,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E07000163,Craven,Non-metropolitan District,57142,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000164,Hambleton,Non-metropolitan District,91594,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000165,Harrogate,Non-metropolitan District,160831,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000166,Richmondshire,Non-metropolitan District,53730,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000167,Ryedale,Non-metropolitan District,55380,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000168,Scarborough,Non-metropolitan District,108757,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000169,Selby,Non-metropolitan District,90620,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E07000170,Ashfield,Non-metropolitan District,127918,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E07000171,Bassetlaw,Non-metropolitan District,117459,Nottinghamshire,East Midlands,BBC Radio Nottingham,BBC Yorkshire,Nottingham,East Midlands
+E07000172,Broxtowe,Non-metropolitan District,114033,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E07000173,Gedling,Non-metropolitan District,117896,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E07000174,Mansfield,Non-metropolitan District,109313,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E12000007,LONDON,Region,8961989,London,London,BBC London 94.9,London,London,London
+E09000007,Camden,London Borough,270029,Inner London,London,BBC London 94.9,London,London,London
+E09000012,Hackney and City of London,NA,290841,Inner London,London,BBC London 94.9,London,London,London
+E09000013,Hammersmith and Fulham,London Borough,185143,Inner London,London,BBC London 94.9,London,London,London
+E09000014,Haringey,London Borough,268647,Inner London,London,BBC London 94.9,London,London,London
+E09000019,Islington,London Borough,242467,Inner London,London,BBC London 94.9,London,London,London
+E09000020,Kensington and Chelsea,London Borough,156129,Inner London,London,BBC London 94.9,London,London,London
+E09000022,Lambeth,London Borough,326034,Inner London,London,BBC London 94.9,London,London,London
+E09000023,Lewisham,London Borough,305842,Inner London,London,BBC London 94.9,London,London,London
+E09000025,Newham,London Borough,353134,Inner London,London,BBC London 94.9,London,London,London
+E09000028,Southwark,London Borough,318830,Inner London,London,BBC London 94.9,London,London,London
+E09000030,Tower Hamlets,London Borough,324745,Inner London,London,BBC London 94.9,London,London,London
+E09000032,Wandsworth,London Borough,329677,Inner London,London,BBC London 94.9,London,London,London
+E09000033,Westminster,London Borough,261317,Inner London,London,BBC London 94.9,London,London,London
+E09000002,Barking and Dagenham,London Borough,212906,Outer London,London,BBC London 94.9,London,London,London
+E09000003,Barnet,London Borough,395869,Outer London,London,BBC London 94.9,London,London,London
+E09000004,Bexley,London Borough,248287,Outer London,London,BBC London 94.9,London,London,London
+E09000005,Brent,London Borough,329771,Outer London,London,BBC London 94.9,London,London,London
+E09000006,Bromley,London Borough,332336,Outer London,London,BBC London 94.9,London,London,London
+E09000008,Croydon,London Borough,386710,Outer London,London,BBC London 94.9,London,London,London
+E09000009,Ealing,London Borough,341806,Outer London,London,BBC London 94.9,London,London,London
+E09000010,Enfield,London Borough,333794,Outer London,London,BBC London 94.9,London,London,London
+E09000011,Greenwich,London Borough,287942,Outer London,London,BBC London 94.9,London,London,London
+E09000015,Harrow,London Borough,251160,Outer London,London,BBC London 94.9,London,London,London
+E09000016,Havering,London Borough,259552,Outer London,London,BBC London 94.9,London,London,London
+E09000017,Hillingdon,London Borough,306870,Outer London,London,BBC London 94.9,London,London,London
+E09000018,Hounslow,London Borough,271523,Outer London,London,BBC London 94.9,London,London,London
+E09000021,Kingston upon Thames,London Borough,177507,Outer London,London,BBC London 94.9,London,London,London
+E09000024,Merton,London Borough,206548,Outer London,London,BBC London 94.9,London,London,London
+E09000026,Redbridge,London Borough,305222,Outer London,London,BBC London 94.9,London,London,London
+E09000027,Richmond upon Thames,London Borough,198019,Outer London,London,BBC London 94.9,London,London,London
+E09000029,Sutton,London Borough,206349,Outer London,London,BBC London 94.9,London,London,London
+E09000031,Waltham Forest,London Borough,276983,Outer London,London,BBC London 94.9,London,London,London
+E12000008,SOUTH EAST,Region,9180135,NA,NA,NA,NA,NA,NA
+E06000036,Bracknell Forest,Unitary Authority,122549,Berkshire,South East,BBC Radio Berkshire,BBC South,Berkshire,South
+E06000043,Brighton and Hove,Unitary Authority,290885,Sussex,South East,BBC Sussex,South East,Sussex,South East
+E06000046,Isle of Wight,Unitary Authority,141771,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E06000035,Medway,Unitary Authority,278556,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E06000042,Milton Keynes,Unitary Authority,269457,Buckinghamshire,South East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E06000044,Portsmouth,Unitary Authority,214905,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E06000038,Reading,Unitary Authority,161780,Berkshire,South East,BBC Radio Berkshire,BBC South,Berkshire,South
+E06000039,Slough,Unitary Authority,149539,Berkshire,South East,BBC Radio Berkshire,BBC South,Berkshire,South
+E06000045,Southampton,Unitary Authority,252520,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E06000037,West Berkshire,Unitary Authority,158450,Berkshire,South East,BBC Radio Berkshire,BBC South,Berkshire,South
+E06000040,Windsor and Maidenhead,Unitary Authority,151422,Berkshire,South East,BBC Radio Berkshire,BBC South,Berkshire,South
+E06000041,Wokingham,Unitary Authority,171119,Berkshire,South East,BBC Radio Berkshire,BBC South,Berkshire,South
+E07000175,Newark and Sherwood,Non-metropolitan District,122421,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E07000176,Rushcliffe,Non-metropolitan District,119184,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E07000177,Cherwell,Non-metropolitan District,150503,Oxfordshire,South East,BBC Radio Oxford,BBC South,Oxford,South
+E07000178,Oxford,Non-metropolitan District,152457,Oxfordshire,South East,BBC Radio Oxford,BBC South,Oxford,South
+E07000179,South Oxfordshire,Non-metropolitan District,142057,Oxfordshire,South East,BBC Radio Oxford,BBC South,Oxford,South
+E07000180,Vale of White Horse,Non-metropolitan District,136007,Oxfordshire,South East,BBC Radio Oxford,BBC South,Oxford,South
+E07000181,West Oxfordshire,Non-metropolitan District,110643,Oxfordshire,South East,BBC Radio Oxford,BBC South,Oxford,South
+E07000187,Mendip,Non-metropolitan District,115587,Somerset,South West,BBC Somerset,BBC West,Somerset,West
+E07000188,Sedgemoor,Non-metropolitan District,123178,Somerset,South West,BBC Somerset,BBC West,Somerset,West
+E07000189,South Somerset,Non-metropolitan District,168345,Somerset,South West,BBC Somerset,BBC West,Somerset,West
+E07000192,Cannock Chase,Non-metropolitan District,100762,Staffordshire,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E07000193,East Staffordshire,Non-metropolitan District,119754,Staffordshire,West Midlands,BBC Radio Derby,West Midlands,Stoke and Staffordshire,West Midlands
+E07000194,Lichfield,Non-metropolitan District,104756,Staffordshire,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E07000195,Newcastle-under-Lyme,Non-metropolitan District,129441,Staffordshire,West Midlands,BBC Radio Stoke,West Midlands,Stoke and Staffordshire,West Midlands
+E07000196,South Staffordshire,Non-metropolitan District,112436,Staffordshire,West Midlands,BBC WM,West Midlands,Birmingham and Black Country,West Midlands
+E07000197,Stafford,Non-metropolitan District,137280,Staffordshire,West Midlands,BBC Radio Stoke,West Midlands,Stoke and Staffordshire,West Midlands
+E07000198,Staffordshire Moorlands,Non-metropolitan District,98435,Staffordshire,West Midlands,BBC Radio Stoke,West Midlands,Stoke and Staffordshire,West Midlands
+E07000199,Tamworth,Non-metropolitan District,76696,Staffordshire,West Midlands,BBC Radio Stoke,West Midlands,Stoke and Staffordshire,West Midlands
+E07000200,Babergh,Non-metropolitan District,92036,Suffolk,East,BBC Radio Suffolk,BBC East,Suffolk,East
+E07000202,Ipswich,Non-metropolitan District,136913,Suffolk,East,BBC Radio Suffolk,BBC East,Suffolk,East
+E07000203,Mid Suffolk,Non-metropolitan District,103895,Suffolk,East,BBC Radio Suffolk,BBC East,Suffolk,East
+E07000207,Elmbridge,Non-metropolitan District,136795,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000208,Epsom and Ewell,Non-metropolitan District,80627,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000209,Guildford,Non-metropolitan District,148998,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000210,Mole Valley,Non-metropolitan District,87245,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000211,Reigate and Banstead,Non-metropolitan District,148748,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000212,Runnymede,Non-metropolitan District,89424,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000213,Spelthorne,Non-metropolitan District,99844,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000214,Surrey Heath,Non-metropolitan District,89305,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000215,Tandridge,Non-metropolitan District,88129,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000216,Waverley,Non-metropolitan District,126328,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000217,Woking,Non-metropolitan District,100793,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E07000218,North Warwickshire,Non-metropolitan District,65264,Warwickshire,West Midlands,BBC Coventry and Warwickshire,West Midlands,Coventry and Warwickshire,West Midlands
+E07000219,Nuneaton and Bedworth,Non-metropolitan District,129883,Warwickshire,West Midlands,BBC Coventry and Warwickshire,West Midlands,Coventry and Warwickshire,West Midlands
+E07000220,Rugby,Non-metropolitan District,108935,Warwickshire,West Midlands,BBC Coventry and Warwickshire,West Midlands,Coventry and Warwickshire,West Midlands
+E07000221,Stratford-on-Avon,Non-metropolitan District,130098,Warwickshire,West Midlands,BBC Coventry and Warwickshire,West Midlands,Coventry and Warwickshire,West Midlands
+E07000222,Warwick,Non-metropolitan District,143753,Warwickshire,West Midlands,BBC Coventry and Warwickshire,West Midlands,Coventry and Warwickshire,West Midlands
+E07000223,Adur,Non-metropolitan District,64301,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000224,Arun,Non-metropolitan District,160758,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000225,Chichester,Non-metropolitan District,121129,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000226,Crawley,Non-metropolitan District,112409,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000227,Horsham,Non-metropolitan District,143791,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000228,Mid Sussex,Non-metropolitan District,151022,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000229,Worthing,Non-metropolitan District,110570,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E07000234,Bromsgrove,Non-metropolitan District,99881,Worcestershire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+E07000235,Malvern Hills,Non-metropolitan District,78698,Worcestershire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+E07000236,Redditch,Non-metropolitan District,85261,Worcestershire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+E07000237,Worcester,Non-metropolitan District,101222,Worcestershire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+E07000238,Wychavon,Non-metropolitan District,129433,Worcestershire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+E07000239,Wyre Forest,Non-metropolitan District,101291,Worcestershire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+E07000240,St Albans,Non-metropolitan District,148452,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000241,Welwyn Hatfield,Non-metropolitan District,123043,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000242,East Hertfordshire,Non-metropolitan District,149748,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000243,Stevenage,Non-metropolitan District,87845,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E07000244,East Suffolk,Non-metropolitan District,249461,Suffolk,East,BBC Radio Suffolk,BBC East,Suffolk,East
+E07000245,West Suffolk,Non-metropolitan District,179045,Suffolk,East,BBC Radio Suffolk,BBC East,Suffolk,East
+E07000246,Somerset West and Taunton,Non-metropolitan District,155115,Somerset,South West,BBC Somerset,BBC West,Somerset,West
+E10000002,Buckinghamshire,County,543973,Buckinghamshire,South East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E10000003,Cambridgeshire,County,653537,Cambridgeshire,East,BBC Radio Cambridgeshire,BBC East,Cambridgeshire,East
+E10000006,Cumbria,County,500012,Cumbria,North West,BBC Radio Cumbria,North West,Cumbria,North West
+E10000007,Derbyshire,County,802694,Derbyshire,East Midlands,BBC Radio Derby,East Midlands,Derby,East Midlands
+E10000008,Devon,County,802375,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E12000009,SOUTH WEST,Region,5624696,NA,NA,NA,NA,NA,NA
+E06000022,Bath and North East Somerset,Unitary Authority,193282,Somerset,South West,BBC Radio Bristol,BBC West,Bristol,West
+E06000058,"Bournemouth, Christchurch and Poole",Unitary Authority,395331,Dorset,South West,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E06000023,"Bristol, City of",Unitary Authority,463377,Bristol,South West,BBC Radio Bristol,BBC West,Bristol,West
+E06000059,Dorset,Unitary Authority,378508,Dorset,South West,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E06000052,Cornwall and Isles of Scilly,NA,571802,Cornwall,South West,BBC Radio Cornwall,South West,Cornwall,South West
+E06000024,North Somerset,Unitary Authority,215052,Somerset,South West,BBC Radio Bristol,BBC West,Bristol,West
+E06000026,Plymouth,Unitary Authority,262100,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E06000025,South Gloucestershire,Unitary Authority,285093,Gloucestershire,South West,BBC Radio Bristol,BBC West,Bristol,West
+E06000030,Swindon,Unitary Authority,222193,Wiltshire,South West,BBC Wiltshire,BBC West,Wiltshire,West
+E06000027,Torbay,Unitary Authority,136264,Devon,South West,BBC Radio Devon,South West,Devon,South West
+E06000054,Wiltshire,Unitary Authority,500024,Wiltshire,South West,BBC Wiltshire,BBC West,Wiltshire,West
+E10000011,East Sussex,County,557229,East Sussex,South East,BBC Sussex,South East,Sussex,South East
+E10000012,Essex,County,1489189,Essex,East,BBC Essex,BBC East,Essex,East
+E10000013,Gloucestershire,County,637070,Gloucestershire,South West,BBC Radio Gloucestershire,BBC West,Gloucestershire,West
+E10000014,Hampshire,County,1382542,Hampshire,South East,BBC Radio Solent,BBC South,Hampshire & Isle of Wight,South
+E10000015,Hertfordshire,County,1189519,Hertfordshire,East,BBC Three Counties Radio,BBC East,"Beds, Bucks and Herts",East
+E10000016,Kent,County,1581555,Kent,South East,BBC Radio Kent,South East,Kent,South East
+E10000017,Lancashire,County,1219799,Lancashire,North West,BBC Radio Lancashire,North West,Lancashire,North West
+E10000018,Leicestershire,County,706155,Leicestershire,East Midlands,BBC Radio Leicester,East Midlands,Leicester,East Midlands
+E10000019,Lincolnshire,County,761224,Lincolnshire,East Midlands,BBC Lincolnshire,East Yorkshire and Lincolnshire,Lincolnshire,East Yorkshire and Lincolnshire
+E10000020,Norfolk,County,907760,Norfolk,East,BBC Radio Norfolk,BBC East,Norfolk,East
+E10000021,Northamptonshire,County,753278,Northamptonshire,East Midlands,BBC Radio Northampton,BBC East,Northampton,East
+E10000023,North Yorkshire,County,618054,North Yorkshire,Yorkshire and the Humber,BBC Radio York,BBC Yorkshire,York & North Yorkshire,Yorkshire
+E10000024,Nottinghamshire,County,828224,Nottinghamshire,East Midlands,BBC Radio Nottingham,East Midlands,Nottingham,East Midlands
+E10000025,Oxfordshire,County,691667,Oxfordshire,South East,BBC Radio Oxford,BBC South,Oxford,South
+E10000027,Somerset,County,562225,Somerset,South West,BBC Somerset,BBC West,Somerset,West
+E10000028,Staffordshire,County,879560,Staffordshire,West Midlands,BBC Radio Stoke,West Midlands,Stoke and Staffordshire,West Midlands
+E10000029,Suffolk,County,761350,Suffolk,East,BBC Radio Suffolk,BBC East,Suffolk,East
+E10000030,Surrey,County,1196236,Surrey,South East,BBC Surrey,South East,Surrey,South East
+E10000031,Warwickshire,County,577933,Warwickshire,West Midlands,BBC Coventry and Warwickshire,West Midlands,Coventry and Warwickshire,West Midlands
+E10000032,West Sussex,County,863980,West Sussex,South East,BBC Sussex,South East,Sussex,South East
+E10000034,Worcestershire,County,595786,Worcestershire,West Midlands,BBC Hereford and Worcester,West Midlands,Hereford and Worcester,West Midlands
+W92000004,WALES,Country,3152879,NA,NA,NA,NA,NA,NA
+W06000001,Isle of Anglesey,Unitary Authority,70043,Isle of Anglesey,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000002,Gwynedd,Unitary Authority,124560,Gwynedd,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000003,Conwy,Unitary Authority,117203,Conwy,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000004,Denbighshire,Unitary Authority,95696,Denbighshire,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000005,Flintshire,Unitary Authority,156100,Flintshire,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000006,Wrexham,Unitary Authority,135957,Wrexham,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000023,Powys,Unitary Authority,132435,Powys,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000008,Ceredigion,Unitary Authority,72695,Ceredigion,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000009,Pembrokeshire,Unitary Authority,125818,Pembrokeshire,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000010,Carmarthenshire,Unitary Authority,188771,Carmarthenshire,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000011,Swansea,Unitary Authority,246993,Swansea,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000012,Neath Port Talbot,Unitary Authority,143315,Neath Port Talbot,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000013,Bridgend,Unitary Authority,147049,Bridgend,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000014,Vale of Glamorgan,Unitary Authority,133587,Vale of Glamorgan,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000015,Cardiff,Unitary Authority,366903,Cardiff,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000016,Rhondda Cynon Taf,Unitary Authority,241264,Rhondda Cynon Taf,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000024,Merthyr Tydfil,Unitary Authority,60326,Merthyr Tydfil,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000018,Caerphilly,Unitary Authority,181075,Caerphilly,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000019,Blaenau Gwent,Unitary Authority,69862,Blaenau Gwent,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000020,Torfaen,Unitary Authority,93961,Torfaen,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000021,Monmouthshire,Unitary Authority,94590,Monmouthshire,Wales,BBC Radio Wales,Wales,Wales,Wales
+W06000022,Newport,Unitary Authority,154676,Newport,Wales,BBC Radio Wales,Wales,Wales,Wales
+S92000003,SCOTLAND,Country,5463300,NA,NA,NA,NA,NA,NA
+S12000033,Aberdeen City,Council Area,228670,NA,NA,NA,NA,NA,NA
+S12000034,Aberdeenshire,Council Area,261210,NA,NA,NA,NA,NA,NA
+S12000041,Angus,Council Area,116200,NA,NA,NA,NA,NA,NA
+S12000035,Argyll and Bute,Council Area,85870,NA,NA,NA,NA,NA,NA
+S12000036,City of Edinburgh,Council Area,524930,NA,NA,NA,NA,NA,NA
+S12000005,Clackmannanshire,Council Area,51540,NA,NA,NA,NA,NA,NA
+S12000006,Dumfries and Galloway,Council Area,148860,NA,NA,NA,NA,NA,NA
+S12000042,Dundee City,Council Area,149320,NA,NA,NA,NA,NA,NA
+S12000008,East Ayrshire,Council Area,122010,NA,NA,NA,NA,NA,NA
+S12000045,East Dunbartonshire,Council Area,108640,NA,NA,NA,NA,NA,NA
+S12000010,East Lothian,Council Area,107090,NA,NA,NA,NA,NA,NA
+S12000011,East Renfrewshire,Council Area,95530,NA,NA,NA,NA,NA,NA
+S12000014,Falkirk,Council Area,160890,NA,NA,NA,NA,NA,NA
+S12000047,Fife,Council Area,373550,NA,NA,NA,NA,NA,NA
+S12000049,Glasgow City,Council Area,633120,NA,NA,NA,NA,NA,NA
+S12000017,Highland,Council Area,235830,NA,NA,NA,NA,NA,NA
+S12000018,Inverclyde,Council Area,77800,NA,NA,NA,NA,NA,NA
+S12000019,Midlothian,Council Area,92460,NA,NA,NA,NA,NA,NA
+S12000020,Moray,Council Area,95820,NA,NA,NA,NA,NA,NA
+S12000013,Na h-Eileanan Siar,Council Area,26720,NA,NA,NA,NA,NA,NA
+S12000021,North Ayrshire,Council Area,134740,NA,NA,NA,NA,NA,NA
+S12000050,North Lanarkshire,Council Area,341370,NA,NA,NA,NA,NA,NA
+S12000023,Orkney Islands,Council Area,22270,NA,NA,NA,NA,NA,NA
+S12000048,Perth and Kinross,Council Area,151950,NA,NA,NA,NA,NA,NA
+S12000038,Renfrewshire,Council Area,179100,NA,NA,NA,NA,NA,NA
+S12000026,Scottish Borders,Council Area,115510,NA,NA,NA,NA,NA,NA
+S12000027,Shetland Islands,Council Area,22920,NA,NA,NA,NA,NA,NA
+S12000028,South Ayrshire,Council Area,112610,NA,NA,NA,NA,NA,NA
+S12000029,South Lanarkshire,Council Area,320530,NA,NA,NA,NA,NA,NA
+S12000030,Stirling,Council Area,94210,NA,NA,NA,NA,NA,NA
+S12000039,West Dunbartonshire,Council Area,88930,NA,NA,NA,NA,NA,NA
+S12000040,West Lothian,Council Area,183100,NA,NA,NA,NA,NA,NA
+N92000002,NORTHERN IRELAND,Country,1893667,NA,NA,NA,NA,NA,NA
+N09000001,Antrim and Newtownabbey,Local Government District,143504,NA,NA,NA,NA,NA,NA
+N09000011,Ards and North Down,Local Government District,161725,NA,NA,NA,NA,NA,NA
+N09000002,"Armagh City, Banbridge and Craigavon",Local Government District,216205,NA,NA,NA,NA,NA,NA
+N09000003,Belfast,Local Government District,343542,NA,NA,NA,NA,NA,NA
+N09000004,Causeway Coast and Glens,Local Government District,144838,NA,NA,NA,NA,NA,NA
+N09000005,Derry City and Strabane,Local Government District,151284,NA,NA,NA,NA,NA,NA
+N09000006,Fermanagh and Omagh,Local Government District,117397,NA,NA,NA,NA,NA,NA
+N09000007,Lisburn and Castlereagh,Local Government District,146002,NA,NA,NA,NA,NA,NA
+N09000008,Mid and East Antrim,Local Government District,139274,NA,NA,NA,NA,NA,NA
+N09000009,Mid Ulster,Local Government District,148528,NA,NA,NA,NA,NA,NA
+N09000010,"Newry, Mourne and Down",Local Government District,181368,NA,NA,NA,NA,NA,NA
+N09000009,Mid Ulster,Local Government District,147392,NA,NA,NA,NA,NA,NA
+N09000010,"Newry, Mourne and Down",Local Government District,180012,NA,NA,NA,NA,NA,NA
+NA,EAST OF ENGLAND,Region,6236072,NA,NA,NA,NA,NA,NA
+E09000001,City of London,London Borough,9721,Inner London,London,BBC London 94.9,London,London,London
+E09000012,Hackney,London Borough,281120,Inner London,London,BBC London 94.10,London,London,London
+E06000052,Cornwall,Unitary Authority,569578,Cornwall,South West,BBC Radio Cornwall,South West,Cornwall,South West
+E06000053,Isles of Scilly,Unitary Authority,2224,Cornwall,South West,BBC Radio Cornwall,South West,Cornwall,South West

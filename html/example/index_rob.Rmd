@@ -1,0 +1,198 @@
+---
+title: 'Coronavirus in England'
+output:
+  html_document:
+    df_print: paged
+---
+
+These tables show Covid-19 cases and deaths in each local authority (down to district level) across England and each of the four UK nations.
+
+Figures were updated on <b>19 October</b> and come from [the government’s coronavirus dashboard](https://coronavirus.data.gov.uk/cases)
+
+Contents:
+<ul>
+  <li>Cases: Local authority analysis</li>
+  <li>Deaths: Local authority analysis</li>
+  <li>Cases: Nations analysis</li>
+  <li>Cases: Weekly analysis</li>
+</ul>
+
+Please direct any queries to [Rob England, from the BBC England Data Unit](mailto:robert.england@bbc.co.uk)
+
+<hr class="rounded">
+
+<h3> Cases: Local authority analysis </h3>
+
+This table shows the number of new coronavirus cases in each local authority (down to district level) in the latest week compared with the week before and the rate per 100,000 population.
+
+Local authorities have been matched where possible to BBC regions but each area is only matched to one region.
+
+We exclude the <b>most recent two days</b>, which will almost certainly be incomplete as not all test results have come back. Data for the most recent few days may change.
+
+Colleagues in the <b>East</b>, <b>South</b> and <b>West</b> should put 'BBC' before their region (e.g. 'BBC South') to avoid results from other areas.
+
+<b> PLEASE NOTE 'latest week' is the seven days up to and including 16 October. </b>
+
+<b> PLEASE NOTE 'previous week' is the seven days up to and including 9 October. </b>
+
+```{r echo=FALSE}
+#The echo=FALSE above keeps this code invisible in the HTML output
+#Create the data object
+analysisdf <- rio::import("covid_ltla_analysis.csv")
+
+DT::datatable(analysisdf,
+              style = 'bootstrap', 
+              caption = 'Analysis by the BBC England Data Unit', 
+              filter = 'top', 
+              options = list(pageLength = 20, autoWidth = TRUE)
+              ) %>% 
+  formatRound('Rate per 100k population, latest week', 1 ) %>%
+  formatRound('Rate per 100k population, previous week', 1)
+
+# YOU ALSO NEED TO CHANGE THE DOWNLOAD OUTPUT NAME TO MATCH TODAY'S DATE
+
+analysisdf %>% 
+  download_this(
+    output_name = "coronavirus_cases_19_oct",
+    output_extension = ".xlsx",
+    button_label = "Download data",
+    button_type = "primary",
+    has_icon = TRUE,
+    icon = "fa fa-save"
+  )
+
+```
+<hr class="rounded">
+
+<h3> Deaths: Local authority analysis </h3>
+
+This table shows the total <b> raw numbers </b> of reported deaths in each area as of today, since the start of the pandemic, and the change since yesterday and last week.
+
+This is not weighted by population.
+
+Figures are for people who died within 28 days of a positive Covid-19 test.
+
+New deaths may have occurred at any point but are newly reported – they did not necessarily die in the last few days.
+
+If figures have gone down this may be due to PHE/DHSC removing duplicates or other revisions.
+
+<b> PLEASE NOTE 'Change since yesterday' column is comparing the change in deaths between 18 and 19 of October </b>
+
+<b> PLEASE NOTE 'Change since last week' column is comparing the change in deaths between 12 and 19 of October </b>
+
+```{r echo=FALSE}
+
+analysisdf5 <- rio::import("local_covid_deaths.csv")
+
+DT::datatable(analysisdf5, 
+              style = 'bootstrap', 
+              filter = 'top', 
+              options = list(pageLength = 20, autoWidth = TRUE))
+
+# YOU ALSO NEED TO CHANGE THE DOWNLOAD OUTPUT NAME TO MATCH TODAY'S DATE
+
+analysisdf5 %>% 
+  download_this(
+    output_name = "coronavirus_deaths_19_oct",
+    output_extension = ".xlsx",
+    button_label = "Download data",
+    button_type = "primary",
+    has_icon = TRUE,
+    icon = "fa fa-save"
+  )
+
+```
+<hr class="rounded">
+
+<h3> Cases: Nations analysis </h3>
+
+We have also included cases numbers and rates per 100,000 population for each of the four UK nations overall.
+
+<b> PLEASE NOTE 'latest week' is the seven days up to and including 16 October. </b>
+
+<b> PLEASE NOTE 'previous week' is the seven days up to and including 9 October. </b>
+
+```{r echo=FALSE}
+
+# YOU NEED TO CHANGE THE DATES IN THE RATES COLUMN
+
+analysisdf4 <- rio::import("covid_nation_analysis.csv")
+
+DT::datatable(analysisdf4, 
+              style = 'bootstrap', 
+              filter = 'top', 
+              options = list(pageLength = 4, autoWidth = TRUE)
+              ) %>% 
+  formatRound('Rate per 100k population, latest week', 1 ) %>%
+  formatRound('Rate per 100k population, previous week', 1)
+  
+```
+
+<hr class="rounded">
+
+<h3> Cases: Weekly analysis </h3>
+
+Here you can find a breakdown of raw number of cases and rates per 100,000 population for each area by week.
+
+It starts with the most recent week and <b> works backwards</b>.
+
+<b> PLEASE NOTE 'latest week' is the seven days up to and including 16 October. </b>
+
+<b> PLEASE NOTE 'previous week' is the seven days up to and including 9 October. </b>
+
+<b>Coronavirus cases across England by week:</b>
+
+```{r echo=FALSE}
+
+#The echo=FALSE above keeps this code invisible in the HTML output
+#Create the data object
+analysisdf2 <- rio::import("covid_weekly_raw.csv")
+#Create the first datatable, adding a filter and setting other options
+#Add a caption if you want
+DT::datatable(analysisdf2,
+              style = 'bootstrap', 
+              caption = 'Analysis by the BBC England Data Unit', 
+              filter = 'top', 
+              options = list(pageLength = 10, autoWidth = TRUE)
+)
+
+```
+
+<b>Coronavirus rates per 100,000 population across England by week:</b>
+
+```{r echo=FALSE}
+
+#The echo=FALSE above keeps this code invisible in the HTML output
+#Create the data object
+
+analysisdf3 <- rio::import("covid_weekly_rates.csv")
+
+#Create the first datatable, adding a filter and setting other options
+
+# YOU NEEED TO CHANGE THE DATES IN FORMAT ROUND
+
+DT::datatable(analysisdf3,
+              style = 'bootstrap', 
+              caption = 'Analysis by the BBC England Data Unit', 
+              filter = 'top', 
+              options = list(pageLength = 10, autoWidth = TRUE)
+)%>% 
+  formatRound('Rate per 100k population, latest week', 1 )%>% 
+  formatRound('Rate per 100k population, previous week', 1 )%>% 
+  formatRound('Rate per 100k population, 3 weeks ago', 1 )%>% 
+  formatRound('Rate per 100k population, 4 weeks ago', 1 )%>% 
+  formatRound('Rate per 100k population, 5 weeks ago', 1 )%>% 
+  formatRound('Rate per 100k population, 6 weeks ago', 1 )%>% 
+  formatRound('Rate per 100k population, 7 weeks ago', 1 )%>% 
+  formatRound('Rate per 100k population, 8 weeks ago', 1 )%>% 
+  formatRound('Rate per 100k population, 9 weeks ago', 1 )%>% 
+  formatRound('Rate per 100k population, 10 weeks ago', 1 )
+
+```
+
+```{r echo=FALSE}
+#This generates the HTML version of the notebook without having to use the Knit button in RStudio
+#RUN THIS COMMAND IN THE CONSOLE OR IN ANOTHER NOTEBOOK
+#rmarkdown::render("index_rob.Rmd", "all")
+```
+
