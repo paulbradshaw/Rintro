@@ -1,8 +1,3 @@
----
-title: "Using grep on MPs' expenses"
-output: html_notebook
----
-
 # Using grep and regex in R
 
 First, let's get our data into R
