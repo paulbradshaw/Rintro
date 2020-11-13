@@ -30,6 +30,29 @@ grepl("Jones",hereisavector)
 
 In other words: the first item contains the string "Jones" (TRUE); the second one doesn't (FALSE); and the third one does (TRUE).
 
+**Regex** can be used to broaden what you're looking for. Let's say that our list contained both "Smith" and "Smyth". With regex we can specify that we are happy with either spelling:
+
+```{r}
+hereisavector <- c("Bob Jones","Sam Smith","Jane Jones","Jane Smyth")
+grepl("Sm[iy]th",hereisavector)
+```
+
+The square brackets indicate either character is accepted as a match.
+
+We could also use the pipe symbol `|` to express the same sort of thing differently:
+
+```{r}
+hereisavector <- c("Bob Jones","Sam Smith","Jane Jones","Jane Smyth")
+grepl("Smith|Smyth",hereisavector)
+```
+
+Or indeed use that to say we are interested in either Smiths or Joneses:
+
+```{r}
+hereisavector <- c("Bob Jones","Sam Smith","Jane Jones","Jane Smyth")
+grepl("Smith|Jones",hereisavector)
+```
+
 
 
 ## Using `grepl` with expenses data
@@ -98,4 +121,5 @@ This can be exported as a CSV to use in Excel as a lookup table:
 write.csv(table(grep("Const.*",westmidsonly$Expense.Type, value=TRUE)), "constituencytypes.csv")
 ```
 
+[More on regex and grep functions can be found in this chapter of R Programming for Data Science](https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html)
 
