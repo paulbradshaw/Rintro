@@ -1,5 +1,39 @@
 # Using grep and regex in R
 
+The `grep` function and related functions like `grepl` can be used to check if data matches a particular pattern. For example, you might want to classify data based on whether it contains a date, or a phone number, or one of a list of words.
+
+When used on a vector (such as the column of a dataframe) the `grep` function will return a list of indices (positions, i.e. each index) or any items in that vector that match.
+
+For example in this code...
+
+```{r}
+hereisavector <- c("Bob Jones","Sam Smith","Jane Jones")
+grep("Jones",hereisavector)
+```
+
+...the `grep()` function is looking for the string "Jones" in the vector `hereisavector`.
+
+It finds that string in two of the three items: the first and third ones.
+
+The result of running that function, then, is a list of the indices for those positions: `1 3`
+
+The `grepl` function is slightly different. Instead of returning the *positions* of any matches, it returns a list (vector) of `TRUE` or `FALSE` values - one for each item in the list.
+
+So this code using `grepl` instead...
+
+```{r}
+hereisavector <- c("Bob Jones","Sam Smith","Jane Jones")
+grepl("Jones",hereisavector)
+```
+
+...will return: `TRUE FALSE  TRUE`
+
+In other words: the first item contains the string "Jones" (TRUE); the second one doesn't (FALSE); and the third one does (TRUE).
+
+
+
+## Using `grepl` with expenses data
+
 First, let's get our data into R
 
 ```{r}
