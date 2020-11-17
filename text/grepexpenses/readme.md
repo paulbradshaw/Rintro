@@ -55,7 +55,9 @@ grepl("Smith|Jones",hereisavector)
 
 
 
-## Using `grepl` with expenses data
+## Using `grepl` for a story about expenses 
+
+The scenario here is that you want to dig into MPs' expenses to see what they've been claiming. You want to be able to identify MPs' based on key words in their constituency - or you might look for particular expressions in their claim details.
 
 First, let's get our data into R
 
@@ -66,8 +68,8 @@ exesdata <- read.csv("Individual_claims_for_16_17.csv")
 Now let's create a list of TRUE/FALSE values saying whether each row contains a particular pattern:
 
 ```{r}
-#This looks for any match for .*Birmingham.* OR .*Sutton Coldfield.*
-wmconstituency <- grepl(".*Birmingham,.*|.*Sutton Coldfield.*", exesdata$MP.s.Constituency)
+#This looks for any match for Birmingham OR Sutton Coldfield
+wmconstituency <- grepl("Birmingham,|Sutton Coldfield", exesdata$MP.s.Constituency)
 ```
 
 Next, add it to the original data:
@@ -87,13 +89,13 @@ wmexes <- subset(exesdata, exesdata$westmids == TRUE)
 In fact, instead of using 2 lines - one to create a TRUE/FALSE list, and another to add that to our data frame - we could have done both in one line like this:
 
 ```{r}
-exesdata$westmids <- grepl(".*Birmingham,.*|.*Sutton Coldfield.*", exesdata$MP.s.Constituency)
+exesdata$westmids <- grepl("Birmingham,|Sutton Coldfield", exesdata$MP.s.Constituency)
 ```
 
 And going further, we could actually *nest* part of the earlier line of code to do all 3 lines of the above code in one line: 
 
 ```{r}
-westmidsonly <- subset(exesdata, grepl(".*Birmingham,.*|.*Sutton Coldfield.*", exesdata$MP.s.Constituency))
+westmidsonly <- subset(exesdata, grepl("Birmingham,|Sutton Coldfield", exesdata$MP.s.Constituency))
 ```
 
 ## Advanced: using `grep` to fetch values
@@ -104,21 +106,21 @@ In the first case, that result is a list of numbers (indices indicating which ro
 
 ```{r}
 print("First the indexes")
-head(grep("Const.*",westmidsonly$Expense.Type, value=FALSE))
+head(grep("Const",westmidsonly$Expense.Type, value=FALSE))
 print("Now with value set to false")
-head(grep("Const.*",westmidsonly$Expense.Type, value=TRUE))
+head(grep("Const",westmidsonly$Expense.Type, value=TRUE))
 ```
 
 We can use `table()` to summarise the results instead and get a list of matching 'expense type' descriptions:
 
 ```{r}
-table(grep("Const.*",westmidsonly$Expense.Type, value=TRUE))
+table(grep("Const",westmidsonly$Expense.Type, value=TRUE))
 ```
 
 This can be exported as a CSV to use in Excel as a lookup table:
 
 ```{r}
-write.csv(table(grep("Const.*",westmidsonly$Expense.Type, value=TRUE)), "constituencytypes.csv")
+write.csv(table(grep("Const",westmidsonly$Expense.Type, value=TRUE)), "constituencytypes.csv")
 ```
 
 [More on regex and grep functions can be found in this chapter of R Programming for Data Science](https://bookdown.org/rdpeng/rprogdatascience/regular-expressions.html)
