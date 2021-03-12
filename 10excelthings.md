@@ -1,4 +1,4 @@
-# 10 Excel-type things to do in R
+# 11 Excel-type things to do in R
 
 Why would you use R to do things that you can do in Excel? There are a few reasons why:
 
@@ -166,6 +166,34 @@ The big difference is that you do this with *an entire column* rather than cell-
 And here's one which adds a new column:
 
 `testdata$whiteornot <- ifelse(testdata$self_defined_ethnicity == "White - White British (W1)","White","Not white")`
+
+## 11. `VLOOKUP` in R
+
+The `VLOOKUP` function in Excel is used to combine data from two tables - specifically fetching related data from another table to add to an existing table. For example if you had one table with crimes in each police force, you might want to fetch data on the population for each police force. Both tables need to have a column in common (in this case police force).
+
+The same can be achieved in R [using the `merge()` function](https://www.infoworld.com/article/3454356/how-to-merge-data-in-r-using-r-merge-dplyr-or-datatable.html). 
+
+Here's how that might work in the most basic example:
+
+`combineddata <- merge(crimetotals, populations)`
+
+This example only works if *both* data frames have a **column with the same name containing the same data** (for example if both had a column called 'policeforce')
+
+Note that any names that don't match - in either data frame - will be left out of the results. So a police force which appears in 'crimetotals' but not in 'populations' (or is named slightly differently) will be removed, and vice versa.
+
+Most of the time you will want to keep all the data in your data frame of most interest (in this case 'crimetotals'). To ensure that that happens you need to add an extra parameter: `all.x = TRUE`
+
+`combineddata <- merge(crimetotals, populations, all.x = TRUE)`
+
+The 'x' here is the first named data frame (the second one is 'y').
+
+Most of the time the columns you want to match on will *not* have the same column name, either. If this is the case (and you decide not to rename them), you can specify which columns you are matching by adding a `by.x =` and `by.y =` parameter too. 
+
+For example, if the police force was called 'name' in the first data frame and 'policeforce' in the second, you would specify that like so:
+
+`combineddata <- merge(crimetotals, populations, all.x = TRUE, by.x = "name", by.y = "policeforce")`
+
+A [more detailed tutorial by Sharon Machlis can be found here](https://www.infoworld.com/article/3454356/how-to-merge-data-in-r-using-r-merge-dplyr-or-datatable.html)
 
 
 ## Try some more advanced exercises
