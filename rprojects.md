@@ -52,7 +52,7 @@ Notably, you can also run other languages within an R notebook, as long as they 
 
 ...at the start of the chunk of code.
 
-A [cheatsheet for R markdown is available here](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+A [cheatsheet for R markdown is available here](https://rmarkdown.rstudio.com/lesson-15.HTML)
 
 Again, there are easy ways of copying code you've already written, covered below.
 
