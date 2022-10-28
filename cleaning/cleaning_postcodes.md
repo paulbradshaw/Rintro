@@ -1,8 +1,3 @@
----
-title: "cleaning_postcodes"
-output: html_document
----
-
 # Cleaning a huge postcodes lookup CSV
 
 This notebook describes the process of converting a 164MB CSV containing postcode data, into a smaller file for converting postcode district into local authority.
