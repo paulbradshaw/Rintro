@@ -20,4 +20,4 @@ Finally, assign that to the column names of your dataset:
 
 `colnames(yourdata) <- heads`
 
-Note that the 
+
