@@ -1,8 +1,3 @@
----
-title: "GP surgeries"
-output: html_notebook
----
-
 # Cleaning data on GP surgeries
 
 This notebook details the process of cleaning a dataset on GP surgeries. The data comes from over 9000 pages across the NHS Choices service.
