@@ -1,8 +1,3 @@
----
-title: "Merging spreadsheets with multiple tables"
-output: html_notebook
----
-
 # Merging spreadsheets with multiple tables
 
 NHS England publish [data on dementia assessment and referral](https://www.england.nhs.uk/statistics/statistical-work-areas/dementia/dementia-assessment-and-referral-2017-18/) but the data needs cleaning to get into a format that we can work with. Instead of publishing in the same format every month, two different formats are used: one for the two months at the start of each quarter (January, February, April, May and so on), and another for the month that ends each quarter (March, June, September, December) which includes the other two months in that quarter too.
